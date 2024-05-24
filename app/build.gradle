@@ -39,8 +39,18 @@ dependencies {
 
     implementation libs.okhttp
 
+    implementation libs.jackson.core
+
     compileOnly libs.projectlombok.lombok
     annotationProcessor libs.projectlombok.lombok
+
+    implementation libs.rxandroid
+    implementation libs.rxjava
+
+    implementation libs.room.runtime
+    implementation libs.room.rxjava
+    annotationProcessor libs.room.compiler
+    androidTestImplementation libs.room.testing
 
     testImplementation libs.junit
     testImplementation libs.mockito
