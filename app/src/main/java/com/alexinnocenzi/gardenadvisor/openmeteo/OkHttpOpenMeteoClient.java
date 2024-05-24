@@ -1,26 +1,58 @@
 package com.alexinnocenzi.gardenadvisor.openmeteo;
 
 import com.alexinnocenzi.gardenadvisor.openmeteo.request.OpenMeteoRequest;
+import com.alexinnocenzi.gardenadvisor.openmeteo.response.OpenMeteoResponseException;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 public class OkHttpOpenMeteoClient implements OpenMeteoClient{
 
-    OkHttpClient httpClient = new OkHttpClient();
+    private final OkHttpClient httpClient;
 
-    @Override
-    public String getWeatherData(Float lat, Float lon) {
-        //TODO
-        return "";
+    public OkHttpOpenMeteoClient(OkHttpClient httpClient) {
+        this.httpClient = httpClient;
     }
 
-    protected Request toOkHttpRequest(OpenMeteoRequest openMeteoRequest) throws Exception {
+    @Override
+    public String getWeatherData(OpenMeteoRequest openMeteoRequest) throws IOException {
+        Call call = buildCall(openMeteoRequest);
+        Response response = call.execute();
+
+        if (!response.isSuccessful()) {
+            throw new OpenMeteoResponseException(response.message());
+        }
+
+        if (response.body() == null) {
+            throw new OpenMeteoResponseException("Empty Response.");
+        }
+
+        return response.body().string();
+    }
+
+    @Override
+    public void getWeatherDataAsync(OpenMeteoRequest openMeteoRequest, Callback callback) throws IOException {
+        Call call = buildCall(openMeteoRequest);
+        call.enqueue(callback);
+    }
+
+    protected Call buildCall(OpenMeteoRequest openMeteoRequest) {
+        return httpClient.newCall(toOkHttpRequest(openMeteoRequest));
+    }
+
+    protected Request toOkHttpRequest(OpenMeteoRequest openMeteoRequest) {
         HttpUrl httpUrl = HttpUrl.parse(OpenMeteoConstants.Request.API_URL);
 
+        // API_URL is a constant that should be correct, throwing a generic Runtime Exception
+        // denoting a programming error - verified by unit tests as not occurring (or failing if the URL is updated)
         if (httpUrl == null) {
-            throw new Exception();
+            throw new RuntimeException("Could not build HttpUrl from request API_URL");
         }
 
         HttpUrl.Builder httpUrlBuilder = httpUrl.newBuilder();

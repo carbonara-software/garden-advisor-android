@@ -2,19 +2,115 @@ package com.alexinnocenzi.gardenadvisor.openmeteo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.alexinnocenzi.gardenadvisor.openmeteo.request.OpenMeteoRequest;
+import com.alexinnocenzi.gardenadvisor.openmeteo.response.OpenMeteoResponseException;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 public class OkHttpOpenMeteoClientTest {
 
-    OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient();
+    @Test
+    public void getWeatherData() throws IOException {
+        ResponseBody responseBody = ResponseBody.create("ok!", MediaType.get("text/plain"));
+        Response response = new Response.Builder()
+                .code(200)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mock(Request.class))
+                .message("test")
+                .body(responseBody)
+                .build();
+
+        Call callMock = mock(Call.class);
+        when(callMock.execute()).thenReturn(response);
+
+        OkHttpClient clientMock = mock(OkHttpClient.class);
+        when(clientMock.newCall(any())).thenReturn(callMock);
+
+
+        OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient(clientMock);
+        OpenMeteoRequest openMeteoRequest = OpenMeteoRequest.builder()
+                .lat(12.3F)
+                .lon(4.5F)
+                .build();
+        String responseString = client.getWeatherData(openMeteoRequest);
+
+        assertNotNull(responseString);
+        assertEquals("ok!", responseString);
+    }
 
     @Test
-    public void toOkHttpRequest() throws Exception {
+    public void getWeatherData_responseError() throws IOException {
+        Response response = new Response.Builder()
+                .code(400)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mock(Request.class))
+                .message("error")
+                .build();
+
+        Call callMock = mock(Call.class);
+        when(callMock.execute()).thenReturn(response);
+
+        OkHttpClient clientMock = mock(OkHttpClient.class);
+        when(clientMock.newCall(any())).thenReturn(callMock);
+
+
+        OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient(clientMock);
+        OpenMeteoRequest openMeteoRequest = OpenMeteoRequest.builder()
+                .lat(12.3F)
+                .lon(4.5F)
+                .build();
+
+        OpenMeteoResponseException thrownException = assertThrows(OpenMeteoResponseException.class,
+                () -> client.getWeatherData(openMeteoRequest));
+        assertEquals("error", thrownException.getMessage());
+    }
+
+    @Test
+    public void getWeatherData_emptyBody() throws IOException {
+        Response response = new Response.Builder()
+                .code(200)
+                .protocol(Protocol.HTTP_1_1)
+                .request(mock(Request.class))
+                .message("")
+                .build();
+
+        Call callMock = mock(Call.class);
+        when(callMock.execute()).thenReturn(response);
+
+        OkHttpClient clientMock = mock(OkHttpClient.class);
+        when(clientMock.newCall(any())).thenReturn(callMock);
+
+
+        OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient(clientMock);
+        OpenMeteoRequest openMeteoRequest = OpenMeteoRequest.builder()
+                .lat(12.3F)
+                .lon(4.5F)
+                .build();
+
+        OpenMeteoResponseException thrownException = assertThrows(OpenMeteoResponseException.class,
+                () -> client.getWeatherData(openMeteoRequest));
+        assertEquals("Empty Response.", thrownException.getMessage());
+    }
+
+    @Test
+    public void toOkHttpRequest(){
+        OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient(new OkHttpClient());
+
         OpenMeteoRequest openMeteoRequest = OpenMeteoRequest.builder()
                 .lat(12.3F)
                 .lon(4.5F)

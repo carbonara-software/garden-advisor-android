@@ -41,6 +41,7 @@ dependencies {
     annotationProcessor libs.projectlombok.lombok
 
     testImplementation libs.junit
+    testImplementation libs.mockito
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 }
