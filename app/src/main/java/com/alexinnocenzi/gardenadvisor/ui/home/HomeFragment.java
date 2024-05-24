@@ -29,13 +29,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loge("Setto");
         binding.testo.setOnClickListener(this::nuovoClick);
     }
 
     private void nuovoClick(View view) {
-        loge("Click");
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
         navController.navigate(R.id.loading_dialog);
     }
 
