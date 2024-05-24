@@ -6,5 +6,14 @@
 
     <fragment android:id="@+id/home"
         android:name="com.alexinnocenzi.gardenadvisor.ui.home.HomeFragment"
-        android:label="Home"/>
+        android:label="Home">
+        <action
+            android:id="@+id/open_loading"
+            app:destination="@id/loading_dialog" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/loading_dialog"
+        android:name="com.alexinnocenzi.gardenadvisor.ui.dialog.loading.LoadingDialog">
+    </dialog>
 </navigation>

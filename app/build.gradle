@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -37,9 +38,6 @@ dependencies {
     implementation libs.constraintlayout
 
     implementation libs.okhttp
-    implementation libs.legacy.support.v4
-    implementation libs.lifecycle.livedata.ktx
-    implementation libs.lifecycle.viewmodel.ktx
 
     compileOnly libs.projectlombok.lombok
     annotationProcessor libs.projectlombok.lombok
@@ -55,4 +53,6 @@ dependencies {
     implementation libs.navigation.dynamic.features.fragment
     // Testing Navigation
     androidTestImplementation libs.navigation.testing
+    //Lottie
+    implementation libs.lottie
 }
