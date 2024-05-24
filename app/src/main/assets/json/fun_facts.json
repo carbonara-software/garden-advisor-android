@@ -1,0 +1,402 @@
+[
+  {
+    "id": 1,
+    "fact": "A single sunflower can have over 1,000 seeds."
+  },
+  {
+    "id": 2,
+    "fact": "The world's smallest flower is the Wolffia angusta, which is only about 0.6 mm wide."
+  },
+  {
+    "id": 3,
+    "fact": "The largest flower in the world is the Rafflesia arnoldii, which can grow up to 3 feet in diameter."
+  },
+  {
+    "id": 4,
+    "fact": "The Venus flytrap gets its name from the Greek goddess Venus and the fact that it traps flies."
+  },
+  {
+    "id": 5,
+    "fact": "A group of lavender plants is called a \"lavender field\" or \"lavender farm\"."
+  },
+  {
+    "id": 6,
+    "fact": "The smell of freshly cut grass is actually a distress signal released by the plant."
+  },
+  {
+    "id": 7,
+    "fact": "The world's largest tree by volume is a giant sequoia named General Sherman, which is located in California."
+  },
+  {
+    "id": 8,
+    "fact": "The average garden snail can sleep for up to three years."
+  },
+  {
+    "id": 9,
+    "fact": "The sunflower is the state flower of Kansas."
+  },
+  {
+    "id": 10,
+    "fact": "The tallest flower in the world is the Amorphophallus titanum, which can grow up to 10 feet tall."
+  },
+  {
+    "id": 11,
+    "fact": "The average person eats about 100 pounds of tomatoes per year."
+  },
+  {
+    "id": 12,
+    "fact": "The word \"rose\" comes from the Latin word \"rosa\"."
+  },
+  {
+    "id": 13,
+    "fact": "The first recorded use of a flower pot was in ancient Egypt."
+  },
+  {
+    "id": 14,
+    "fact": "The world's oldest tree is a bristlecone pine named Methuselah, which is estimated to be over 4,800 years old."
+  },
+  {
+    "id": 15,
+    "fact": "The average lifespan of a houseplant is about 5 years."
+  },
+  {
+    "id": 16,
+    "fact": "The world's largest flower garden is the Keukenhof Gardens in the Netherlands, which is home to over 7 million tulips."
+  },
+  {
+    "id": 17,
+    "fact": "The color of a rose is determined by the pH of the soil."
+  },
+  {
+    "id": 18,
+    "fact": "The world's most expensive flower is the Shenzhen Nongke Orchid, which sold for $200,000 in 2005."
+  },
+  {
+    "id": 19,
+    "fact": "The scientific name for the sunflower is Helianthus annuus."
+  },
+  {
+    "id": 20,
+    "fact": "The world's largest cactus is the saguaro cactus, which can grow up to 40 feet tall."
+  },
+  {
+    "id": 21,
+    "fact": "The average garden hose is about 50 feet long."
+  },
+  {
+    "id": 22,
+    "fact": "The world's most popular flower is the rose."
+  },
+  {
+    "id": 23,
+    "fact": "The scientific name for the rose is Rosa."
+  },
+  {
+    "id": 24,
+    "fact": "The world's most popular houseplant is the peace lily."
+  },
+  {
+    "id": 25,
+    "fact": "The scientific name for the peace lily is Spathiphyllum."
+  },
+  {
+    "id": 26,
+    "fact": "The average garden gnome is about 12 inches tall."
+  },
+  {
+    "id": 27,
+    "fact": "The world's largest collection of garden gnomes is located in Germany."
+  },
+  {
+    "id": 28,
+    "fact": "The average garden sprinkler can water about 1,000 square feet of lawn."
+  },
+  {
+    "id": 29,
+    "fact": "The world's largest garden is the Royal Botanic Gardens, Kew in London."
+  },
+  {
+    "id": 30,
+    "fact": "The average garden shed is about 10 feet wide and 12 feet long."
+  },
+  {
+    "id": 31,
+    "fact": "The world's largest collection of roses is located in the Rose Garden at the White House."
+  },
+  {
+    "id": 32,
+    "fact": "The world's largest tree nursery is located in Oregon."
+  },
+  {
+    "id": 33,
+    "fact": "The world's largest botanical garden is the Missouri Botanical Garden."
+  },
+  {
+    "id": 34,
+    "fact": "The average garden hose weighs about 5 pounds."
+  },
+  {
+    "id": 35,
+    "fact": "The world's largest collection of tulips is located in the Keukenhof Gardens in the Netherlands."
+  },
+  {
+    "id": 36,
+    "fact": "The average garden trowel is about 12 inches long."
+  },
+  {
+    "id": 37,
+    "fact": "The world's largest collection of cacti is located in the Arizona-Sonora Desert Museum."
+  },
+  {
+    "id": 38,
+    "fact": "The average garden hose nozzle can spray water up to 50 feet."
+  },
+  {
+    "id": 39,
+    "fact": "The world's largest collection of orchids is located in the Singapore Botanic Gardens."
+  },
+  {
+    "id": 40,
+    "fact": "The average garden fence is about 4 feet tall."
+  },
+  {
+    "id": 41,
+    "fact": "The world's largest collection of daffodils is located in the Netherlands."
+  },
+  {
+    "id": 42,
+    "fact": "The average garden sprinkler can water about 1,000 square feet of lawn."
+  },
+  {
+    "id": 43,
+    "fact": "The world's largest collection of hydrangeas is located in the United States."
+  },
+  {
+    "id": 44,
+    "fact": "The average garden hoe is about 4 feet long."
+  },
+  {
+    "id": 45,
+    "fact": "The world's largest collection of lilies is located in Japan."
+  },
+  {
+    "id": 46,
+    "fact": "The average garden rake is about 5 feet long."
+  },
+  {
+    "id": 47,
+    "fact": "The world's largest collection of irises is located in the United States."
+  },
+  {
+    "id": 48,
+    "fact": "The average garden shovel is about 3 feet long."
+  },
+  {
+    "id": 49,
+    "fact": "The world's largest collection of peonies is located in China."
+  },
+  {
+    "id": 50,
+    "fact": "The average garden wheelbarrow can carry up to 50 pounds of dirt."
+  },
+  {
+    "id": 51,
+    "fact": "The world's largest collection of rhododendrons is located in the United States."
+  },
+  {
+    "id": 52,
+    "fact": "The average garden watering can can hold about 2 gallons of water."
+  },
+  {
+    "id": 53,
+    "fact": "The world's largest collection of azaleas is located in the United States."
+  },
+  {
+    "id": 54,
+    "fact": "The average garden hose reel can hold up to 100 feet of hose."
+  },
+  {
+    "id": 55,
+    "fact": "The world's largest collection of camellias is located in Japan."
+  },
+  {
+    "id": 56,
+    "fact": "The average garden pruner can cut branches up to 1 inch in diameter."
+  },
+  {
+    "id": 57,
+    "fact": "The world's largest collection of magnolias is located in the United States."
+  },
+  {
+    "id": 58,
+    "fact": "The average garden shears can cut branches up to 1/2 inch in diameter."
+  },
+  {
+    "id": 59,
+    "fact": "The world's largest collection of cherry blossoms is located in Japan."
+  },
+  {
+    "id": 60,
+    "fact": "The average garden trowel is about 12 inches long."
+  },
+  {
+    "id": 61,
+    "fact": "The world's largest collection of wisteria is located in Japan."
+  },
+  {
+    "id": 62,
+    "fact": "The average garden rake is about 5 feet long."
+  },
+  {
+    "id": 63,
+    "fact": "The world's largest collection of roses is located in the Rose Garden at the White House."
+  },
+  {
+    "id": 64,
+    "fact": "The average garden hoe is about 4 feet long."
+  },
+  {
+    "id": 65,
+    "fact": "The world's largest collection of sunflowers is located in the United States."
+  },
+  {
+    "id": 66,
+    "fact": "The average garden shovel is about 3 feet long."
+  },
+  {
+    "id": 67,
+    "fact": "The world's largest collection of lilies is located in Japan."
+  },
+  {
+    "id": 68,
+    "fact": "The average garden wheelbarrow can carry up to 50 pounds of dirt."
+  },
+  {
+    "id": 69,
+    "fact": "The world's largest collection of irises is located in the United States."
+  },
+  {
+    "id": 70,
+    "fact": "The average garden watering can can hold about 2 gallons of water."
+  },
+  {
+    "id": 71,
+    "fact": "The world's largest collection of peonies is located in China."
+  },
+  {
+    "id": 72,
+    "fact": "The average garden hose reel can hold up to 100 feet of hose."
+  },
+  {
+    "id": 73,
+    "fact": "The world's largest collection of rhododendrons is located in the United States."
+  },
+  {
+    "id": 74,
+    "fact": "The average garden pruner can cut branches up to 1 inch in diameter."
+  },
+  {
+    "id": 75,
+    "fact": "The world's largest collection of azaleas is located in the United States."
+  },
+  {
+    "id": 76,
+    "fact": "The average garden shears can cut branches up to 1/2 inch in diameter."
+  },
+  {
+    "id": 77,
+    "fact": "The world's largest collection of camellias is located in Japan."
+  },
+  {
+    "id": 78,
+    "fact": "The average garden trowel is about 12 inches long."
+  },
+  {
+    "id": 79,
+    "fact": "The world's largest collection of magnolias is located in the United States."
+  },
+  {
+    "id": 80,
+    "fact": "The average garden rake is about 5 feet long."
+  },
+  {
+    "id": 81,
+    "fact": "The world's largest collection of cherry blossoms is located in Japan."
+  },
+  {
+    "id": 82,
+    "fact": "The average garden hoe is about 4 feet long."
+  },
+  {
+    "id": 83,
+    "fact": "The world's largest collection of wisteria is located in Japan."
+  },
+  {
+    "id": 84,
+    "fact": "The average garden shovel is about 3 feet long."
+  },
+  {
+    "id": 85,
+    "fact": "The world's largest collection of roses is located in the Rose Garden at the White House."
+  },
+  {
+    "id": 86,
+    "fact": "The average garden wheelbarrow can carry up to 50 pounds of dirt."
+  },
+  {
+    "id": 87,
+    "fact": "The world's largest collection of sunflowers is located in the United States."
+  },
+  {
+    "id": 88,
+    "fact": "The average garden watering can can hold about 2 gallons of water."
+  },
+  {
+    "id": 89,
+    "fact": "The world's largest collection of lilies is located in Japan."
+  },
+  {
+    "id": 90,
+    "fact": "The average garden hose reel can hold up to 100 feet of hose."
+  },
+  {
+    "id": 91,
+    "fact": "The world's largest collection of irises is located in the United States."
+  },
+  {
+    "id": 92,
+    "fact": "The average garden pruner can cut branches up to 1 inch in diameter."
+  },
+  {
+    "id": 93,
+    "fact": "The world's largest collection of peonies is located in China."
+  },
+  {
+    "id": 94,
+    "fact": "The average garden shears can cut branches up to 1/2 inch in diameter."
+  },
+  {
+    "id": 95,
+    "fact": "The world's largest collection of rhododendrons is located in the United States."
+  },
+  {
+    "id": 96,
+    "fact": "The average garden trowel is about 12 inches long."
+  },
+  {
+    "id": 97,
+    "fact": "The world's largest collection of azaleas is located in the United States."
+  },
+  {
+    "id": 98,
+    "fact": "The average garden rake is about 5 feet long."
+  },
+  {
+    "id": 99,
+    "fact": "The world's largest collection of camellias is located in Japan."
+  },
+  {
+    "id": 100,
+    "fact": "The average garden hoe is about 4 feet long."
+  }
+]
