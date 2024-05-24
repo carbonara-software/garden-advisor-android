@@ -12,10 +12,11 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    buildFeatures {
+        viewBinding true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -36,6 +37,9 @@ dependencies {
     implementation libs.constraintlayout
 
     implementation libs.okhttp
+    implementation libs.legacy.support.v4
+    implementation libs.lifecycle.livedata.ktx
+    implementation libs.lifecycle.viewmodel.ktx
 
     compileOnly libs.projectlombok.lombok
     annotationProcessor libs.projectlombok.lombok
@@ -44,4 +48,11 @@ dependencies {
     testImplementation libs.mockito
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    //Navigation
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    // Feature module Support
+    implementation libs.navigation.dynamic.features.fragment
+    // Testing Navigation
+    androidTestImplementation libs.navigation.testing
 }
