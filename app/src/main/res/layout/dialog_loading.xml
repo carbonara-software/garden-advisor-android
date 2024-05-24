@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/message"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                android:text="Because vincenzo is Gay gay gay gay gaygagygayg gay gay gayg agy"
+                android:text="Sample text"
                 android:textSize="25sp"
                 android:padding="8dp"
                 android:textAlignment="center"/>
