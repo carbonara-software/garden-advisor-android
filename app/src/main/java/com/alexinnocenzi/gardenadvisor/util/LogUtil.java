@@ -5,6 +5,7 @@ import android.util.Log;
 public class LogUtil {
 
     private static final String TAG = "GARDENADVISOR";
+    public static final String SEP = " - ";
     public static void logi(String message){
         Log.i(TAG,message);
     }

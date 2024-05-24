@@ -1,4 +1,4 @@
-package com.alexinnocenzi.gardenadvisor.ui.dialog.loading;
+package com.alexinnocenzi.gardenadvisor.ui.dialog.success;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -10,17 +10,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.alexinnocenzi.gardenadvisor.R;
-import com.alexinnocenzi.gardenadvisor.databinding.DialogLoadingBinding;
+import com.alexinnocenzi.gardenadvisor.databinding.DialogSuccessBinding;
 
-public class LoadingDialog extends DialogFragment {
+public class SuccessDialog extends DialogFragment {
 
-    public static final String TAG = "LoadDialog";
-    DialogLoadingBinding binding;
+    public static final String TAG = "SuccessDialog";
+    DialogSuccessBinding binding;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        binding = DialogLoadingBinding.inflate(getLayoutInflater());
+        binding = DialogSuccessBinding.inflate(getLayoutInflater());
         return new AlertDialog.Builder(requireContext(), R.style.TransparentDialog)
                 .setView(binding.getRoot()).create();
     }

@@ -5,7 +5,7 @@
     android:padding="20dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.dialog.loading.LoadingDialog">
+    tools:context=".ui.dialog.error.ErrorDialog">
 
 
 
@@ -13,7 +13,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/loading_anim"
-        android:layout_marginTop="-80dp"
+        android:layout_marginTop="-8dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="4dp"
         android:paddingBottom="25dp"
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/title"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Fun Facts"
+                android:text="Oooops..."
                 android:textSize="30sp"
                 android:textAlignment="center"/>
 
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/message"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                android:text="Because vincenzo is Gay gay gay gay gaygagygayg gay gay gayg agy"
+                android:text="Something went terribly wrong"
                 android:textSize="25sp"
                 android:padding="8dp"
                 android:textAlignment="center"/>
@@ -49,13 +49,14 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/loading_anim"
-        app:lottie_rawRes="@raw/hand"
-        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/error"
+        app:lottie_loop="false"
+        android:elevation="8dp"
         app:lottie_autoPlay="true"/>
 <View
     android:layout_width="match_parent"
