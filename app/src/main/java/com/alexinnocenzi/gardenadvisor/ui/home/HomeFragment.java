@@ -1,7 +1,5 @@
 package com.alexinnocenzi.gardenadvisor.ui.home;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alexinnocenzi.gardenadvisor.R;
 import com.alexinnocenzi.gardenadvisor.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
