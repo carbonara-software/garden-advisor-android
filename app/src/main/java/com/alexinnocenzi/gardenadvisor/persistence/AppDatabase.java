@@ -8,7 +8,11 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.alexinnocenzi.gardenadvisor.persistence.dao.FunFactDao;
+import com.alexinnocenzi.gardenadvisor.persistence.dao.GardenDao;
+import com.alexinnocenzi.gardenadvisor.persistence.dao.PlantDao;
 import com.alexinnocenzi.gardenadvisor.persistence.entity.FunFact;
+import com.alexinnocenzi.gardenadvisor.persistence.entity.Garden;
+import com.alexinnocenzi.gardenadvisor.persistence.entity.Plant;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -16,9 +20,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-@Database(entities = {FunFact.class}, version = 1)
+@Database(entities = {FunFact.class, Garden.class, Plant.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract FunFactDao funFactDao();
+    public abstract GardenDao gardenDao();
+    public abstract PlantDao plantDao();
 
     private static volatile AppDatabase appDatabase;
 
