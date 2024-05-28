@@ -5,9 +5,11 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.alexinnocenzi.gardenadvisor.persistence.entity.Garden;
+import com.alexinnocenzi.gardenadvisor.persistence.entity.GardenWithPlants;
 
 import java.util.List;
 
@@ -31,5 +33,9 @@ public interface GardenDao {
 
     @Delete
     Completable deleteGarden(Garden garden);
+
+    @Transaction
+    @Query("SELECT * FROM garden")
+    Flowable<List<GardenWithPlants>> getGardensWithPlants();
 
 }
