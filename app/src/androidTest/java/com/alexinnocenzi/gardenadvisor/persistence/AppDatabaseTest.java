@@ -32,10 +32,15 @@ public class AppDatabaseTest {
     @Test
     public void appDatabase() {
         assertNotNull(appDatabase);
+        assertNotNull(appDatabase.funFactDao());
+        assertNotNull(appDatabase.gardenDao());
+    }
 
-        List<FunFact> populated = appDatabase.funFactDao().getFunFacts().blockingFirst();
-        assertNotNull(populated);
-        assertEquals(100, populated.size());
+    @Test
+    public void funFactsPopulated() {
+        List<FunFact> populatedFunFacts = appDatabase.funFactDao().getFunFacts().blockingFirst();
+        assertNotNull(populatedFunFacts);
+        assertEquals(100, populatedFunFacts.size());
     }
 
     @After

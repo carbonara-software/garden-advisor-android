@@ -16,10 +16,10 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface FunFactDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    Completable insertFunFacts(List<FunFact> users);
+    Completable insertFunFacts(List<FunFact> funFacts);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insertFunFact(FunFact users);
+    Completable insertFunFact(FunFact funFact);
 
     @Query("SELECT * FROM fun_facts")
     Flowable<List<FunFact>> getFunFacts();
