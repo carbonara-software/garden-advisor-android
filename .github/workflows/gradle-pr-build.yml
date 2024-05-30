@@ -25,7 +25,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     
-    - name: Get local.properties from secrets 
+    - name: Get keys.properties from secrets 
       run: echo "${{secrets.KEYS_PROPERTIES_FILE }}" > $GITHUB_WORKSPACE/keys.properties 
     
     - name: Gradle check
