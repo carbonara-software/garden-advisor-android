@@ -6,6 +6,9 @@ plugins {
 android {
     namespace 'com.alexinnocenzi.gardenadvisor'
     compileSdk 34
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId "com.alexinnocenzi.gardenadvisor"
@@ -14,6 +17,12 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("keys.properties").newDataInputStream())
+
+        var geminiApiKey = properties.getProperty("GEMINI_API_KEY")
+        buildConfigField("String", "GEMINI_API_KEY", '"${geminiApiKey}"')
     }
     buildFeatures {
         viewBinding true
