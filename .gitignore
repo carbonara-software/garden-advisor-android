@@ -34,3 +34,6 @@ google-services.json
 
 # Mac Specific
 .DS_Store
+
+# Local key file
+keys.properties
