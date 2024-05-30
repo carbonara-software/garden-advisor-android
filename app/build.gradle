@@ -22,7 +22,7 @@ android {
         properties.load(project.rootProject.file("keys.properties").newDataInputStream())
 
         var geminiApiKey = properties.getProperty("GEMINI_API_KEY")
-        buildConfigField("String", "GEMINI_API_KEY", '"${geminiApiKey}"')
+        buildConfigField("String", "GEMINI_API_KEY", "\"${geminiApiKey}\"")
     }
     buildFeatures {
         viewBinding true

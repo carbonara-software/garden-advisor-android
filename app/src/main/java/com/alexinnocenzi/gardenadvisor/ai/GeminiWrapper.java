@@ -2,6 +2,7 @@ package com.alexinnocenzi.gardenadvisor.ai;
 
 import static com.alexinnocenzi.gardenadvisor.ai.prompt.ConstPrompt.RETURN_SUGGESTIONS;
 import static com.alexinnocenzi.gardenadvisor.ai.prompt.ConstPrompt.RETURN_WEATHER;
+import static com.alexinnocenzi.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
 import static com.alexinnocenzi.gardenadvisor.util.LogUtil.loge;
 
 import androidx.annotation.NonNull;
@@ -63,9 +64,10 @@ public class GeminiWrapper{
         this.lat = lat;
         this.lon = lon;
         this.locationName = locationName;
+        loge("Chiave <==> " + getGeminiApiKey());
         GenerativeModel gm = new GenerativeModel(
                 "gemini-1.5-flash",
-                "AIzaSyCgSYQoHBUKb8IyN_6AqjZ7MTCtu3u9w3U" //TODO: must find a safer place
+                getGeminiApiKey()//TODO: must find a safer place
         );
         model = GenerativeModelFutures.from(gm);
     }

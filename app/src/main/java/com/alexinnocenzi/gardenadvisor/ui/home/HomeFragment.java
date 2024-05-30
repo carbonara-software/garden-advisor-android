@@ -25,7 +25,9 @@ import com.alexinnocenzi.gardenadvisor.ai.dto.GeminiWeather;
 import com.alexinnocenzi.gardenadvisor.databinding.FragmentHomeBinding;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.alexinnocenzi.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
 import com.alexinnocenzi.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -94,9 +96,26 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void successSuggestions(GeminiGardeningSugg s) {
-        closeDialog();
-        // TODO: populate UI for weather
-        loge("Eccolo: " + s);
+        requireActivity().runOnUiThread(() -> {
+            closeDialog();
+            // TODO: populate UI for weather
+            LinearLayoutManager llmFruit = new LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false);
+            LinearLayoutManager llmFlo = new LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false);
+            LinearLayoutManager llmVeg = new LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false);
+            GardeningItemAdapter adpFruit = new GardeningItemAdapter(s.getFruits());
+            GardeningItemAdapter adpVeg = new GardeningItemAdapter(s.getVegetables());
+            GardeningItemAdapter adpFlo = new GardeningItemAdapter(s.getFlowers());
+            binding.listFruit.setAdapter(adpFruit);
+            binding.listFruit.setLayoutManager(llmFruit);
+
+            binding.listVegetables.setAdapter(adpVeg);
+            binding.listVegetables.setLayoutManager(llmVeg);
+
+            binding.listFlowers.setAdapter(adpFlo);
+            binding.listFlowers.setLayoutManager(llmFlo);
+            loge("Eccolo: " + s);
+        });
+
     }
 
     private void fail(Throwable throwable) {
