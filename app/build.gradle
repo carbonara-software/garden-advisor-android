@@ -67,10 +67,8 @@ dependencies {
     implementation libs.lottie
     // GEMINI
     implementation(libs.generativeai)
-
-    // Required for one-shot operations (to use `ListenableFuture` from Guava Android)
     implementation(libs.guava)
-
-    // Required for streaming operations (to use `Publisher` from Reactive Streams)
     implementation(libs.reactive.streams)
+    // Location
+    implementation libs.play.services.location
 }

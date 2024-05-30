@@ -34,7 +34,7 @@ public class AppUtil {
         return null;
     }
 
-    private Address getCurrentLocationLatLon(Context context, String cityName) {
+    public static Address getCurrentLocationLatLon(Context context, String cityName) {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         try {
             List<Address> addresses = geocoder.getFromLocationName(cityName, 1);

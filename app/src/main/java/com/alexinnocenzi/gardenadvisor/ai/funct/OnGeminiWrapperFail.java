@@ -1,6 +1,6 @@
 package com.alexinnocenzi.gardenadvisor.ai.funct;
 
-public interface OnAnserFail {
+public interface OnGeminiWrapperFail {
 
     void getAnswerFail(Throwable ex);
 }

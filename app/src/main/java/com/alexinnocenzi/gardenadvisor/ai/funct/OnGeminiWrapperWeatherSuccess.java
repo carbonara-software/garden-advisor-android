@@ -2,7 +2,7 @@ package com.alexinnocenzi.gardenadvisor.ai.funct;
 
 import com.alexinnocenzi.gardenadvisor.ai.dto.GeminiWeather;
 
-public interface OnAnswerListener {
+public interface OnGeminiWrapperWeatherSuccess {
 
     void getAnswer(GeminiWeather weather);
 
