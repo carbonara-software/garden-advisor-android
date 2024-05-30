@@ -17,6 +17,12 @@ public class SuccessDialog extends DialogFragment {
     public static final String TAG = "SuccessDialog";
     DialogSuccessBinding binding;
 
+    String message;
+
+    public SuccessDialog(String message) {
+        this.message = message;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -28,6 +34,6 @@ public class SuccessDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        binding.message.setText(message);
     }
 }

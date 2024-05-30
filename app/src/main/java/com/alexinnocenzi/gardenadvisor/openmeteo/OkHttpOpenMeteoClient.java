@@ -42,6 +42,18 @@ public class OkHttpOpenMeteoClient implements OpenMeteoClient{
         call.enqueue(callback);
     }
 
+    @Override
+    public String getWeatherData(float lat, float lon) throws IOException {
+        OpenMeteoRequest request = OpenMeteoRequest.builder().lat(lat).lon(lon).build();
+        return getWeatherData(request);
+    }
+
+    @Override
+    public void getWeatherDataAsync(float lat, float lon, Callback callback) throws IOException {
+        OpenMeteoRequest request = OpenMeteoRequest.builder().lat(lat).lon(lon).build();
+        getWeatherDataAsync(request,callback);
+    }
+
     protected Call buildCall(OpenMeteoRequest openMeteoRequest) {
         return httpClient.newCall(toOkHttpRequest(openMeteoRequest));
     }

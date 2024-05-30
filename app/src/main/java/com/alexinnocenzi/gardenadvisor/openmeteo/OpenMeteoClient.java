@@ -9,4 +9,7 @@ public interface OpenMeteoClient {
 
     String getWeatherData(OpenMeteoRequest openMeteoRequest) throws IOException;
     void getWeatherDataAsync(OpenMeteoRequest openMeteoRequest, Callback callback) throws IOException;
+
+    String getWeatherData(float lat, float lon) throws IOException;
+    void getWeatherDataAsync(float lat, float lon, Callback callback) throws IOException;
 }

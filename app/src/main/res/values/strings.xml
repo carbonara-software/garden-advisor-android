@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Garden Advisor</string>
+    <string name="error_meteo">Errore nel reperire il meteo online… riprovi più tardi.</string>
+
 </resources>
