@@ -27,16 +27,27 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.alexinnocenzi.gardenadvisor.persistence.entity.FunFact;
 import com.alexinnocenzi.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
+import com.alexinnocenzi.gardenadvisor.util.task.TimerEmitter;
 import com.alexinnocenzi.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class HomeFragment extends BaseFragment {
     private static final String TAG = "HomeFrag";
     FragmentHomeBinding binding;
 
     private FusedLocationProviderClient fusedLocationClient;
+
+    private boolean hasFinishWeather;
+    private boolean hasFinishSuggestions;
+
 
     @SuppressLint("MissingPermission") // messo solo perche android studio non e l'ide piu smart al mondo...
     // l'if verifica appunto se sono stati acconsentiti i permessi
@@ -68,6 +79,7 @@ public class HomeFragment extends BaseFragment {
             //Tutt appo possiamo procedere
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
             fusedLocationClient.getLastLocation().addOnSuccessListener(this::locationRetrieved);
+
         }else{
             // qui potremmo trovarci in due situazioni:
             //  - non avevamo i permessi ma essendo la prima volta e comparsa la dialog e l'utente puo o non puo accettare i permessi ma lo gestiamo sopra
@@ -77,6 +89,7 @@ public class HomeFragment extends BaseFragment {
             loge("No permission found");
         }
     }
+
 
     private void locationRetrieved(Location location) {
         if(location != null){
@@ -90,6 +103,8 @@ public class HomeFragment extends BaseFragment {
             GeminiWrapper wrapper = GeminiWrapper.getInstance(current.getLocality(), (float)current.getLatitude(), (float)current.getLongitude());
             wrapper.getWeather(this::successWeather,this::fail);
             wrapper.getGardeningSuggestions(this::successSuggestions,this::fail);
+            hasFinishSuggestions = false;
+            hasFinishWeather = false;
         }else{
             displayErrorDialog(getString(R.string.error_location));
         }
@@ -97,7 +112,9 @@ public class HomeFragment extends BaseFragment {
 
     private void successSuggestions(GeminiGardeningSugg s) {
         requireActivity().runOnUiThread(() -> {
-            closeDialog();
+            hasFinishSuggestions = true;
+            if(hasFinishWeather)
+                closeDialog();
             // TODO: populate UI for weather
             LinearLayoutManager llmFruit = new LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false);
             LinearLayoutManager llmFlo = new LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false);
@@ -125,7 +142,9 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void successWeather(GeminiWeather s) {
-        closeDialog();
+        hasFinishWeather = true;
+        if(hasFinishSuggestions)
+            closeDialog();
         // TODO: populate UI for gardening suggestions
         loge("Eccolo: " + s);
     }

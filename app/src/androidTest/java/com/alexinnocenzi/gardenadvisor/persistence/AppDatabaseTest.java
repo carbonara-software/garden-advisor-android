@@ -1,7 +1,9 @@
 package com.alexinnocenzi.gardenadvisor.persistence;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 
@@ -42,6 +44,15 @@ public class AppDatabaseTest {
         assertNotNull(populatedFunFacts);
         assertEquals(100, populatedFunFacts.size());
     }
+
+
+    @Test
+    public void funRandomFact() {
+        FunFact fact = appDatabase.funFactDao().getRandomFunFact().blockingFirst();
+        assertNotNull(fact);
+        assertFalse(fact.getFact().isEmpty());
+    }
+
 
     @After
     public void teardown() {
