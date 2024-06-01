@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Garden Advisor</string>
+    <string name="error_meteo">Errore nel reperire il meteo online… riprovi più tardi.</string>
+    <string name="error_location">Cannot retrieve location at the moment, please try later…</string>
+    <string name="error_gemini">Cannot retrieve data from ai at the moment, please try later…</string>
+    <string name="error_rationale">We need gps data to better display weather and suggestion based on your location…</string>
+
 </resources>

@@ -22,7 +22,7 @@ android {
         properties.load(project.rootProject.file("keys.properties").newDataInputStream())
 
         var geminiApiKey = properties.getProperty("GEMINI_API_KEY")
-        buildConfigField("String", "GEMINI_API_KEY", '"${geminiApiKey}"')
+        buildConfigField("String", "GEMINI_API_KEY", "\"${geminiApiKey}\"")
     }
     buildFeatures {
         viewBinding true
@@ -72,6 +72,12 @@ dependencies {
     implementation libs.navigation.dynamic.features.fragment
     // Testing Navigation
     androidTestImplementation libs.navigation.testing
-    //Lottie
+    // Lottie
     implementation libs.lottie
+    // GEMINI
+    implementation(libs.generativeai)
+    implementation(libs.guava)
+    implementation(libs.reactive.streams)
+    // Location
+    implementation libs.play.services.location
 }

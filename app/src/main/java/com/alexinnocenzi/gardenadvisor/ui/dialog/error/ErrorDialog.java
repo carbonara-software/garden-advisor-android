@@ -16,6 +16,11 @@ public class ErrorDialog extends DialogFragment {
 
     public static final String TAG = "ErrorDialog";
     DialogErrorBinding binding;
+    String message;
+
+    public ErrorDialog(String message) {
+        this.message = message;
+    }
 
     @NonNull
     @Override
@@ -28,6 +33,6 @@ public class ErrorDialog extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        binding.message.setText(message);
     }
 }
