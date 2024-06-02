@@ -24,6 +24,7 @@ import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.databinding.FragmentHomeBinding;
 import com.carbonara.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
+import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -37,9 +38,9 @@ public class HomeFragment extends BaseFragment {
   private boolean hasFinishWeather;
   private boolean hasFinishSuggestions;
 
-  @SuppressLint(
-      "MissingPermission") // messo solo perche android studio non e l'ide piu smart al mondo...
+  // messo solo perche android studio non e l'ide piu smart al mondo...
   // l'if verifica appunto se sono stati acconsentiti i permessi
+  @SuppressLint("MissingPermission")
   private final ActivityResultLauncher<String[]> requestPermissionLauncher =
       registerForActivityResult(
           new ActivityResultContracts.RequestMultiplePermissions(),
@@ -147,7 +148,15 @@ public class HomeFragment extends BaseFragment {
     hasFinishWeather = true;
     if (hasFinishSuggestions) closeDialog();
     // TODO: populate UI for gardening suggestions
-    loge("Eccolo: " + s);
+      requireActivity()
+              .runOnUiThread(
+                      () -> {
+                          WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
+                          LinearLayoutManager llm = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+                          binding.listWeather.setAdapter(adp);
+                          binding.listWeather.setLayoutManager(llm);
+                          //TODO: update other data about Weather (City name and current temperature)
+                      });
   }
 
   private boolean checkAndRequestLocationPermission() {

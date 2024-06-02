@@ -90,6 +90,8 @@ dependencies {
     implementation(libs.reactive.streams)
     // Location
     implementation libs.play.services.location
+    //Date in Jackson
+    implementation libs.jackson.datatype.jsr310
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8

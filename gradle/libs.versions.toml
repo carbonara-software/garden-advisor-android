@@ -26,6 +26,7 @@ spotless = "6.25.0"
 generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }

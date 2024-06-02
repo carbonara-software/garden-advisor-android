@@ -16,6 +16,7 @@ import com.carbonara.gardenadvisor.openmeteo.OkHttpOpenMeteoClient;
 import com.carbonara.gardenadvisor.openmeteo.request.OpenMeteoRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
@@ -86,8 +87,9 @@ public class GeminiWrapper {
           public void onSuccess(GenerateContentResponse result) {
             String resultText = result.getText();
             try {
-              loge("JSON: " + resultText);
+//              loge("JSON: " + resultText);
               ObjectMapper mapper = new ObjectMapper();
+              mapper.registerModule(new JavaTimeModule()); // To enable LocalDate Parse
               GeminiWeather weather = mapper.readValue(resultText, GeminiWeather.class);
               success.getAnswer(weather);
             } catch (JsonProcessingException e) {
