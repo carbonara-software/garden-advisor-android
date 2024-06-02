@@ -87,7 +87,7 @@ public class GeminiWrapper {
           public void onSuccess(GenerateContentResponse result) {
             String resultText = result.getText();
             try {
-//              loge("JSON: " + resultText);
+              //              loge("JSON: " + resultText);
               ObjectMapper mapper = new ObjectMapper();
               mapper.registerModule(new JavaTimeModule()); // To enable LocalDate Parse
               GeminiWeather weather = mapper.readValue(resultText, GeminiWeather.class);

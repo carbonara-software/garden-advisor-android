@@ -1,9 +1,7 @@
 package com.carbonara.gardenadvisor.ai.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

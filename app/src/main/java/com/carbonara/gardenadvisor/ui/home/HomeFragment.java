@@ -149,14 +149,15 @@ public class HomeFragment extends BaseFragment {
     if (hasFinishSuggestions) closeDialog();
     // TODO: populate UI for gardening suggestions
     requireActivity()
-            .runOnUiThread(
-                      () -> {
-                          WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
-                          LinearLayoutManager llm = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-                          binding.listWeather.setAdapter(adp);
-                          binding.listWeather.setLayoutManager(llm);
-                          //TODO: update other data about Weather (City name and current temperature)
-                      });
+        .runOnUiThread(
+            () -> {
+              WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
+              LinearLayoutManager llm =
+                  new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+              binding.listWeather.setAdapter(adp);
+              binding.listWeather.setLayoutManager(llm);
+              // TODO: update other data about Weather (City name and current temperature)
+            });
   }
 
   private boolean checkAndRequestLocationPermission() {
