@@ -55,7 +55,7 @@
             app:layout_constraintStart_toEndOf="@id/city_temp_min"
             app:layout_constraintEnd_toStartOf="@id/icon_weather"
             android:layout_marginTop="16dp"
-            android:text="Max Temp."
+            android:text="@string/max_temp"
             android:textSize="14sp"
             android:textColor="@color/sub_text_frag"
             android:id="@+id/city_temp_max"/>
@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="16dp"
             android:layout_marginStart="20dp"
-            android:text="Min Temp."
+            android:text="@string/min_temp"
             android:textSize="14sp"
             android:textColor="@color/sub_text_frag"
             android:id="@+id/city_temp_min"/>

@@ -7,5 +7,7 @@
     <string name="vegetables">Verdure</string>
     <string name="fruit">Frutta</string>
     <string name="flowers">Fiori</string>
+    <string name="max_temp">Max Temp.</string>
+    <string name="min_temp">Min Temp.</string>
 
 </resources>

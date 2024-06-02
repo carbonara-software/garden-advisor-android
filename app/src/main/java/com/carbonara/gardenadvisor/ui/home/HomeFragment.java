@@ -148,8 +148,8 @@ public class HomeFragment extends BaseFragment {
     hasFinishWeather = true;
     if (hasFinishSuggestions) closeDialog();
     // TODO: populate UI for gardening suggestions
-      requireActivity()
-              .runOnUiThread(
+    requireActivity()
+            .runOnUiThread(
                       () -> {
                           WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
                           LinearLayoutManager llm = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);

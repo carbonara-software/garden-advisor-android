@@ -14,7 +14,7 @@ import java.util.List;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherViewHolder> {
 
-    private List<Day> days;
+    private final List<Day> days;
 
     public WeatherAdapter(List<Day> days) {
         this.days = days;
