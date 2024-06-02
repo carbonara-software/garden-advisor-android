@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    namespace 'com.alexinnocenzi.gardenadvisor'
+    namespace 'com.carbonara.gardenadvisor'
     compileSdk 34
     buildFeatures {
         buildConfig = true
     }
 
     defaultConfig {
-        applicationId "com.alexinnocenzi.gardenadvisor"
+        applicationId "com.carbonara.gardenadvisor"
         minSdk 26
         targetSdk 34
         versionCode 1
