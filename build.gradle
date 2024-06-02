@@ -7,5 +7,24 @@ buildscript {
     }
 }
 plugins {
-alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.spotless)
+}
+
+spotless {
+    format 'misc', {
+        // define the files to apply `misc` to
+        target '**/*.gradle', '**/*.md', '**/.gitignore'
+
+        // define the steps to apply to those files
+        indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    java {
+        importOrder()
+        removeUnusedImports()
+        googleJavaFormat()
+    }
 }
