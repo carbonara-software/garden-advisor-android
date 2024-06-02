@@ -5,12 +5,12 @@
     app:startDestination="@id/home">
 
     <fragment android:id="@+id/home"
-        android:name="com.alexinnocenzi.gardenadvisor.ui.home.HomeFragment"
+        android:name="com.carbonara.gardenadvisor.ui.home.HomeFragment"
         android:label="Home">
     </fragment>
 
 <!--    <dialog-->
 <!--        android:id="@+id/loading_dialog"-->
-<!--        android:name="com.alexinnocenzi.gardenadvisor.ui.dialog.loading.LoadingDialog">-->
+<!--        android:name="com.carbonara.gardenadvisor.ui.dialog.loading.LoadingDialog">-->
 <!--    </dialog>-->
 </navigation>
