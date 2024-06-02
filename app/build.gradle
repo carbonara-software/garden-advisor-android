@@ -1,6 +1,16 @@
 plugins {
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.spotless)
     id 'androidx.navigation.safeargs'
+}
+
+spotless {
+    java {
+        target '**/*.java'
+        importOrder()
+        removeUnusedImports()
+        googleJavaFormat()
+    }
 }
 
 android {
@@ -80,4 +90,8 @@ dependencies {
     implementation(libs.reactive.streams)
     // Location
     implementation libs.play.services.location
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
