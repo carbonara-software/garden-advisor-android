@@ -4,6 +4,5 @@ import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 
 public interface OnGeminiWrapperSuggestionsSuccess {
 
-    void getAnswer(GeminiGardeningSugg weather);
-
+  void getAnswer(GeminiGardeningSugg weather);
 }

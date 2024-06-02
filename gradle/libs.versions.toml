@@ -20,6 +20,7 @@ reactiveStreams = "1.0.4"
 room = "2.6.1"
 rxandroid = "3.0.2"
 rxjava = "3.1.5"
+spotless = "6.25.0"
 
 [libraries]
 generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
@@ -52,4 +53,5 @@ rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 

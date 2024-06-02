@@ -1,8 +1,7 @@
 package com.carbonara.gardenadvisor.ai.dto;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,18 +11,18 @@ import lombok.ToString;
 @ToString
 public class GardeningItem {
 
-	@JsonProperty("cautions")
-	private List<String> cautions;
+  @JsonProperty("cautions")
+  private List<String> cautions;
 
-	@JsonProperty("name")
-	private String name;
+  @JsonProperty("name")
+  private String name;
 
-	@JsonProperty("positives")
-	private List<String> positives;
+  @JsonProperty("positives")
+  private List<String> positives;
 
-	@JsonProperty("suggestions")
-	private List<String> suggestions;
+  @JsonProperty("suggestions")
+  private List<String> suggestions;
 
-	@JsonProperty("recommended")
-	private boolean recommended;
+  @JsonProperty("recommended")
+  private boolean recommended;
 }

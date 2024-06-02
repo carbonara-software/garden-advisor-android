@@ -1,7 +1,6 @@
 package com.carbonara.gardenadvisor.ai.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,11 +8,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GeminiWeather{
+public class GeminiWeather {
 
-	@JsonProperty("weather")
-	private Weather weather;
+  @JsonProperty("weather")
+  private Weather weather;
 
-	@JsonProperty("location")
-	private Location location;
+  @JsonProperty("location")
+  private Location location;
 }
