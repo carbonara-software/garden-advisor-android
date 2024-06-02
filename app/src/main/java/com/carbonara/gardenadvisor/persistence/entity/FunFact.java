@@ -2,7 +2,6 @@ package com.carbonara.gardenadvisor.persistence.entity;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,8 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FunFact {
 
-    @PrimaryKey
-    private Long id;
+  @PrimaryKey private Long id;
 
-    private String fact;
+  private String fact;
 }

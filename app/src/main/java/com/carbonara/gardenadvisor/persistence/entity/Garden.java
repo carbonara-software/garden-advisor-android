@@ -3,7 +3,6 @@ package com.carbonara.gardenadvisor.persistence.entity;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,11 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Garden {
-    @PrimaryKey
-    private Long id;
+  @PrimaryKey private Long id;
 
-    private String description;
+  private String description;
 
-    @Embedded
-    private Location location;
+  @Embedded private Location location;
 }
