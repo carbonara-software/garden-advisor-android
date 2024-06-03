@@ -37,6 +37,7 @@ public class HomeFragment extends BaseFragment {
 
   private boolean hasFinishWeather;
   private boolean hasFinishSuggestions;
+  private Address current;
 
   // messo solo perche android studio non e l'ide piu smart al mondo...
   // l'if verifica appunto se sono stati acconsentiti i permessi
@@ -90,19 +91,17 @@ public class HomeFragment extends BaseFragment {
 
   private void locationRetrieved(Location location) {
     if (location != null) {
-      Address current =
+      current =
           getCurrentLocationName(requireContext(), location.getLatitude(), location.getLongitude());
       if (current == null) {
         displayErrorDialog(getString(R.string.error_location));
         return;
       }
-      loge(current.toString());
       displayLoadingDialog();
       GeminiWrapper wrapper =
           GeminiWrapper.getInstance(
               current.getLocality(), (float) current.getLatitude(), (float) current.getLongitude());
-      wrapper.getWeather(this::successWeather, this::fail);
-      wrapper.getGardeningSuggestions(this::successSuggestions, this::fail);
+      wrapper.getWeather(this::successWeather,this::successSuggestions, this::fail);
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
@@ -156,6 +155,8 @@ public class HomeFragment extends BaseFragment {
                   new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
               binding.listWeather.setAdapter(adp);
               binding.listWeather.setLayoutManager(llm);
+              loge(current.toString());
+              binding.city.setText(current.getLocality()!=null?current.getLocality():current.getCountryName());
               // TODO: update other data about Weather (City name and current temperature)
             });
   }
