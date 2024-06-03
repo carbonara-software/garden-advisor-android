@@ -19,7 +19,7 @@ jobs:
         distribution: 'temurin'
     
     - name: Get keys.properties from secrets 
-      run: echo "${{secrets.KEYS_PROPERTIES_FILE }}" > $GITHUB_WORKSPACE/keys.properties 
+      run: echo "${{ secrets.KEYS_PROPERTIES_FILE }}" > $GITHUB_WORKSPACE/keys.properties 
     
     - name: Gradle check
       uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
