@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.ui.home;
 
 import static com.carbonara.gardenadvisor.util.AppUtil.getCurrentLocationName;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
+import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIcon;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -28,6 +29,7 @@ import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import java.util.Locale;
 
 public class HomeFragment extends BaseFragment {
   private static final String TAG = "HomeFrag";
@@ -157,6 +159,24 @@ public class HomeFragment extends BaseFragment {
               binding.listWeather.setLayoutManager(llm);
               binding.city.setText(
                   current.getLocality() != null ? current.getLocality() : current.getCountryName());
+              binding.iconWeather.setImageResource(
+                  getIcon(s.getWeather().getTodayForecast().getIcon()));
+              binding.cityTempMaxValue.setText(
+                  String.format(
+                      Locale.getDefault(),
+                      "%.1f°",
+                      s.getWeather().getTodayForecast().getMaxTemp()));
+              binding.cityTempMinValue.setText(
+                  String.format(
+                      Locale.getDefault(),
+                      "%.1f°",
+                      s.getWeather().getTodayForecast().getMinTemp()));
+              binding.cityTemp.setText(
+                  String.format(
+                      Locale.getDefault(),
+                      "%.1f° | %s",
+                      s.getWeather().getTodayForecast().getCurrentTemp(),
+                      s.getWeather().getTodayForecast().getConditions()));
               // TODO: update other data about Weather (City name and current temperature)
             });
   }

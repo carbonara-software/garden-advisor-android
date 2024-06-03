@@ -13,4 +13,7 @@ public class Weather {
 
   @JsonProperty("forecast")
   private List<Day> forecast;
+
+  @JsonProperty("todayForecast")
+  private Day todayForecast;
 }

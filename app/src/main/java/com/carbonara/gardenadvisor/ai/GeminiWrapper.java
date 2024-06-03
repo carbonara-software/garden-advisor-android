@@ -25,6 +25,8 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import okhttp3.Call;
@@ -76,7 +78,14 @@ public class GeminiWrapper {
   }
 
   private void getWeatherGeminized() {
-    String message = "\nLocation Name: " + locationName + "\n" + RETURN_WEATHER;
+    String message =
+        "\nLocation Name: "
+            + locationName
+            + "\n"
+            + RETURN_WEATHER
+            + LocalDate.now()
+                .format(new DateTimeFormatterBuilder().appendPattern("yyyy/MM/dd").toFormatter());
+    loge(weatherString + message);
     Content content = new Content.Builder().addText(weatherString + message).build();
     Executor executor = Executors.newSingleThreadExecutor();
     ListenableFuture<GenerateContentResponse> resp = model.generateContent(content);
@@ -153,6 +162,7 @@ public class GeminiWrapper {
 
   private void getGardeningSuggGeminized() {
     String message = "\nLocation Name: " + locationName + "\n" + RETURN_SUGGESTIONS;
+    loge(weatherString + message);
     Content content = new Content.Builder().addText(weatherString + message).build();
     Executor executor = Executors.newSingleThreadExecutor();
     ListenableFuture<GenerateContentResponse> resp = model.generateContent(content);

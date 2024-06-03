@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="20dp"
+    android:keepScreenOn="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.dialog.loading.LoadingDialog">
@@ -30,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/title"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Fun Facts"
+                android:text="@string/fun_facts"
                 android:textSize="30sp"
                 android:textAlignment="center"/>
 
@@ -39,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/message"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                android:text="Sample text"
+                android:text=""
                 android:textSize="25sp"
                 android:padding="8dp"
                 android:textAlignment="center"/>
