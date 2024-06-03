@@ -189,12 +189,4 @@ public class GeminiWrapper {
         },
         executor);
   }
-
-  //  public void getGardeningSuggestions(
-  //      OnGeminiWrapperSuggestionsSuccess success, OnGeminiWrapperFail fail) {
-  //    this.successSugg = success;
-  //    this.fail = fail;
-  //    getWeather();
-  //
-  //  }
 }
