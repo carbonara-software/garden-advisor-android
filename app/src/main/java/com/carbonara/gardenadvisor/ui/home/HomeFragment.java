@@ -101,7 +101,7 @@ public class HomeFragment extends BaseFragment {
       GeminiWrapper wrapper =
           GeminiWrapper.getInstance(
               current.getLocality(), (float) current.getLatitude(), (float) current.getLongitude());
-      wrapper.getWeather(this::successWeather,this::successSuggestions, this::fail);
+      wrapper.getWeather(this::successWeather, this::successSuggestions, this::fail);
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
@@ -156,7 +156,8 @@ public class HomeFragment extends BaseFragment {
               binding.listWeather.setAdapter(adp);
               binding.listWeather.setLayoutManager(llm);
               loge(current.toString());
-              binding.city.setText(current.getLocality()!=null?current.getLocality():current.getCountryName());
+              binding.city.setText(
+                  current.getLocality() != null ? current.getLocality() : current.getCountryName());
               // TODO: update other data about Weather (City name and current temperature)
             });
   }

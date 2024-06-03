@@ -141,12 +141,14 @@ public class GeminiWrapper {
     }
   }
 
-  public void getWeather(OnGeminiWrapperWeatherSuccess success,OnGeminiWrapperSuggestionsSuccess successSugg, OnGeminiWrapperFail fail) {
+  public void getWeather(
+      OnGeminiWrapperWeatherSuccess success,
+      OnGeminiWrapperSuggestionsSuccess successSugg,
+      OnGeminiWrapperFail fail) {
     this.success = success;
     this.successSugg = successSugg;
     this.fail = fail;
     getWeather();
-
   }
 
   private void getGardeningSuggGeminized() {
@@ -178,11 +180,11 @@ public class GeminiWrapper {
         executor);
   }
 
-//  public void getGardeningSuggestions(
-//      OnGeminiWrapperSuggestionsSuccess success, OnGeminiWrapperFail fail) {
-//    this.successSugg = success;
-//    this.fail = fail;
-//    getWeather();
-//
-//  }
+  //  public void getGardeningSuggestions(
+  //      OnGeminiWrapperSuggestionsSuccess success, OnGeminiWrapperFail fail) {
+  //    this.successSugg = success;
+  //    this.fail = fail;
+  //    getWeather();
+  //
+  //  }
 }
