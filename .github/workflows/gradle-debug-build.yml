@@ -2,7 +2,7 @@
 #  push:
 #   branches:
 #    - main
-   
+
 on:
   pull_request:
     branches: [ "main" ]
@@ -32,5 +32,5 @@ jobs:
     - name: Upload Debug APK
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ env.date_today }} APK(s) debug generated
-        path: ${{ env.main_project_module }}/build/outputs/apk/debug/
+        name: APK(s) debug generated
+        path: app/build/outputs/apk/debug/
