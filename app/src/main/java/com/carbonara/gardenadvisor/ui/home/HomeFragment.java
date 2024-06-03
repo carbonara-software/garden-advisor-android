@@ -155,7 +155,8 @@ public class HomeFragment extends BaseFragment {
                   new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
               binding.listWeather.setAdapter(adp);
               binding.listWeather.setLayoutManager(llm);
-              binding.city.setText(current.getLocality()!=null?current.getLocality():current.getCountryName());
+              binding.city.setText(
+                  current.getLocality() != null ? current.getLocality() : current.getCountryName());
               // TODO: update other data about Weather (City name and current temperature)
             });
   }
