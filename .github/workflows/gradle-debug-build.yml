@@ -1,0 +1,37 @@
+# on:
+#  push:
+#   branches:
+#    - main
+   
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
+    - name: Get keys.properties from secrets 
+      run: echo "${{secrets.KEYS_PROPERTIES_FILE }}" > $GITHUB_WORKSPACE/keys.properties 
+    
+    - name: Gradle check
+      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      with:
+        arguments: check
+
+    - name: Generate version.txt
+      run: ./gradlew generateVersionTxt
+
+    - name: Release
+      uses: valley-fordham/action-release-debugapk@master
+      env:
+       GITHUB_TOKEN: ${{ github.token }}
+       APP_FOLDER: app
+       RELEASE_TITLE: New Build

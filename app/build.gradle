@@ -13,6 +13,16 @@ spotless {
     }
 }
 
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+
 android {
     namespace 'com.carbonara.gardenadvisor'
     compileSdk 34
@@ -96,4 +106,10 @@ dependencies {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.register('generateVersionTxt') {
+    doLast {
+        file("./version.txt").text = getGitHash()
+    }
 }
