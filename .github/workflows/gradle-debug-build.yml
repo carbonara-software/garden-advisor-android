@@ -1,18 +1,9 @@
-name: Build Debug APK
-
+name: Check & Build Debug APK
 
 on:
-  pull_request:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
-
-
-# on:
-#  push:
-#   branches:
-   # - main
+ push:
+  branches:
+   - main
 
 jobs:
   build:
