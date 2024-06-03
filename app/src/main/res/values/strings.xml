@@ -9,5 +9,6 @@
     <string name="flowers">Fiori</string>
     <string name="max_temp">Max Temp.</string>
     <string name="min_temp">Min Temp.</string>
+    <string name="fun_facts">Fun Facts</string>
 
 </resources>
