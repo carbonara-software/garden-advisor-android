@@ -1,5 +1,7 @@
 package com.carbonara.gardenadvisor.ui.home.adapter.viewholder;
 
+import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIcon;
+
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +25,8 @@ public class WeatherViewHolder extends RecyclerView.ViewHolder {
     this.day = day;
     binding.name.setText(
         day.getDate().format(new DateTimeFormatterBuilder().appendPattern("dd/MM").toFormatter()));
-    binding.temp.setText(String.format(Locale.getDefault(), "%.1f", day.getMinTemp()));
+    binding.temp.setText(String.format(Locale.getDefault(), "%.1f", day.getCurrentTemp()));
+    binding.iconWeather.setImageResource(getIcon(day.getIcon()));
     // TODO: Swiz(cit.) for icons...
   }
 }

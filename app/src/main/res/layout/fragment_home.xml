@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Roviano"
+            android:text=""
             android:textSize="29sp"
             android:textColor="@color/white"
             android:layout_margin="20dp"
@@ -34,7 +34,7 @@
             app:layout_constraintTop_toBottomOf="@id/city"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="19° | Mostly Clear"
+            android:text=""
             android:textSize="19sp"
             android:textColor="@color/sub_text_frag"
             android:id="@+id/city_temp"/>
@@ -79,7 +79,7 @@
             app:layout_constraintStart_toStartOf="@id/city_temp_max"
             app:layout_constraintEnd_toEndOf="@id/city_temp_max"
             android:layout_marginTop="8dp"
-            android:text="32°"
+            android:text=""
             android:textSize="22sp"
             android:textColor="@color/white"
             android:id="@+id/city_temp_max_value"/>
@@ -91,7 +91,7 @@
             app:layout_constraintStart_toStartOf="@id/city_temp_min"
             app:layout_constraintEnd_toEndOf="@id/city_temp_min"
             android:layout_marginTop="8dp"
-            android:text="22°"
+            android:text=""
             android:textSize="22sp"
             android:textColor="@color/white"
             android:id="@+id/city_temp_min_value"/>

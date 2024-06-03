@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.ui.home;
 
 import static com.carbonara.gardenadvisor.util.AppUtil.getCurrentLocationName;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
+import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIcon;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -28,6 +29,7 @@ import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import java.util.Locale;
 
 public class HomeFragment extends BaseFragment {
   private static final String TAG = "HomeFrag";
@@ -37,6 +39,7 @@ public class HomeFragment extends BaseFragment {
 
   private boolean hasFinishWeather;
   private boolean hasFinishSuggestions;
+  private Address current;
 
   // messo solo perche android studio non e l'ide piu smart al mondo...
   // l'if verifica appunto se sono stati acconsentiti i permessi
@@ -90,19 +93,17 @@ public class HomeFragment extends BaseFragment {
 
   private void locationRetrieved(Location location) {
     if (location != null) {
-      Address current =
+      current =
           getCurrentLocationName(requireContext(), location.getLatitude(), location.getLongitude());
       if (current == null) {
         displayErrorDialog(getString(R.string.error_location));
         return;
       }
-      loge(current.toString());
       displayLoadingDialog();
       GeminiWrapper wrapper =
           GeminiWrapper.getInstance(
               current.getLocality(), (float) current.getLatitude(), (float) current.getLongitude());
-      wrapper.getWeather(this::successWeather, this::fail);
-      wrapper.getGardeningSuggestions(this::successSuggestions, this::fail);
+      wrapper.getWeather(this::successWeather, this::successSuggestions, this::fail);
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
@@ -156,6 +157,26 @@ public class HomeFragment extends BaseFragment {
                   new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
               binding.listWeather.setAdapter(adp);
               binding.listWeather.setLayoutManager(llm);
+              binding.city.setText(
+                  current.getLocality() != null ? current.getLocality() : current.getCountryName());
+              binding.iconWeather.setImageResource(
+                  getIcon(s.getWeather().getTodayForecast().getIcon()));
+              binding.cityTempMaxValue.setText(
+                  String.format(
+                      Locale.getDefault(),
+                      "%.1f°",
+                      s.getWeather().getTodayForecast().getMaxTemp()));
+              binding.cityTempMinValue.setText(
+                  String.format(
+                      Locale.getDefault(),
+                      "%.1f°",
+                      s.getWeather().getTodayForecast().getMinTemp()));
+              binding.cityTemp.setText(
+                  String.format(
+                      Locale.getDefault(),
+                      "%.1f° | %s",
+                      s.getWeather().getTodayForecast().getCurrentTemp(),
+                      s.getWeather().getTodayForecast().getConditions()));
               // TODO: update other data about Weather (City name and current temperature)
             });
   }

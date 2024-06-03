@@ -17,6 +17,12 @@ public class Day {
   @JsonProperty("min_temp")
   private float minTemp;
 
+  @JsonProperty("current_temp")
+  private float currentTemp;
+
+  @JsonProperty("icon")
+  private int icon;
+
   @JsonProperty("max_temp")
   private float maxTemp;
 
