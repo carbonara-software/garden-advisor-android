@@ -4,9 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_frag">#2E294C</color>
     <color name="sub_text_frag">#9B99A9</color>
-    <color name="background_frag_active">#48319D</color>
 
-    <color name="app_background">#031C1C</color>
-    <color name="app_accent_1">#8DBB9C</color>
+    <color name="app_background">#629E7D</color>
+    <color name="app_accent_1">#031C1C</color>
     <color name="app_accent_2">#4E7F64</color>
 </resources>

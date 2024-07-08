@@ -4,9 +4,9 @@
     <string name="error_location">Cannot retrieve location at the moment, please try later…</string>
     <string name="error_gemini">Cannot retrieve data from ai at the moment, please try later…</string>
     <string name="error_rationale">We need gps data to better display weather and suggestion based on your location…</string>
-    <string name="vegetables">Vegetables</string>
-    <string name="fruit">Fruit</string>
-    <string name="flowers">Flowers</string>
+    <string name="vegetables">Vegetables 🥦</string>
+    <string name="fruit">Fruits 🍎</string>
+    <string name="flowers">Flowers 🌸</string>
     <string name="max_temp">Max Temp.</string>
     <string name="min_temp">Min Temp.</string>
     <string name="fun_facts">Fun Facts</string>
