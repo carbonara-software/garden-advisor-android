@@ -36,8 +36,6 @@ import okhttp3.Response;
 
 public class GeminiWrapper {
 
-  private static GeminiWrapper instance;
-
   private final GenerativeModelFutures model;
 
   private float lat, lon;
@@ -50,24 +48,13 @@ public class GeminiWrapper {
   private OnGeminiWrapperFail fail;
   private OnGeminiWrapperSuggestionsSuccess successSugg;
 
-  public static GeminiWrapper getInstance(String locationName, float lat, float lon) {
-    if (instance == null) instance = new GeminiWrapper(lat, lon, locationName);
-    if (instance.lat != lat || instance.lon != lon) {
-      instance.updateLocation(locationName, lat, lon);
-    }
-    return instance;
-  }
-
-  private GeminiWrapper(float lat, float lon, String locationName) {
+  public GeminiWrapper(float lat, float lon, String locationName) {
     this.lat = lat;
     this.lon = lon;
     this.locationName = locationName;
-    loge("Chiave <==> " + getGeminiApiKey());
-    GenerativeModel gm =
-        new GenerativeModel(
-            "gemini-1.5-flash", getGeminiApiKey() // TODO: must find a safer place
-            );
+    GenerativeModel gm = new GenerativeModel("gemini-1.5-flash", getGeminiApiKey());
     model = GenerativeModelFutures.from(gm);
+    updateLocation(locationName, lat, lon);
   }
 
   private void updateLocation(String locationName, float lat, float lon) {

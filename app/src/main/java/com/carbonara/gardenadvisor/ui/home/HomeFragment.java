@@ -36,7 +36,6 @@ public class HomeFragment extends BaseFragment {
   FragmentHomeBinding binding;
 
   private FusedLocationProviderClient fusedLocationClient;
-
   private boolean hasFinishWeather;
   private boolean hasFinishSuggestions;
   private Address current;
@@ -101,8 +100,8 @@ public class HomeFragment extends BaseFragment {
       }
       displayLoadingDialog();
       GeminiWrapper wrapper =
-          GeminiWrapper.getInstance(
-              current.getLocality(), (float) current.getLatitude(), (float) current.getLongitude());
+          new GeminiWrapper(
+              (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
       wrapper.getWeather(this::successWeather, this::successSuggestions, this::fail);
       hasFinishSuggestions = false;
       hasFinishWeather = false;
