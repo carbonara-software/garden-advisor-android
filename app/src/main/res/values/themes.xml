@@ -3,6 +3,7 @@
     <style name="Base.Theme.GardenAdvisor" parent="Theme.Material3.DayNight.NoActionBar">
       <item name="colorPrimaryDark">@color/app_accent_1</item>
       <item name="android:windowBackground">@drawable/app_background_tiled</item>
+      <item name="android:fontFamily">@font/montserrat</item>
     </style>
 
     <style name="Theme.GardenAdvisor" parent="Base.Theme.GardenAdvisor" />
