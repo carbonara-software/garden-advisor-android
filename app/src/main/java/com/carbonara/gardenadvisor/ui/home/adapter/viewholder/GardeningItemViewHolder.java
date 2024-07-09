@@ -8,6 +8,7 @@ import com.carbonara.gardenadvisor.R;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.databinding.RowGardeningItemBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.SuggestionsBottomSheet;
+import com.carbonara.gardenadvisor.util.ui.BackgroundChooser;
 
 public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -26,7 +27,7 @@ public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
     binding.recommendedScore.setText(String.valueOf(item.getRecommendedScore()));
     binding.maintenanceScore.setText(String.valueOf(item.getMaintenanceScore()));
 
-    binding.innerCardLayout.setBackgroundResource(getBackgroundForItem(item));
+    binding.innerCardLayout.setBackgroundResource(BackgroundChooser.getBackgroundForItem(item));
 
     binding
         .getRoot()
@@ -42,15 +43,4 @@ public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
             });
   }
 
-  private int getBackgroundForItem(GardeningItem gardeningItem) {
-    switch (gardeningItem.getType()) {
-      case FRUIT:
-        return R.drawable.fruit_background;
-      case FLOWER:
-        return R.drawable.flower_background;
-      case VEGETABLE:
-        return R.drawable.vegetable_background;
-    }
-    return R.color.app_accent_1;
-  }
 }

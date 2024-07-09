@@ -6,6 +6,7 @@
   >
 
   <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/bottomsheet_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -35,7 +36,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="PlantName"
-      android:textColor="@color/app_accent_1"
+      android:textColor="@color/white"
       android:textSize="22sp"
       android:textStyle="bold"
       app:layout_constraintBottom_toBottomOf="@id/close"
@@ -48,7 +49,7 @@
       android:layout_height="wrap_content"
       android:layout_marginTop="16dp"
       android:text="Suggestions"
-      android:textColor="@color/app_accent_1"
+      android:textColor="@color/white"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/name"/>
@@ -66,7 +67,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Cautions"
-      android:textColor="@color/app_accent_1"
+      android:textColor="@color/white"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/rv_suggestions"/>
@@ -84,7 +85,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Positives"
-      android:textColor="@color/app_accent_1"
+      android:textColor="@color/white"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@id/rv_cautions"/>

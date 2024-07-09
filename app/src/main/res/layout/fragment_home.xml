@@ -136,14 +136,15 @@
       android:id="@+id/label_fruit"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
       android:layout_marginTop="8dp"
       android:text="@string/fruit"
-      android:textAlignment="center"
+      android:textAlignment="viewStart"
       android:textColor="@color/app_accent_1"
       android:textSize="24sp"
       app:layout_constraintBottom_toTopOf="@id/list_fruit"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:layout_editor_absoluteX="20dp"/>
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/list_fruit"
@@ -168,14 +169,15 @@
       android:id="@+id/label_vegetables"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
       android:layout_marginTop="6dp"
       android:text="@string/vegetables"
-      android:textAlignment="center"
+      android:textAlignment="viewStart"
       android:textColor="@color/app_accent_1"
       android:textSize="24sp"
       app:layout_constraintBottom_toTopOf="@id/list_vegetables"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:layout_editor_absoluteX="20dp"/>
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/list_vegetables"
@@ -200,14 +202,15 @@
       android:id="@+id/label_flowers"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
       android:layout_marginTop="6dp"
       android:text="@string/flowers"
-      android:textAlignment="center"
+      android:textAlignment="viewStart"
       android:textColor="@color/app_accent_1"
       android:textSize="24sp"
       app:layout_constraintBottom_toTopOf="@id/list_flowers"
-      app:layout_constraintTop_toTopOf="parent"
-      tools:layout_editor_absoluteX="20dp"/>
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/list_flowers"
