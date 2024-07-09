@@ -1,194 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ui.home.HomeFragment">
+
+  <androidx.cardview.widget.CardView
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_frag"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.HomeFragment">
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="18dp"
+    android:layout_marginEnd="8dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/cl_weather"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/weather_background"
+      app:layout_constraintHeight_percent=".4">
+
+      <TextView
+        android:id="@+id/city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Loading Location"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+      <TextView
+        android:id="@+id/city_temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/city"/>
+
+      <ImageView
+        android:id="@+id/icon_weather"
+        android:layout_width="80dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="26dp"
+        android:src="@drawable/cloud_tunder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/city_temp"/>
+
+      <TextView
+        android:id="@+id/city_temp_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/max_temp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/icon_weather"
+        app:layout_constraintStart_toEndOf="@id/city_temp_min"
+        app:layout_constraintTop_toBottomOf="@id/city_temp"/>
+
+      <TextView
+        android:id="@+id/city_temp_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/min_temp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/city_temp"/>
+
+      <TextView
+        android:id="@+id/city_temp_max_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/city_temp_max"
+        app:layout_constraintStart_toStartOf="@id/city_temp_max"
+        app:layout_constraintTop_toBottomOf="@id/city_temp_max"/>
+
+      <TextView
+        android:id="@+id/city_temp_min_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/city_temp_min"
+        app:layout_constraintStart_toStartOf="@id/city_temp_min"
+        app:layout_constraintTop_toBottomOf="@id/city_temp_min"/>
+
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_weather"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/cl_fruit"
-        app:layout_constraintHeight_percent=".4"
-        android:id="@+id/cl_weather">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text=""
-            android:textSize="29sp"
-            android:textColor="@color/white"
-            android:layout_margin="20dp"
-            android:id="@+id/city"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/city"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text=""
-            android:textSize="19sp"
-            android:textColor="@color/sub_text_frag"
-            android:id="@+id/city_temp"/>
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/city_temp"
-            android:src="@drawable/cloud_tunder"
-            android:layout_marginEnd="26dp"
-            android:layout_marginTop="8dp"
-            android:id="@+id/icon_weather"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/city_temp"
-            app:layout_constraintStart_toEndOf="@id/city_temp_min"
-            app:layout_constraintEnd_toStartOf="@id/icon_weather"
-            android:layout_marginTop="16dp"
-            android:text="@string/max_temp"
-            android:textSize="14sp"
-            android:textColor="@color/sub_text_frag"
-            android:id="@+id/city_temp_max"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/city_temp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginStart="20dp"
-            android:text="@string/min_temp"
-            android:textSize="14sp"
-            android:textColor="@color/sub_text_frag"
-            android:id="@+id/city_temp_min"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/city_temp_max"
-            app:layout_constraintStart_toStartOf="@id/city_temp_max"
-            app:layout_constraintEnd_toEndOf="@id/city_temp_max"
-            android:layout_marginTop="8dp"
-            android:text=""
-            android:textSize="22sp"
-            android:textColor="@color/white"
-            android:id="@+id/city_temp_max_value"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/city_temp_min"
-            app:layout_constraintStart_toStartOf="@id/city_temp_min"
-            app:layout_constraintEnd_toEndOf="@id/city_temp_min"
-            android:layout_marginTop="8dp"
-            android:text=""
-            android:textSize="22sp"
-            android:textColor="@color/white"
-            android:id="@+id/city_temp_min_value"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_weather"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/icon_weather"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_margin="8dp"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/cl_weather"
-        app:layout_constraintBottom_toTopOf="@id/cl_vegetables"
-        app:layout_constraintHeight_percent=".2"
-        android:id="@+id/cl_fruit">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="6dp"
-            app:layout_constraintBottom_toTopOf="@id/list_fruit"
-            android:textSize="19sp"
-            android:textColor="@color/white"
-            android:text="@string/fruit"
-            android:id="@+id/label_fruit"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/label_fruit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/list_fruit"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/cl_fruit"
-        app:layout_constraintBottom_toTopOf="@id/cl_flowers"
-        app:layout_constraintHeight_percent=".2"
-        android:id="@+id/cl_vegetables">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/list_vegetables"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="6dp"
-            android:textSize="19sp"
-            android:textColor="@color/white"
-            android:text="@string/vegetables"
-            android:id="@+id/label_vegetables"/>
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/label_vegetables"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/list_vegetables"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/cl_vegetables"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent=".2"
-        android:id="@+id/cl_flowers">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/city_temp_max_value"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/list_flowers"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="6dp"
-            android:textSize="19sp"
-            android:textColor="@color/white"
-            android:text="@string/flowers"
-            android:id="@+id/label_flowers"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/label_flowers"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/list_flowers"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.cardview.widget.CardView>
 
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_fruit"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/cl_vegetables"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHeight_percent=".2"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+    <TextView
+      android:id="@+id/label_fruit"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/fruit"
+      android:textAlignment="viewStart"
+      android:textColor="@color/app_accent_1"
+      android:textSize="24sp"
+      app:layout_constraintBottom_toTopOf="@id/list_fruit"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/list_fruit"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_margin="8dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/label_fruit"/>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_vegetables"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@id/cl_flowers"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHeight_percent=".2"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/cl_fruit">
+
+    <TextView
+      android:id="@+id/label_vegetables"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="6dp"
+      android:text="@string/vegetables"
+      android:textAlignment="viewStart"
+      android:textColor="@color/app_accent_1"
+      android:textSize="24sp"
+      app:layout_constraintBottom_toTopOf="@id/list_vegetables"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/list_vegetables"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_margin="8dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/label_vegetables"/>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cl_flowers"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHeight_percent=".2"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/cl_vegetables">
+
+    <TextView
+      android:id="@+id/label_flowers"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginTop="6dp"
+      android:text="@string/flowers"
+      android:textAlignment="viewStart"
+      android:textColor="@color/app_accent_1"
+      android:textSize="24sp"
+      app:layout_constraintBottom_toTopOf="@id/list_flowers"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/list_flowers"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_margin="8dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/label_flowers"/>
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

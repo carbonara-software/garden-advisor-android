@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.databinding.RowGardeningItemBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.SuggestionsBottomSheet;
+import com.carbonara.gardenadvisor.util.ui.BackgroundChooser;
 
 public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -24,6 +25,9 @@ public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
     binding.recommended.setVisibility(item.isRecommended() ? View.VISIBLE : View.GONE);
     binding.recommendedScore.setText(String.valueOf(item.getRecommendedScore()));
     binding.maintenanceScore.setText(String.valueOf(item.getMaintenanceScore()));
+
+    binding.innerCardLayout.setBackgroundResource(BackgroundChooser.getBackgroundForItem(item));
+
     binding
         .getRoot()
         .setOnClickListener(

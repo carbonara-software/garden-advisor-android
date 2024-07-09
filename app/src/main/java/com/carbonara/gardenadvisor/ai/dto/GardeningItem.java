@@ -17,6 +17,9 @@ public class GardeningItem {
   @JsonProperty("name")
   private String name;
 
+  @JsonProperty("type")
+  private GardeningItemType type;
+
   @JsonProperty("positives")
   private List<String> positives;
 
