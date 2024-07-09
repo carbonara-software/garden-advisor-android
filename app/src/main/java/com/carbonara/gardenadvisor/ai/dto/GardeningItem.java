@@ -25,4 +25,10 @@ public class GardeningItem {
 
   @JsonProperty("recommended")
   private boolean recommended;
+
+  @JsonProperty("recommendedScore")
+  private Integer recommendedScore;
+
+  @JsonProperty("maintenanceScore")
+  private Integer maintenanceScore;
 }
