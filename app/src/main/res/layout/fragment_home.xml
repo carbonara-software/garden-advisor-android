@@ -14,7 +14,6 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="18dp"
     android:layout_marginEnd="8dp"
-    app:cardBackgroundColor="@color/app_accent_1"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
     app:layout_constraintEnd_toEndOf="parent"
@@ -25,8 +24,8 @@
       android:id="@+id/cl_weather"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      app:layout_constraintHeight_percent=".4"
-      >
+      android:background="@drawable/weather_background"
+      app:layout_constraintHeight_percent=".4">
 
       <TextView
         android:id="@+id/city"
