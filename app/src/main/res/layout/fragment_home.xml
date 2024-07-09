@@ -5,7 +5,6 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:background="@color/app_background"
   tools:context=".ui.home.HomeFragment">
 
   <androidx.cardview.widget.CardView
@@ -13,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="18dp"
     android:layout_marginEnd="8dp"
     app:cardBackgroundColor="@color/app_accent_1"
     app:cardCornerRadius="20dp"
@@ -128,7 +127,9 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     app:layout_constraintBottom_toTopOf="@id/cl_vegetables"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHeight_percent=".2"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/cardView">
 
     <TextView
@@ -138,7 +139,7 @@
       android:layout_marginTop="8dp"
       android:text="@string/fruit"
       android:textAlignment="center"
-      android:textColor="@color/white"
+      android:textColor="@color/app_accent_1"
       android:textSize="24sp"
       app:layout_constraintBottom_toTopOf="@id/list_fruit"
       app:layout_constraintTop_toTopOf="parent"
@@ -158,7 +159,9 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     app:layout_constraintBottom_toTopOf="@id/cl_flowers"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHeight_percent=".2"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/cl_fruit">
 
     <TextView
@@ -168,7 +171,7 @@
       android:layout_marginTop="6dp"
       android:text="@string/vegetables"
       android:textAlignment="center"
-      android:textColor="@color/white"
+      android:textColor="@color/app_accent_1"
       android:textSize="24sp"
       app:layout_constraintBottom_toTopOf="@id/list_vegetables"
       app:layout_constraintTop_toTopOf="parent"
@@ -188,7 +191,9 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHeight_percent=".2"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/cl_vegetables">
 
     <TextView
@@ -198,7 +203,7 @@
       android:layout_marginTop="6dp"
       android:text="@string/flowers"
       android:textAlignment="center"
-      android:textColor="@color/white"
+      android:textColor="@color/app_accent_1"
       android:textSize="24sp"
       app:layout_constraintBottom_toTopOf="@id/list_flowers"
       app:layout_constraintTop_toTopOf="parent"

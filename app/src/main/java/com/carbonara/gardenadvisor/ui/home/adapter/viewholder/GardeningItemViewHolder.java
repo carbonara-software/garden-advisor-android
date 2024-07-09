@@ -4,6 +4,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import com.carbonara.gardenadvisor.R;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.databinding.RowGardeningItemBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.SuggestionsBottomSheet;
@@ -24,6 +25,9 @@ public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
     binding.recommended.setVisibility(item.isRecommended() ? View.VISIBLE : View.GONE);
     binding.recommendedScore.setText(String.valueOf(item.getRecommendedScore()));
     binding.maintenanceScore.setText(String.valueOf(item.getMaintenanceScore()));
+
+    binding.innerCardLayout.setBackgroundResource(getBackgroundForItem(item));
+
     binding
         .getRoot()
         .setOnClickListener(
@@ -36,5 +40,17 @@ public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
                     "DetailBottomSheet");
               }
             });
+  }
+
+  private int getBackgroundForItem(GardeningItem gardeningItem) {
+    switch (gardeningItem.getType()) {
+      case FRUIT:
+        return R.drawable.fruit_background;
+      case FLOWER:
+        return R.drawable.flower_background;
+      case VEGETABLE:
+        return R.drawable.vegetable_background;
+    }
+    return R.color.app_accent_1;
   }
 }
