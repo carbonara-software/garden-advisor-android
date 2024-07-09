@@ -22,6 +22,8 @@ public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
     this.item = item;
     binding.name.setText(item.getName());
     binding.recommended.setVisibility(item.isRecommended() ? View.VISIBLE : View.GONE);
+    binding.recommendedScore.setText(String.valueOf(item.getRecommendedScore()));
+    binding.maintenanceScore.setText(String.valueOf(item.getMaintenanceScore()));
     binding
         .getRoot()
         .setOnClickListener(
