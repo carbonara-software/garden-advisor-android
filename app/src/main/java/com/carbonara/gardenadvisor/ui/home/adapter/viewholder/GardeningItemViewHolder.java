@@ -4,7 +4,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import com.carbonara.gardenadvisor.R;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.databinding.RowGardeningItemBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.SuggestionsBottomSheet;
@@ -42,5 +41,4 @@ public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
               }
             });
   }
-
 }
