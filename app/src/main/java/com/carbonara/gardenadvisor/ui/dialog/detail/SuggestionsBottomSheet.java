@@ -11,6 +11,7 @@ import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.databinding.BottomsheetSuggestionsBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.adapter.SuggestionsAdapter;
 import com.carbonara.gardenadvisor.util.ui.BackgroundChooser;
+import com.carbonara.gardenadvisor.util.ui.GAScoreUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class SuggestionsBottomSheet extends BottomSheetDialogFragment {
@@ -37,8 +38,7 @@ public class SuggestionsBottomSheet extends BottomSheetDialogFragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     binding.name.setText(item.getName());
-    binding.sheetRecommendedScore.setText(String.valueOf(item.getRecommendedScore()));
-    binding.sheetMaintenanceScore.setText(String.valueOf(item.getMaintenanceScore()));
+    binding.sheetGascore.setText(String.valueOf(GAScoreUtil.getGaScore(item)));
     binding.bottomsheetLayout.setBackgroundResource(BackgroundChooser.getBackgroundForItem(item));
     SuggestionsAdapter adapterSuggestions = new SuggestionsAdapter(item.getSuggestions());
     SuggestionsAdapter adapterCautions = new SuggestionsAdapter(item.getCautions());
