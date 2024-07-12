@@ -8,6 +8,7 @@ import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.databinding.RowGardeningItemBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.SuggestionsBottomSheet;
 import com.carbonara.gardenadvisor.util.ui.BackgroundChooser;
+import com.carbonara.gardenadvisor.util.ui.GAScoreUtil;
 
 public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
 
@@ -22,9 +23,10 @@ public class GardeningItemViewHolder extends RecyclerView.ViewHolder {
   public void setItem(GardeningItem item) {
     this.item = item;
     binding.name.setText(item.getName());
-    binding.recommended.setVisibility(item.isRecommended() ? View.VISIBLE : View.GONE);
-    binding.recommendedScore.setText(String.valueOf(item.getRecommendedScore()));
-    binding.maintenanceScore.setText(String.valueOf(item.getMaintenanceScore()));
+
+    int gaScore = GAScoreUtil.getGaScore(item);
+    binding.recommended.setVisibility(gaScore >= 5 ? View.VISIBLE : View.GONE);
+    binding.gaScore.setText(String.valueOf(gaScore));
 
     binding.innerCardLayout.setBackgroundResource(BackgroundChooser.getBackgroundForItem(item));
 
