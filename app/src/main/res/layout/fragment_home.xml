@@ -6,8 +6,15 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".ui.home.HomeFragment">
-
-  <androidx.cardview.widget.CardView
+  <ScrollView
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+    android:layout_width="match_parent"
+    android:layout_height="0dp">
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -219,6 +226,15 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toBottomOf="@id/label_flowers"/>
   </androidx.constraintlayout.widget.ConstraintLayout>
-
+  </androidx.constraintlayout.widget.ConstraintLayout>
+  </ScrollView>
+  <com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottomNavigationView"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:menu="@menu/bottomnavigation_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
