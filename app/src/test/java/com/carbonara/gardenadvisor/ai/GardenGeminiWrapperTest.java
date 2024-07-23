@@ -1,6 +1,5 @@
 package com.carbonara.gardenadvisor.ai;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -32,9 +31,10 @@ public class GardenGeminiWrapperTest {
     Garden gardenMock = mock(Garden.class);
     when(gardenMock.getLocation()).thenReturn(testLocation);
 
-    Plant plant1 = new Plant(1L, 1L, "Sunflower", PlantType.FLOWER);
-    Plant plant2 = new Plant(2L, 1L, "Apple", PlantType.FRUIT);
-
+    Plant plant1 =
+        Plant.builder().id(1L).gardenId(1L).plantName("Sunflower").type(PlantType.FLOWER).build();
+    Plant plant2 =
+        Plant.builder().id(2L).gardenId(1L).plantName("Apple").type(PlantType.FRUIT).build();
     Set<Plant> testPlants = new HashSet<>(Arrays.asList(plant1, plant2));
 
     when(testGarden.getGarden()).thenReturn(gardenMock);
@@ -46,14 +46,15 @@ public class GardenGeminiWrapperTest {
     GeminiWrapper wrapper = new GardenGeminiWrapper(testGarden);
     wrapper.weatherString = "TEST WEATHER";
 
-    assertNotNull(wrapper.getGardeningSuggestionPrompt());
+    String expectedPromptBeginning = "TEST WEATHER\nLocation Name: TEST LOCATION\nMy plants:";
 
-    String expectedPromptBeginning =
-        "TEST WEATHER\n"
-            + "Location Name: TEST LOCATION\n"
-            + "My plants: [Apple, Sunflower]\n"
-            + "Given this location, weather data and list of plants, evaluate each of the plants provided, with each value having:";
+    String prompt = wrapper.getGardeningSuggestionPrompt();
 
-    assertTrue(wrapper.getGardeningSuggestionPrompt().startsWith(expectedPromptBeginning));
+    assertTrue(prompt.startsWith(expectedPromptBeginning));
+    assertTrue(
+        prompt.contains(
+            "{\"id\":1,\"gardenId\":1,\"plantName\":\"Sunflower\",\"type\":\"FLOWER\"}"));
+    assertTrue(
+        prompt.contains("{\"id\":2,\"gardenId\":1,\"plantName\":\"Apple\",\"type\":\"FRUIT\"}"));
   }
 }
