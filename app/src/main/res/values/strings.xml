@@ -8,6 +8,7 @@
   <string name="fruit"> 🍎Fruits</string>
   <string name="flowers"> 🌸Flowers</string>
   <string name="gardens"> 👩‍🌾 Gardens</string>
+  <string name="no_gardens"> 🧐 No Gardens found… \n Add a new one!</string>
   <string name="add_garden">Add a new Garden! 🍎🍓🥬🍅</string>
   <string name="max_temp">Max Temp.</string>
   <string name="min_temp">Min Temp.</string>

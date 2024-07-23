@@ -28,7 +28,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     android:padding="8dp"
-    android:src="@drawable/ic_settings"
+    android:src="@drawable/ic_add"
     app:tint="@color/black"/>
 
   <androidx.recyclerview.widget.RecyclerView
@@ -38,6 +38,46 @@
     app:layout_constraintBottom_toTopOf="@id/bottomBar"
     android:padding="8dp"
     android:id="@+id/recycler_gardens"/>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:visibility="gone"
+    app:layout_constraintTop_toBottomOf="@id/label_gardens"
+    app:layout_constraintBottom_toTopOf="@id/bottomBar"
+    android:padding="8dp"
+    android:id="@+id/empty_list_gardens">
+
+    <TextView
+      android:id="@+id/no_gardens"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/no_gardens"
+      android:textAlignment="center"
+      android:textColor="@color/app_accent_1"
+      android:padding="16dp"
+      android:textSize="24sp"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/btn_add_garden"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:backgroundTint="@color/black"
+      android:textColor="@color/white"
+      android:text="ADD"
+      android:layout_marginTop="16dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/no_gardens"
+      android:layout_marginBottom="26dp"/>
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
   <include layout="@layout/bottom_bar" android:id="@+id/bottomBar"
     android:layout_width="match_parent"
