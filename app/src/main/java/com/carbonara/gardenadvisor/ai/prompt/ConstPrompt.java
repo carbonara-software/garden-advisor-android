@@ -49,7 +49,7 @@ public class ConstPrompt {
           + "Notice that today is:";
 
   protected static final String BASE_SUGGESTION_PROMPT =
-      "type: string value representing the type: fruit, vegetable, flower\n"
+      "type: lowercase string value representing the type: fruit, vegetable, flower\n"
           + "recommended: boolean value if can be planted now\n"
           + "recommendedScore: an integer value score from 1 to 5 representing how recommended it is to plant given the weather conditions, the time of the year, the location and the kind of soil in the area"
           + "maintenanceScore: an integer value score from 1 to 5 representing how easy it is to maintain, for example how much water is needed, if pest control is necessary or if constant watch is required\n"
@@ -60,12 +60,13 @@ public class ConstPrompt {
           + "{\n"
           + "  \"fruits\": [\n"
           + "    {\n"
+          + "      \"id\": \"empty if not specified above\",\n"
+          + "      \"gardenId\": \"empty if not specified above\",\n"
           + "      \"name\": \"NameOfFruit\",\n"
           + "      \"type\": \"fruit\",\n"
           + "      \"recommended\": true if is recommended else false,\n"
           + "      \"recommendedScore\": integer value from 1 to 5 of how recommended it is to plant,\n"
           + "      \"maintenanceScore\": integer value from 1 to 5 of how easy it is to maintain,\n"
-          //          + "      \"imageUrl\": \"anUrlOfAnImageForThePlantSpecified\",\n"
           + "      \"positives\": [\n"
           + "        \"APositiveSuggestionBasedOnCurrentPlantAndCurrentOrFutureWeather\",\n..."
           + "      ],\n"
@@ -78,9 +79,10 @@ public class ConstPrompt {
           + "    },\n...]"
           + "  \"vegetables\": [\n"
           + "    {\n"
+          + "      \"id\": \"empty if not specified above\",\n"
+          + "      \"gardenId\": \"empty if not specified above\",\n"
           + "      \"name\": \"NameOfVegetable\",\n"
           + "      \"type\": \"vegetable\",\n"
-          //          + "      \"imageUrl\": \"anUrlOfAnImageForThePlantSpecified\",\n"
           + "      \"recommended\": true if is recommended else false,\n"
           + "      \"recommendedScore\": integer value from 1 to 5 of how recommended it is to plant,\n"
           + "      \"maintenanceScore\": integer value from 1 to 5 of how easy it is to maintain,\n"
@@ -96,9 +98,10 @@ public class ConstPrompt {
           + "    },\n...]"
           + "  \"flowers\": [\n"
           + "    {\n"
+          + "      \"id\": \"empty if not specified above\",\n"
+          + "      \"gardenId\": \"empty if not specified above\",\n"
           + "      \"name\": \"NameOfFlower\",\n"
           + "      \"type\": \"flower\",\n"
-          //          + "      \"imageUrl\": \"anUrlOfAnImageForThePlantSpecified\",\n"
           + "      \"recommended\": true if is recommended else false,\n"
           + "      \"recommendedScore\": integer value from 1 to 5 of how recommended it is to plant,\n"
           + "      \"maintenanceScore\": integer value from 1 to 5 of how easy it is to maintain,\n"
@@ -121,5 +124,8 @@ public class ConstPrompt {
 
   public static final String GARDEN_SUGGESTION_PROMPT =
       "Given this location, weather data and list of plants, evaluate each of the plants provided, with each value having:\n"
+          + "id: the id provided for each plant in the json above\n"
+          + "gardenId: the gardenId provided for each plant in the json above\n"
+          + "name: the name of the plant provided in the json above\n"
           + BASE_SUGGESTION_PROMPT;
 }
