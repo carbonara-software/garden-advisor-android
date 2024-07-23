@@ -4,8 +4,10 @@ import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.GARDEN_SUGGESTIO
 
 import com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants;
 import com.carbonara.gardenadvisor.persistence.entity.Plant;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Set;
-import java.util.stream.Collectors;
+import lombok.SneakyThrows;
 
 public class GardenGeminiWrapper extends GeminiWrapper {
 
@@ -19,16 +21,18 @@ public class GardenGeminiWrapper extends GeminiWrapper {
     this.plants = garden.getPlants();
   }
 
+  @SneakyThrows
   @Override
   public String getGardeningSuggestionPrompt() {
-
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(Include.NON_EMPTY);
     return weatherString
         + "\n"
         + "Location Name: "
         + locationName
         + "\n"
         + "My plants: "
-        + this.plants.stream().map(Plant::getPlantName).collect(Collectors.toSet())
+        + new ObjectMapper().writeValueAsString(plants)
         + "\n"
         + GARDEN_SUGGESTION_PROMPT;
   }
