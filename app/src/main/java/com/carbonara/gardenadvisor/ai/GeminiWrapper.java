@@ -1,7 +1,6 @@
 package com.carbonara.gardenadvisor.ai;
 
-import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.RETURN_SUGGESTIONS;
-import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.RETURN_WEATHER;
+import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.WEATHER_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
@@ -34,19 +33,18 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
-public class GeminiWrapper {
+public abstract class GeminiWrapper {
+  protected final GenerativeModelFutures model;
+  protected float lat, lon;
+  protected String locationName;
 
-  private final GenerativeModelFutures model;
+  protected OnGeminiWrapperWeatherSuccess success;
+  protected OnGeminiWrapperFail fail;
+  protected OnGeminiWrapperSuggestionsSuccess successSugg;
 
-  private float lat, lon;
-  private String locationName;
-  private String weatherString;
+  protected boolean updatedLocation;
 
-  private boolean updatedLocation;
-
-  private OnGeminiWrapperWeatherSuccess success;
-  private OnGeminiWrapperFail fail;
-  private OnGeminiWrapperSuggestionsSuccess successSugg;
+  protected String weatherString;
 
   public GeminiWrapper(float lat, float lon, String locationName) {
     this.lat = lat;
@@ -64,12 +62,58 @@ public class GeminiWrapper {
     updatedLocation = true;
   }
 
-  private void getWeatherGeminized() {
+  public void getGeminiResult(
+      OnGeminiWrapperWeatherSuccess success,
+      OnGeminiWrapperSuggestionsSuccess successSugg,
+      OnGeminiWrapperFail fail) {
+    this.success = success;
+    this.successSugg = successSugg;
+    this.fail = fail;
+    processGeminiRequest();
+  }
+
+  private void processGeminiRequest() {
+    if (weatherString == null || updatedLocation) {
+      OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient(new OkHttpClient());
+      OpenMeteoRequest request = OpenMeteoRequest.builder().lon(lon).lat(lat).build();
+      try {
+        client.getWeatherDataAsync(
+            request,
+            new Callback() {
+              @Override
+              public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                fail.getAnswerFail(e);
+              }
+
+              @Override
+              public void onResponse(@NonNull Call call, @NonNull Response response)
+                  throws IOException {
+                if (!response.isSuccessful() || response.body() == null) {
+                  loge("Errore response");
+                  loge(response.toString());
+                  fail.getAnswerFail(
+                      new GeminiWeatherException(
+                          "Weather not returned...Strange and sad at the same time...."));
+                } else {
+                  weatherString = response.body().string();
+                  getGeminiProcessedWeather();
+                  getGeminiGardeningSuggestion();
+                  updatedLocation = false;
+                }
+              }
+            });
+      } catch (IOException e) {
+        fail.getAnswerFail(e);
+      }
+    }
+  }
+
+  private void getGeminiProcessedWeather() {
     String message =
         "\nLocation Name: "
             + locationName
             + "\n"
-            + RETURN_WEATHER
+            + WEATHER_PROMPT
             + LocalDate.now()
                 .format(new DateTimeFormatterBuilder().appendPattern("yyyy/MM/dd").toFormatter());
     loge(weatherString + message);
@@ -101,56 +145,12 @@ public class GeminiWrapper {
         executor);
   }
 
-  private void getWeather() {
-    if (weatherString == null || updatedLocation) {
-      OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient(new OkHttpClient());
-      OpenMeteoRequest request = OpenMeteoRequest.builder().lon(lon).lat(lat).build();
-      try {
-        client.getWeatherDataAsync(
-            request,
-            new Callback() {
-              @Override
-              public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                fail.getAnswerFail(e);
-              }
+  public abstract String getGardeningSuggestionPrompt();
 
-              @Override
-              public void onResponse(@NonNull Call call, @NonNull Response response)
-                  throws IOException {
-                if (!response.isSuccessful() || response.body() == null) {
-                  loge("Errore response");
-                  loge(response.toString());
-                  fail.getAnswerFail(
-                      new GeminiWeatherException(
-                          "Weather not returned...Strange and sad at the same time...."));
-                } else {
-                  weatherString = response.body().string();
-                  getWeatherGeminized();
-                  getGardeningSuggGeminized();
-                  updatedLocation = false;
-                }
-              }
-            });
-      } catch (IOException e) {
-        fail.getAnswerFail(e);
-      }
-    }
-  }
-
-  public void getWeather(
-      OnGeminiWrapperWeatherSuccess success,
-      OnGeminiWrapperSuggestionsSuccess successSugg,
-      OnGeminiWrapperFail fail) {
-    this.success = success;
-    this.successSugg = successSugg;
-    this.fail = fail;
-    getWeather();
-  }
-
-  private void getGardeningSuggGeminized() {
-    String message = "\nLocation Name: " + locationName + "\n" + RETURN_SUGGESTIONS;
-    loge(weatherString + message);
-    Content content = new Content.Builder().addText(weatherString + message).build();
+  private void getGeminiGardeningSuggestion() {
+    String prompt = getGardeningSuggestionPrompt();
+    loge(prompt);
+    Content content = new Content.Builder().addText(prompt).build();
     Executor executor = Executors.newSingleThreadExecutor();
     ListenableFuture<GenerateContentResponse> resp = model.generateContent(content);
     Futures.addCallback(
