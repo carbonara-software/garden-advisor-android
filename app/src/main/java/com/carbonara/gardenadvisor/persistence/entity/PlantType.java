@@ -1,6 +1,8 @@
 package com.carbonara.gardenadvisor.persistence.entity;
 
-public enum PlantType {
+import java.io.Serializable;
+
+public enum PlantType implements Serializable {
   FRUIT,
   VEGETABLE,
   FLOWER
