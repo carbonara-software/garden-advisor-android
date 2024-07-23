@@ -10,11 +10,14 @@ import android.view.ViewGroup;
 
 import com.carbonara.gardenadvisor.R;
 import com.carbonara.gardenadvisor.databinding.FragmentGardenBinding;
+import com.carbonara.gardenadvisor.persistence.entity.Garden;
+import com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants;
 
 
 public class GardenFragment extends Fragment {
 
     FragmentGardenBinding binding;
+    GardenWithPlants gardenWithPlants;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
