@@ -2,7 +2,7 @@ package com.carbonara.gardenadvisor.ai.prompt;
 
 public class ConstPrompt {
 
-  public static final String RETURN_WEATHER =
+  public static final String WEATHER_PROMPT =
       "Given the weather and location data provide the following information in JSON format:\n"
           + " - a \"location\" object, containing the location data, such as name, region and country\n"
           + " - a \"weather\" object, containing the weather forecast (min and max temperatures and weather conditions for today and the next 6 days)\n"
@@ -47,10 +47,9 @@ public class ConstPrompt {
           + "}\n"
           + " Important notice: DO NOT PRINT ANY THING ELSE BUT THE JSON ASKED as a plain text without any Markdown formatting please\n"
           + "Notice that today is:";
-  public static final String RETURN_SUGGESTIONS =
-      "Given this location and weather data, provide an answer in Json format with a list of recommended fruits, vegetables and flowers that can be planted at this time, with each value having:\n"
-          + "\n"
-          + "type: string value representing the type: fruit, vegetable, flower\n"
+
+  protected static final String BASE_SUGGESTION_PROMPT =
+      "type: string value representing the type: fruit, vegetable, flower\n"
           + "recommended: boolean value if can be planted now\n"
           + "recommendedScore: an integer value score from 1 to 5 representing how recommended it is to plant given the weather conditions, the time of the year, the location and the kind of soil in the area"
           + "maintenanceScore: an integer value score from 1 to 5 representing how easy it is to maintain, for example how much water is needed, if pest control is necessary or if constant watch is required\n"
@@ -115,4 +114,12 @@ public class ConstPrompt {
           + "    },\n...]"
           + "}\n"
           + "\n Important notice: DO NOT PRINT ANY THING ELSE BUT THE JSON ASKED as a plain text without any Markdown formatting please";
+
+  public static final String HOME_SUGGESTION_PROMPT =
+      "Given this location and weather data, provide an answer in Json format with a list of recommended fruits, vegetables and flowers that can be planted at this time, with each value having:\n"
+          + BASE_SUGGESTION_PROMPT;
+
+  public static final String GARDEN_SUGGESTION_PROMPT =
+      "Given this location, weather data and list of plants, evaluate each of the plants provided, with each value having:\n"
+          + BASE_SUGGESTION_PROMPT;
 }
