@@ -27,6 +27,5 @@ public class WeatherViewHolder extends RecyclerView.ViewHolder {
         day.getDate().format(new DateTimeFormatterBuilder().appendPattern("dd/MM").toFormatter()));
     binding.temp.setText(String.format(Locale.getDefault(), "%.1f", day.getCurrentTemp()));
     binding.iconWeather.setImageResource(getIcon(day.getIcon()));
-    // TODO: Swiz(cit.) for icons...
   }
 }

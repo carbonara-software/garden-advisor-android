@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.util.ui;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import com.carbonara.gardenadvisor.MainActivity;
 import com.carbonara.gardenadvisor.ui.dialog.error.ErrorDialog;
 import com.carbonara.gardenadvisor.ui.dialog.loading.LoadingDialog;
 import com.carbonara.gardenadvisor.ui.dialog.success.SuccessDialog;
@@ -37,6 +38,18 @@ public class BaseFragment extends Fragment {
   public void closeDialog() {
     if (dialog != null) {
       dialog.dismiss();
+    }
+  }
+
+  public void showBottomBar() {
+    if (getActivity() != null && getActivity() instanceof MainActivity) {
+      ((MainActivity) getActivity()).showBottomBar();
+    }
+  }
+
+  public void hideBottomBar() {
+    if (getActivity() != null && getActivity() instanceof MainActivity) {
+      ((MainActivity) getActivity()).hideBottomBar();
     }
   }
 }

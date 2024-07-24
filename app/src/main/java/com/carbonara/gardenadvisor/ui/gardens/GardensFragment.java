@@ -5,31 +5,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
 import com.carbonara.gardenadvisor.databinding.FragmentGardensBinding;
-import com.carbonara.gardenadvisor.persistence.AppDatabase;
-import com.carbonara.gardenadvisor.persistence.dao.GardenDao;
-import com.carbonara.gardenadvisor.persistence.dao.PlantDao;
 import com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants;
-import com.carbonara.gardenadvisor.persistence.repository.GardenRepository;
 import com.carbonara.gardenadvisor.ui.dialog.newgarden.NewGardenBottomSheet;
 import com.carbonara.gardenadvisor.ui.dialog.newgarden.callback.NewGardenCallback;
 import com.carbonara.gardenadvisor.ui.gardens.adapter.GardensAdapter;
+import com.carbonara.gardenadvisor.util.task.GardensWithPlantEmitter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.util.List;
 
 public class GardensFragment extends BaseFragment implements NewGardenCallback {
   FragmentGardensBinding binding;
-  GardenRepository repository;
+
   Disposable d;
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    GardenDao gardenDao = AppDatabase.getDatabase(requireContext()).gardenDao();
-    PlantDao plantDao = AppDatabase.getDatabase(requireContext()).plantDao();
-    repository = new GardenRepository(gardenDao, plantDao);
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    showBottomBar();
     initDB();
     binding.addGarden.setOnClickListener(this::onAddGarden);
     binding.btnAddGarden.setOnClickListener(this::onAddGarden);
@@ -37,11 +36,10 @@ public class GardensFragment extends BaseFragment implements NewGardenCallback {
 
   private void initDB() {
     d =
-        repository
-            .getGardensWithPlants()
-            .doOnNext(this::populateGardenList)
-            .doOnError(this::handleError)
-            .subscribe();
+        Observable.create(new GardensWithPlantEmitter(requireContext()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::populateGardenList, this::handleError);
   }
 
   private void onAddGarden(View view) {
@@ -56,7 +54,7 @@ public class GardensFragment extends BaseFragment implements NewGardenCallback {
   private void populateGardenList(List<GardenWithPlants> g) {
     if (g != null && !g.isEmpty()) {
       GardensAdapter adp = new GardensAdapter(g);
-      LinearLayoutManager llm = new LinearLayoutManager(requireContext());
+      GridLayoutManager llm = new GridLayoutManager(requireContext(), 2);
       binding.recyclerGardens.setVisibility(View.VISIBLE);
       binding.emptyListGardens.setVisibility(View.GONE);
       binding.recyclerGardens.setLayoutManager(llm);

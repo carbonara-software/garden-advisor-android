@@ -6,12 +6,12 @@
     android:title="@string/title_home" />
 
   <item
-    android:id="@+id/navigation_dashboard"
+    android:id="@+id/navigation_gardens"
     android:icon="@drawable/ic_outdoor_garden"
     android:title="@string/title_gardens" />
 
   <item
-    android:id="@+id/navigation_notifications"
+    android:id="@+id/navigation_settings"
     android:icon="@drawable/ic_settings"
     android:title="@string/title_settings" />
 </menu>

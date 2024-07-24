@@ -2,9 +2,11 @@ package com.carbonara.gardenadvisor.ui.gardens.adapter.viewholder;
 
 import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.carbonara.gardenadvisor.databinding.RowGardensItemBinding;
 import com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants;
+import com.carbonara.gardenadvisor.ui.gardens.GardensFragmentDirections;
 
 public class GardenViewHolder extends ViewHolder {
 
@@ -23,5 +25,8 @@ public class GardenViewHolder extends ViewHolder {
     binding.getRoot().setOnClickListener(this::onGardenClicked);
   }
 
-  private void onGardenClicked(View view) {}
+  private void onGardenClicked(View view) {
+    Navigation.findNavController(view)
+        .navigate(GardensFragmentDirections.actionGardensFragmentToGardenFragment(garden));
+  }
 }

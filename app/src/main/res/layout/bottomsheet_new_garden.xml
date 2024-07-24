@@ -40,7 +40,7 @@
       app:boxCornerRadiusBottomStart="30dp"
       app:boxCornerRadiusTopStart="30dp"
       app:boxCornerRadiusTopEnd="30dp"
-      android:layout_height="60dp"
+      android:layout_height="90dp"
       android:hint="Inserisci la località">
 
       <com.google.android.material.textfield.TextInputEditText
@@ -67,7 +67,7 @@
       app:boxCornerRadiusBottomStart="30dp"
       app:boxCornerRadiusTopStart="30dp"
       app:boxCornerRadiusTopEnd="30dp"
-      android:layout_height="60dp"
+      android:layout_height="90dp"
       android:hint="Inserisci il nome del giardino">
 
       <com.google.android.material.textfield.TextInputEditText

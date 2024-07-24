@@ -28,7 +28,7 @@ public class AppUtil {
         return addresses.get(0);
       }
     } catch (IOException e) {
-      // TODO: Handle geocoding errors gracefully
+      loge("Geocoder failed: " + e.getMessage());
     }
     return null;
   }
@@ -44,7 +44,6 @@ public class AppUtil {
       }
     } catch (IOException e) {
       loge("Geocoder failed: " + e.getMessage());
-      // TODO: Handle geocoding errors gracefully
     }
     return null;
   }

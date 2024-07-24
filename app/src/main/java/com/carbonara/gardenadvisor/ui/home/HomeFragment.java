@@ -20,8 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.carbonara.gardenadvisor.R;
-import com.carbonara.gardenadvisor.ai.GeminiWrapper;
-import com.carbonara.gardenadvisor.ai.HomeGeminiWrapper;
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.databinding.FragmentHomeBinding;
@@ -74,6 +72,8 @@ public class HomeFragment extends BaseFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    // MOSTRO BOTTOMBART
+    showBottomBar();
     // Controllo se ha i permessi
     if (checkAndRequestLocationPermission()) {
       // Tutt appo possiamo procedere
@@ -99,13 +99,14 @@ public class HomeFragment extends BaseFragment {
         displayErrorDialog(getString(R.string.error_location));
         return;
       }
-      displayLoadingDialog();
-      GeminiWrapper wrapper =
-          new HomeGeminiWrapper(
-              (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
-      wrapper.getGeminiResult(this::successWeather, this::successSuggestions, this::fail);
-      hasFinishSuggestions = false;
-      hasFinishWeather = false;
+      //      displayLoadingDialog();
+      //      GeminiWrapper wrapper =
+      //          new HomeGeminiWrapper(
+      //              (float) current.getLatitude(), (float) current.getLongitude(),
+      // current.getLocality());
+      //      wrapper.getGeminiResult(this::successWeather, this::successSuggestions, this::fail);
+      //      hasFinishSuggestions = false;
+      //      hasFinishWeather = false;
     } else {
       displayErrorDialog(getString(R.string.error_location));
     }
@@ -117,7 +118,6 @@ public class HomeFragment extends BaseFragment {
             () -> {
               hasFinishSuggestions = true;
               if (hasFinishWeather) closeDialog();
-              // TODO: populate UI for weather
               LinearLayoutManager llmFruit =
                   new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
               LinearLayoutManager llmFlo =
@@ -148,7 +148,6 @@ public class HomeFragment extends BaseFragment {
   private void successWeather(GeminiWeather s) {
     hasFinishWeather = true;
     if (hasFinishSuggestions) closeDialog();
-    // TODO: populate UI for gardening suggestions
     requireActivity()
         .runOnUiThread(
             () -> {
@@ -177,7 +176,6 @@ public class HomeFragment extends BaseFragment {
                       "%.1f° | %s",
                       s.getWeather().getTodayForecast().getCurrentTemp(),
                       s.getWeather().getTodayForecast().getConditions()));
-              // TODO: update other data about Weather (City name and current temperature)
             });
   }
 

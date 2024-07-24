@@ -7,11 +7,7 @@
 
     <fragment android:id="@+id/home"
         android:name="com.carbonara.gardenadvisor.ui.home.HomeFragment"
-        android:label="Home">
-      <action
-        android:id="@+id/action_home_to_gardensFragment"
-        app:destination="@id/gardensFragment"/>
-    </fragment>
+        android:label="Home"/>
   <fragment
     android:id="@+id/gardensFragment"
     android:name="com.carbonara.gardenadvisor.ui.gardens.GardensFragment"
@@ -30,6 +26,7 @@
       android:name="garden"
       app:argType="com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants"/>
   </fragment>
+  <action android:id="@+id/action_global_home" app:destination="@id/home"/><action android:id="@+id/action_global_gardensFragment" app:destination="@id/gardensFragment"/>
 
   <!--    <dialog-->
 <!--        android:id="@+id/loading_dialog"-->
