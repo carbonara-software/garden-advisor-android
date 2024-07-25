@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.carbonara.gardenadvisor.ai.GeminiCameraSuggestionWrapper;
@@ -16,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.PictureResult;
+import com.otaliastudios.cameraview.controls.Audio;
 import com.otaliastudios.cameraview.controls.Mode;
 
 public class CameraBottomSheet extends BottomSheetDialogFragment {
@@ -38,8 +40,10 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     CameraView camera = binding.camera;
-    camera.setLifecycleOwner(getViewLifecycleOwner());
     camera.setMode(Mode.PICTURE);
+    camera.setAudio(Audio.OFF);
+    camera.setLifecycleOwner(getViewLifecycleOwner());
+
     camera.addCameraListener(
         new CameraListener() {
           @Override
@@ -47,6 +51,11 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
             result.toBitmap(1500, 1500, bitmap -> pictureTaken(bitmap));
           }
         });
+
+    ImageView takePictureButton = binding.takePictureButton;
+    takePictureButton.setOnClickListener(v -> camera.takePicture());
+
+    binding.close.setOnClickListener(v -> dismiss());
   }
 
   private void pictureTaken(Bitmap bitmap) {
