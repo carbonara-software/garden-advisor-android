@@ -128,4 +128,18 @@ public class ConstPrompt {
           + "gardenId: the gardenId provided for each plant in the json above\n"
           + "name: the name of the plant provided in the json above\n"
           + BASE_SUGGESTION_PROMPT;
+
+  public static final String CAMERA_SUGGESTION_PROMPT =
+      "Help me identify this plant and its health.\n"
+          + "if you can recognize it, provide the result in the following json format:\n"
+          + "  {\n"
+          + "  \"name\" : string containing the common name of the plant\n"
+          + "  \"scientificName\" : string containing the scientific name of the plant,\n"
+          + "  \"status\": \"healthy\" if the plant is well or \"needs_care\" if the plant happens to require extra care (for example if it is infected by a parasite,\n"
+          + "  \"suggestions\": a list of suggestions to take care of the plant\n"
+          + "}\n"
+          + "\n"
+          + "if you can't recognize the plant or the picture does not contain a plant, return an empty string.\n"
+          + "\n"
+          + "Important: Return the response exclusively in plain text";
 }

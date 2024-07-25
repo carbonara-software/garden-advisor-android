@@ -84,6 +84,8 @@ dependencies {
     implementation libs.rxandroid
     implementation libs.rxjava
 
+    api(libs.cameraview)
+
     implementation libs.room.runtime
     implementation libs.room.rxjava
     annotationProcessor libs.room.compiler
