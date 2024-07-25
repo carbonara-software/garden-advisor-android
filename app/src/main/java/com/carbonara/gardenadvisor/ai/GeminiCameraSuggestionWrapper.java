@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
 import com.carbonara.gardenadvisor.ai.funct.OnGeminiCameraSuggestionFail;
 import com.carbonara.gardenadvisor.ai.funct.OnGeminiCameraSuggestionSuccess;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.ai.client.generativeai.GenerativeModel;
@@ -44,6 +45,7 @@ public class GeminiCameraSuggestionWrapper {
           @Override
           public void onSuccess(GenerateContentResponse result) {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
             try {
               GeminiCameraSuggestion cameraSuggestion =
                   mapper.readValue(result.getText(), GeminiCameraSuggestion.class);

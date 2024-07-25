@@ -117,7 +117,7 @@
     app:layout_constraintTop_toTopOf="parent">
 
     <com.airbnb.lottie.LottieAnimationView
-      android:id="@+id/loading_anim"
+      android:id="@+id/picture_loading_anim"
       android:layout_width="250dp"
       android:layout_height="500dp"
       android:layout_marginTop="100dp"
@@ -140,9 +140,9 @@
       app:cardBackgroundColor="@color/white"
       app:cardCornerRadius="30dp"
       app:cardElevation="4dp"
-      app:layout_constraintEnd_toEndOf="@+id/loading_anim"
-      app:layout_constraintStart_toStartOf="@+id/loading_anim"
-      app:layout_constraintTop_toTopOf="@+id/loading_anim">
+      app:layout_constraintEnd_toEndOf="@+id/picture_loading_anim"
+      app:layout_constraintStart_toStartOf="@+id/picture_loading_anim"
+      app:layout_constraintTop_toTopOf="@+id/picture_loading_anim">
 
       <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -185,8 +185,6 @@
       app:cardCornerRadius="30dp"
       app:cardElevation="4dp"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="@+id/loading_anim"
-      app:layout_constraintStart_toStartOf="@+id/loading_anim"
       app:layout_constraintTop_toBottomOf="@+id/rv_suggestions">>
 
       <androidx.constraintlayout.widget.ConstraintLayout
@@ -337,9 +335,9 @@
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="30dp"
         app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="@+id/loading_anim"
-        app:layout_constraintStart_toStartOf="@+id/loading_anim"
-        app:layout_constraintTop_toTopOf="@+id/loading_anim">>
+        app:layout_constraintEnd_toEndOf="@+id/picture_loading_anim"
+        app:layout_constraintStart_toStartOf="@+id/picture_loading_anim"
+        app:layout_constraintTop_toTopOf="@+id/picture_loading_anim">>
 
         <androidx.constraintlayout.widget.ConstraintLayout
           android:layout_width="match_parent"
