@@ -5,8 +5,8 @@ import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
 
 import android.graphics.Bitmap;
 import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
+import com.carbonara.gardenadvisor.ai.funct.OnGeminiCameraSuggestionFail;
 import com.carbonara.gardenadvisor.ai.funct.OnGeminiCameraSuggestionSuccess;
-import com.carbonara.gardenadvisor.ai.funct.OnGeminiWrapperFail;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.ai.client.generativeai.GenerativeModel;
@@ -29,7 +29,9 @@ public class GeminiCameraSuggestionWrapper {
   }
 
   public void getGeminiResult(
-      Bitmap imageBitmap, OnGeminiCameraSuggestionSuccess onSuccess, OnGeminiWrapperFail onFail) {
+      Bitmap imageBitmap,
+      OnGeminiCameraSuggestionSuccess onSuccess,
+      OnGeminiCameraSuggestionFail onFail) {
 
     Content content =
         new Content.Builder().addImage(imageBitmap).addText(CAMERA_SUGGESTION_PROMPT).build();
