@@ -139,7 +139,7 @@ public class ConstPrompt {
           + "  \"suggestions\": a list of suggestions to take care of the plant\n"
           + "}\n"
           + "\n"
-          + "if you can't recognize the plant or the picture does not contain a plant, return an empty json object.\n"
+          + "if you can't recognize the plant or the picture does not contain a plant, return an empty string.\n"
           + "\n"
-          + "Important: Return the response exclusively in json format as a plain text without any Markdown formatting please";
+          + "Important: Return the response exclusively in plain text";
 }

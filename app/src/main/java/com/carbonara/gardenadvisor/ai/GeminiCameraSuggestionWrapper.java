@@ -2,13 +2,13 @@ package com.carbonara.gardenadvisor.ai;
 
 import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.CAMERA_SUGGESTION_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 import android.graphics.Bitmap;
 import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
 import com.carbonara.gardenadvisor.ai.funct.OnGeminiCameraSuggestionFail;
 import com.carbonara.gardenadvisor.ai.funct.OnGeminiCameraSuggestionSuccess;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
@@ -17,6 +17,7 @@ import com.google.ai.client.generativeai.type.GenerateContentResponse;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import java.io.IOException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -49,8 +50,15 @@ public class GeminiCameraSuggestionWrapper {
             try {
               GeminiCameraSuggestion cameraSuggestion =
                   mapper.readValue(result.getText(), GeminiCameraSuggestion.class);
+
+
+              if (isNullOrEmpty(cameraSuggestion.getStatus())
+                  || isNullOrEmpty(cameraSuggestion.getName())
+                  || isNullOrEmpty(cameraSuggestion.getScientificName()))
+                throw new IOException("Data is missing");
+
               onSuccess.getAnswer(cameraSuggestion);
-            } catch (JsonProcessingException e) {
+            } catch (IOException e) {
               onFail.getAnswerFail(e);
             }
           }
