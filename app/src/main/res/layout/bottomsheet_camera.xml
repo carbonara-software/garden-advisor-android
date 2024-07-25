@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  >
+
+<androidx.constraintlayout.widget.ConstraintLayout
   android:id="@+id/bottomsheet_camera"
   android:background="@drawable/flower_background"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
+
 
   <TextView
     android:id="@+id/textView4"
@@ -50,7 +56,7 @@
     android:layout_height="500dp"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
-    android:visibility="visible"
+    android:visibility="gone"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="1.0"
@@ -160,7 +166,7 @@
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/result_layout"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
+    android:layout_height="match_parent"
     android:layout_marginStart="20dp"
     android:layout_marginTop="32dp"
     android:layout_marginEnd="20dp"
@@ -169,34 +175,113 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+      android:id="@+id/success_retry_button"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_marginStart="10dp"
-      android:layout_marginEnd="10dp"
-      android:orientation="vertical"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:layout_marginBottom="20dp"
+      app:cardBackgroundColor="@color/white"
+      app:cardCornerRadius="30dp"
+      app:cardElevation="4dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="@+id/loading_anim"
+      app:layout_constraintStart_toStartOf="@+id/loading_anim"
+      app:layout_constraintTop_toBottomOf="@+id/rv_suggestions">>
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Take another picture"
+          android:textAlignment="center"
+          android:textSize="30sp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          tools:layout_editor_absoluteX="73dp"/>
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+      android:id="@+id/plant__name"
+      android:layout_width="0dp"
+      android:layout_height="43dp"
+      android:layout_marginTop="10dp"
+      android:text="TextView"
+      android:textAlignment="center"
+      android:textColor="@color/white"
+      android:textSize="34sp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
+      app:layout_constraintTop_toBottomOf="@+id/picture_view"
+      tools:layout_conversion_absoluteHeight="45dp"
+      tools:layout_conversion_absoluteWidth="371dp"/>
 
-      <TextView
-        android:id="@+id/plant__name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        />
+    <TextView
+      android:id="@+id/plant_scientific_name"
+      android:layout_width="0dp"
+      android:layout_height="22dp"
+      android:text="TextView"
+      android:textAlignment="center"
+      android:textColor="@color/white"
+      android:textSize="16sp"
+      app:layout_constraintEnd_toEndOf="@+id/plant__name"
+      app:layout_constraintStart_toStartOf="@+id/plant__name"
+      app:layout_constraintTop_toBottomOf="@+id/plant__name"
+      tools:layout_conversion_absoluteHeight="21dp"
+      tools:layout_conversion_absoluteWidth="371dp"/>
 
-      <TextView
-        android:id="@+id/plant_scientific_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        />
-    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/rv_suggestions"
+      android:layout_width="0dp"
+      android:layout_height="140dp"
+      android:layout_marginTop="10dp"
+      android:visibility="visible"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/status_text"
+      tools:layout_conversion_absoluteHeight="241dp"
+      tools:layout_conversion_absoluteWidth="371dp"/>
+
+    <TextView
+      android:id="@+id/status_emoji"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:text="😀"
+      android:textSize="40dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/plant_scientific_name"
+      tools:layout_conversion_absoluteHeight="53dp"
+      tools:layout_conversion_absoluteWidth="50dp"/>
+
+    <TextView
+      android:id="@+id/status_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="TextView"
+      android:textAlignment="center"
+      android:textColor="@color/white"
+      android:textSize="20sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/status_emoji"
+      tools:layout_conversion_absoluteHeight="80dp"
+      tools:layout_conversion_absoluteWidth="281dp"/>
+
+    <ImageView
+      android:id="@+id/picture_view"
+      android:layout_width="200dp"
+      android:layout_height="200dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:srcCompat="@tools:sample/avatars"/>
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -277,3 +362,4 @@
   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
