@@ -51,7 +51,6 @@ public class GeminiCameraSuggestionWrapper {
               GeminiCameraSuggestion cameraSuggestion =
                   mapper.readValue(result.getText(), GeminiCameraSuggestion.class);
 
-
               if (isNullOrEmpty(cameraSuggestion.getStatus())
                   || isNullOrEmpty(cameraSuggestion.getName())
                   || isNullOrEmpty(cameraSuggestion.getScientificName()))
