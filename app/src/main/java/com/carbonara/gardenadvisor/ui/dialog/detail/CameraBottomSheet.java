@@ -19,12 +19,16 @@ import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.PictureResult;
 import com.otaliastudios.cameraview.controls.Audio;
 import com.otaliastudios.cameraview.controls.Mode;
+import java.util.Arrays;
+import java.util.List;
 
 public class CameraBottomSheet extends BottomSheetDialogFragment {
 
   private BottomsheetCameraBinding binding;
 
   private GeminiCameraSuggestionWrapper cameraSuggestionWrapper;
+
+  private List<View> layouts;
 
   @Nullable
   @Override
@@ -34,6 +38,11 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
       @Nullable Bundle savedInstanceState) {
     binding = BottomsheetCameraBinding.inflate(inflater, container, false);
     cameraSuggestionWrapper = new GeminiCameraSuggestionWrapper();
+
+    layouts =
+        Arrays.asList(
+            binding.cameraLayout, binding.loadingLayout, binding.resultLayout, binding.errorLayout);
+
     return binding.getRoot();
   }
 
@@ -56,11 +65,19 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
     takePictureButton.setOnClickListener(v -> camera.takePicture());
 
     binding.close.setOnClickListener(v -> dismiss());
+    binding.errorRetryButton.setOnClickListener(
+        v -> {
+          hideAllLayouts();
+          binding.cameraLayout.setVisibility(View.VISIBLE);
+        });
   }
 
   private void pictureTaken(Bitmap bitmap) {
     cameraSuggestionWrapper.getGeminiResult(
         bitmap, this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
+
+    hideAllLayouts();
+    binding.loadingLayout.setVisibility(View.VISIBLE);
   }
 
   public void cameraSuggestionSuccess(GeminiCameraSuggestion cameraSuggestion) {
@@ -68,10 +85,22 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
         .runOnUiThread(
             () -> {
               loge(cameraSuggestion.toString());
+              hideAllLayouts();
+              binding.resultLayout.setVisibility(View.VISIBLE);
             });
   }
 
   public void cameraSuggestionFailure(Throwable t) {
-    loge(t);
+    requireActivity()
+        .runOnUiThread(
+            () -> {
+              loge(t);
+              hideAllLayouts();
+              binding.errorLayout.setVisibility(View.VISIBLE);
+            });
+  }
+
+  private void hideAllLayouts() {
+    layouts.forEach(f -> f.setVisibility(View.GONE));
   }
 }
