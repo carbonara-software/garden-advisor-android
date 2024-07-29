@@ -25,8 +25,16 @@
     <argument
       android:name="garden"
       app:argType="com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants"/>
+    <action
+      android:id="@+id/action_gardenFragment_to_addPlantsFragment"
+      app:destination="@id/addPlantsFragment"/>
   </fragment>
   <action android:id="@+id/action_global_home" app:destination="@id/home"/><action android:id="@+id/action_global_gardensFragment" app:destination="@id/gardensFragment"/>
+  <fragment
+    android:id="@+id/addPlantsFragment"
+    android:name="com.carbonara.gardenadvisor.ui.addplants.AddPlantsFragment"
+    android:label="fragment_add_plants"
+    tools:layout="@layout/fragment_add_plants"/>
 
   <!--    <dialog-->
 <!--        android:id="@+id/loading_dialog"-->

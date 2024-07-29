@@ -20,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.carbonara.gardenadvisor.R;
+import com.carbonara.gardenadvisor.ai.GeminiWrapper;
+import com.carbonara.gardenadvisor.ai.HomeGeminiWrapper;
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.databinding.FragmentHomeBinding;
@@ -99,14 +101,14 @@ public class HomeFragment extends BaseFragment {
         displayErrorDialog(getString(R.string.error_location));
         return;
       }
-      //      displayLoadingDialog();
-      //      GeminiWrapper wrapper =
-      //          new HomeGeminiWrapper(
-      //              (float) current.getLatitude(), (float) current.getLongitude(),
-      // current.getLocality());
-      //      wrapper.getGeminiResult(this::successWeather, this::successSuggestions, this::fail);
-      //      hasFinishSuggestions = false;
-      //      hasFinishWeather = false;
+            displayLoadingDialog();
+            GeminiWrapper wrapper =
+                new HomeGeminiWrapper(
+                    (float) current.getLatitude(), (float) current.getLongitude(),
+       current.getLocality());
+            wrapper.getGeminiResult(this::successWeather, this::successSuggestions, this::fail);
+            hasFinishSuggestions = false;
+            hasFinishWeather = false;
     } else {
       displayErrorDialog(getString(R.string.error_location));
     }

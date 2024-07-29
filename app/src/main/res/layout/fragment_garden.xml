@@ -109,6 +109,7 @@
         app:layout_constraintStart_toStartOf="@id/city_temp_min"
         app:layout_constraintTop_toBottomOf="@id/city_temp_min"/>
 
+
       <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_weather"
         android:layout_width="match_parent"
@@ -123,12 +124,76 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
   </androidx.cardview.widget.CardView>
 
+  <TextView
+    android:id="@+id/label_plants"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:text="@string/plants"
+    android:textAlignment="viewStart"
+    android:textColor="@color/app_accent_1"
+    android:textSize="24sp"
+    app:layout_constraintTop_toBottomOf="@id/cardWeather"
+    app:layout_constraintStart_toStartOf="parent"/>
+
+  <ImageView
+    android:id="@+id/add_plant"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_marginEnd="20dp"
+    app:layout_constraintEnd_toEndOf="@id/label_plants"
+    app:layout_constraintTop_toTopOf="@id/label_plants"
+    android:padding="8dp"
+    android:src="@drawable/ic_add"
+    app:tint="@color/black"/>
+
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/lista_items"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    app:layout_constraintTop_toBottomOf="@id/cardWeather"
+    app:layout_constraintTop_toBottomOf="@id/label_plants"
     app:layout_constraintBottom_toBottomOf="parent"
     android:layout_margin="8dp"/>
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:visibility="gone"
+    app:layout_constraintTop_toBottomOf="@id/label_plants"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:padding="8dp"
+    android:id="@+id/empty_list_gardens">
+
+    <TextView
+      android:id="@+id/no_gardens"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      android:layout_marginEnd="8dp"
+      android:layout_marginTop="8dp"
+      android:text="@string/no_plants"
+      android:textAlignment="center"
+      android:textColor="@color/app_accent_1"
+      android:padding="16dp"
+      android:textSize="24sp"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+      android:id="@+id/btn_add_garden"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:backgroundTint="@color/black"
+      android:textColor="@color/white"
+      android:text="ADD"
+      android:layout_marginTop="16dp"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/no_gardens"
+      android:layout_marginBottom="26dp"/>
+
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
