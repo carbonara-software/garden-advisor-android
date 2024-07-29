@@ -101,13 +101,13 @@ public class HomeFragment extends BaseFragment {
         displayErrorDialog(getString(R.string.error_location));
         return;
       }
-      displayLoadingDialog();
-      GeminiWrapper wrapper =
-          new HomeGeminiWrapper(
-              (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
-      wrapper.getGeminiResult(this::successWeather, this::successSuggestions, this::fail);
-      hasFinishSuggestions = false;
-      hasFinishWeather = false;
+//      displayLoadingDialog();
+//      GeminiWrapper wrapper =
+//          new HomeGeminiWrapper(
+//              (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
+//      wrapper.getGeminiResult(this::successWeather, this::successSuggestions, this::fail);
+//      hasFinishSuggestions = false;
+//      hasFinishWeather = false;
     } else {
       displayErrorDialog(getString(R.string.error_location));
     }

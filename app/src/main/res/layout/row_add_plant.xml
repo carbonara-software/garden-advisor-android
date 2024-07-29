@@ -11,7 +11,9 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_delete"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
@@ -34,6 +36,29 @@
 
       </com.google.android.material.textfield.TextInputLayout>
 
+  <ImageView
+    android:id="@+id/img_delete"
+    android:layout_width="30dp"
+    android:layout_height="30dp"
+    android:layout_marginEnd="16dp"
+    android:src="@drawable/ic_delete"
+    app:tint="@color/red"
+    android:visibility="gone"
+    app:layout_constraintTop_toTopOf="@id/tf_plant_name"
+    app:layout_constraintBottom_toBottomOf="@id/tf_plant_name"
+    app:layout_constraintEnd_toStartOf="@id/txt_close" />
+  <TextView
+    android:id="@+id/txt_close"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
+    android:text="CLOSE"
+    android:textSize="16sp"
+    app:tint="@color/black"
+    android:visibility="gone"
+    app:layout_constraintTop_toTopOf="@id/tf_plant_name"
+    app:layout_constraintBottom_toBottomOf="@id/tf_plant_name"
+    app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

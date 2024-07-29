@@ -12,12 +12,20 @@ import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CreatePlantsInGardenEmitter implements ObservableOnSubscribe<Boolean> {
 
   private final Context c;
   private final Garden garden;
   private final List<Plant> plants;
+
+  public CreatePlantsInGardenEmitter(Context c, Garden garden, Set<Plant> plants) {
+    this.c = c;
+    this.garden = garden;
+    this.plants = new ArrayList<>(plants);
+  }
 
   public CreatePlantsInGardenEmitter(Context c, Garden garden, List<Plant> plants) {
     this.c = c;

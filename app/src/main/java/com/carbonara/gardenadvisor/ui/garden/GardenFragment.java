@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.carbonara.gardenadvisor.ai.GardenGeminiWrapper;
@@ -18,12 +19,23 @@ import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.databinding.FragmentGardenBinding;
 import com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants;
+import com.carbonara.gardenadvisor.ui.gardens.GardensFragmentDirections;
 import com.carbonara.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
 import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
+import com.carbonara.gardenadvisor.util.task.CreateGardenEmitter;
+import com.carbonara.gardenadvisor.util.task.CreatePlantsInGardenEmitter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class GardenFragment extends BaseFragment {
 
@@ -32,6 +44,7 @@ public class GardenFragment extends BaseFragment {
   GardenGeminiWrapper gardenGeminiWrapper;
   private boolean hasFinishWeather;
   private boolean hasFinishSuggestions;
+  private Disposable d;
 
   private void fail(Throwable throwable) {
     displayErrorDialog("Error retrieving weather and suggestions");
@@ -45,7 +58,14 @@ public class GardenFragment extends BaseFragment {
     items.addAll(geminiGardeningSugg.getFlowers());
     items.addAll(geminiGardeningSugg.getFruits());
     items.addAll(geminiGardeningSugg.getVegetables());
-    if (getActivity() != null) {
+    gardenWithPlants.setPlants(items.stream().map(GardeningItem::toDO).collect(Collectors.toSet()));
+    d =
+        Observable.create(new CreatePlantsInGardenEmitter(requireContext(), gardenWithPlants.getGarden(),
+                gardenWithPlants.getPlants()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::handleOnNext, this::handleError, this::handleComplete);
+    if (getActivity() != null && isAdded()) {
       getActivity()
           .runOnUiThread(
               new Runnable() {
@@ -67,38 +87,53 @@ public class GardenFragment extends BaseFragment {
     }
   }
 
+  private void handleComplete() {
+
+  }
+
+  private void handleError(Throwable throwable) {
+    
+  }
+
+  private void handleOnNext(Boolean aBoolean) {
+    
+  }
+
   private void successWeather(GeminiWeather s) {
     //    closeDialog();
     hasFinishWeather = true;
     if (hasFinishSuggestions) closeDialog();
-    requireActivity()
-        .runOnUiThread(
-            () -> {
-              WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
-              LinearLayoutManager llm =
-                  new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-              binding.listWeather.setAdapter(adp);
-              binding.listWeather.setLayoutManager(llm);
-              binding.city.setText(gardenWithPlants.getGarden().getLocation().getLocationName());
-              binding.iconWeather.setImageResource(
-                  getIcon(s.getWeather().getTodayForecast().getIcon()));
-              binding.cityTempMaxValue.setText(
-                  String.format(
-                      Locale.getDefault(),
-                      "%.1f°",
-                      s.getWeather().getTodayForecast().getMaxTemp()));
-              binding.cityTempMinValue.setText(
-                  String.format(
-                      Locale.getDefault(),
-                      "%.1f°",
-                      s.getWeather().getTodayForecast().getMinTemp()));
-              binding.cityTemp.setText(
-                  String.format(
-                      Locale.getDefault(),
-                      "%.1f° | %s",
-                      s.getWeather().getTodayForecast().getCurrentTemp(),
-                      s.getWeather().getTodayForecast().getConditions()));
-            });
+    if(getActivity()!=null) {
+      getActivity()
+          .runOnUiThread(
+              () -> {
+                WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
+                LinearLayoutManager llm =
+                    new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL,
+                        false);
+                binding.listWeather.setAdapter(adp);
+                binding.listWeather.setLayoutManager(llm);
+                binding.city.setText(gardenWithPlants.getGarden().getLocation().getLocationName());
+                binding.iconWeather.setImageResource(
+                    getIcon(s.getWeather().getTodayForecast().getIcon()));
+                binding.cityTempMaxValue.setText(
+                    String.format(
+                        Locale.getDefault(),
+                        "%.1f°",
+                        s.getWeather().getTodayForecast().getMaxTemp()));
+                binding.cityTempMinValue.setText(
+                    String.format(
+                        Locale.getDefault(),
+                        "%.1f°",
+                        s.getWeather().getTodayForecast().getMinTemp()));
+                binding.cityTemp.setText(
+                    String.format(
+                        Locale.getDefault(),
+                        "%.1f° | %s",
+                        s.getWeather().getTodayForecast().getCurrentTemp(),
+                        s.getWeather().getTodayForecast().getConditions()));
+              });
+    }
   }
 
   @Override
@@ -113,8 +148,15 @@ public class GardenFragment extends BaseFragment {
     super.onViewCreated(view, savedInstanceState);
     hideBottomBar();
     if (getArguments() != null) {
-      gardenWithPlants = GardenFragmentArgs.fromBundle(getArguments()).getGarden();
-      gardenGeminiWrapper = new GardenGeminiWrapper(gardenWithPlants);
+      GardenFragmentArgs args = GardenFragmentArgs.fromBundle(getArguments());
+      gardenWithPlants = args.getGarden();
+      if(args.getPlants()!=null && args.getPlants().length>0){
+        gardenGeminiWrapper = new GardenGeminiWrapper(gardenWithPlants,
+            Arrays.asList(args.getPlants()));
+        
+      }else {
+        gardenGeminiWrapper = new GardenGeminiWrapper(gardenWithPlants);
+      }
       binding.city.setText(gardenWithPlants.getGarden().getLocation().getLocationName());
 
       gardenGeminiWrapper.getGeminiResult(
@@ -126,5 +168,8 @@ public class GardenFragment extends BaseFragment {
     }
   }
 
-  private void addPlantPressed(View view) {}
+  private void addPlantPressed(View view) {
+    Navigation.findNavController(view)
+        .navigate(GardenFragmentDirections.actionGardenFragmentToAddPlantsFragment(gardenWithPlants));
+  }
 }
