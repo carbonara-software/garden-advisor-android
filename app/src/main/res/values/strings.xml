@@ -10,5 +10,34 @@
     <string name="max_temp">Max Temp.</string>
     <string name="min_temp">Min Temp.</string>
     <string name="fun_facts">Fun Facts</string>
+    <string name="ga_camera">AI Camera</string>
+  <string name="take_a_picture_of_a_plant">Take a picture of a plant</string>
+  <string name="take_a_picture">Take a Picture</string>
+  <string name="loading_picture_taken">Crunching data...</string>
+  <string name="take_another_picture">Take another picture</string>
+  <string name="plant_name">Plant Name</string>
+  <string name="scientific_name">Scientific Name</string>
+  <string name="smile_utf">😀</string>
+  <string name="status_text_placeholder">Status Text Placeholder</string>
+  <string name="picture_taken">Picture Taken</string>
+  <string name="camera_error_message">Something went wrong ☹️</string>
+  <string name="try_again">Try again</string>
+  <string name="closet">Closet</string>
+  <string name="close">Close</string>
+  <string name="ga_score_placeholder">10</string>
+  <string name="suggestions">Suggestions</string>
+  <string name="cautions">Cautions</string>
+  <string name="leaf">Leaf</string>
+  <string name="positives">Positives</string>
+  <string name="loading_error_message">Oooops...</string>
+  <string name="loading_error_description">Something went terribly wrong</string>
+  <string name="success">Success!</string>
+  <string name="well_done">Well Done!</string>
+  <string name="loading_location">Loading Location</string>
+  <string name="weather_icon">Weather Icon</string>
+  <string name="card_score_placeholder">1</string>
+  <string name="recommended_icon">Recommended Icon</string>
+  <string name="app_logo">App Logo</string>
+  <string name="camera_button">Camera Button</string>
 
 </resources>
