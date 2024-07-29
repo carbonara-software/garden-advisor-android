@@ -17,26 +17,27 @@ public class AddPlantViewHolder extends ViewHolder {
   public AddPlantViewHolder(@NonNull View itemView, AddPlantCallback callback) {
     super(itemView);
     binding = RowAddPlantBinding.bind(itemView);
-
   }
 
   public void setS(String s) {
     this.s = s;
-    if(binding.tfPlantName.getEditText() != null) {
-      binding.tfPlantName.getEditText().addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+    if (binding.tfPlantName.getEditText() != null) {
+      binding
+          .tfPlantName
+          .getEditText()
+          .addTextChangedListener(
+              new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-          callback.onPlantTextAdded(getAdapterPosition(),s.toString());
-        }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                  callback.onPlantTextAdded(getAdapterPosition(), s.toString());
+                }
 
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-      });
+                @Override
+                public void afterTextChanged(Editable s) {}
+              });
     }
   }
 }

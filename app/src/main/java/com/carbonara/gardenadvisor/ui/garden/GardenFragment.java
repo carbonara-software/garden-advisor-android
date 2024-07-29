@@ -45,25 +45,25 @@ public class GardenFragment extends BaseFragment {
     items.addAll(geminiGardeningSugg.getFlowers());
     items.addAll(geminiGardeningSugg.getFruits());
     items.addAll(geminiGardeningSugg.getVegetables());
-    if(getActivity()!=null) {
-      getActivity().runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-          if (items.isEmpty()) {
-            binding.emptyListGardens.setVisibility(View.VISIBLE);
-            binding.listaItems.setVisibility(GONE);
-          } else {
-            binding.emptyListGardens.setVisibility(GONE);
-            binding.listaItems.setVisibility(View.VISIBLE);
-            GardeningItemAdapter adp = new GardeningItemAdapter(items);
-            GridLayoutManager llm =
-                new GridLayoutManager(requireContext(), 2);
-            binding.listaItems.setAdapter(adp);
-            binding.listaItems.setLayoutManager(llm);
-          }
-        }
-      });
-
+    if (getActivity() != null) {
+      getActivity()
+          .runOnUiThread(
+              new Runnable() {
+                @Override
+                public void run() {
+                  if (items.isEmpty()) {
+                    binding.emptyListGardens.setVisibility(View.VISIBLE);
+                    binding.listaItems.setVisibility(GONE);
+                  } else {
+                    binding.emptyListGardens.setVisibility(GONE);
+                    binding.listaItems.setVisibility(View.VISIBLE);
+                    GardeningItemAdapter adp = new GardeningItemAdapter(items);
+                    GridLayoutManager llm = new GridLayoutManager(requireContext(), 2);
+                    binding.listaItems.setAdapter(adp);
+                    binding.listaItems.setLayoutManager(llm);
+                  }
+                }
+              });
     }
   }
 
@@ -126,8 +126,5 @@ public class GardenFragment extends BaseFragment {
     }
   }
 
-  private void addPlantPressed(View view) {
-
-
-  }
+  private void addPlantPressed(View view) {}
 }

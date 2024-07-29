@@ -12,7 +12,7 @@ public class PlantsGeminiWrapper extends GeminiWrapper {
 
   private final Set<String> plants;
 
-  public PlantsGeminiWrapper(Garden garden,Set<String> plants) {
+  public PlantsGeminiWrapper(Garden garden, Set<String> plants) {
     super(
         garden.getLocation().getLat(),
         garden.getLocation().getLon(),

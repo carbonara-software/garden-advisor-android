@@ -5,7 +5,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import com.carbonara.gardenadvisor.R;
-import com.carbonara.gardenadvisor.ui.addplants.adapter.callbacks.AddPlantCallback;
 import com.carbonara.gardenadvisor.ui.addplants.adapter.viewholder.AddPlantViewHolder;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,6 @@ public class AddPlantAdapter extends Adapter<AddPlantViewHolder> {
 
   private List<String> plants;
 
-
   public AddPlantAdapter(List<String> plants) {
     this.plants = plants;
   }
@@ -22,13 +20,13 @@ public class AddPlantAdapter extends Adapter<AddPlantViewHolder> {
   @NonNull
   @Override
   public AddPlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return new AddPlantViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.row_add_plant, parent, false),this::itemTextChange);
+    return new AddPlantViewHolder(
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.row_add_plant, parent, false),
+        this::itemTextChange);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull AddPlantViewHolder holder, int position) {
-
-  }
+  public void onBindViewHolder(@NonNull AddPlantViewHolder holder, int position) {}
 
   @Override
   public int getItemCount() {
@@ -48,9 +46,8 @@ public class AddPlantAdapter extends Adapter<AddPlantViewHolder> {
     notifyItemInserted(plants.size() - 1);
   }
 
-  public void itemTextChange(int position, String s){
+  public void itemTextChange(int position, String s) {
     plants.set(position, s);
     notifyItemChanged(position);
   }
-
 }
