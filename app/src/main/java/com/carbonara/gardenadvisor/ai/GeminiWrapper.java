@@ -73,7 +73,7 @@ public abstract class GeminiWrapper {
       OnGeminiWrapperSuggestionsSuccess successSugg, OnGeminiWrapperFail fail) {
     this.successSugg = successSugg;
     this.fail = fail;
-    processGeminiRequestMeteo();
+    processGeminiRequestSugg();
   }
 
   private void processGeminiRequestMeteo() {
@@ -201,11 +201,16 @@ public abstract class GeminiWrapper {
                   try {
                     loge("JSON: " + resultText);
                     ObjectMapper mapper = new ObjectMapper();
+                    resultText = resultText.replaceAll("```json", "").replaceAll("```", "");
                     GeminiGardeningSugg sugg =
                         mapper.readValue(resultText, GeminiGardeningSugg.class);
                     successSugg.getAnswer(sugg);
                   } catch (JsonProcessingException e) {
+                    loge("Error parsing gemini response:",e);
                     fail.getAnswerFail(e);
+                  }catch (NullPointerException ex){
+                    loge("Error parsing gemini response null:",ex);
+                    fail.getAnswerFail(ex);
                   }
                 },
                 throwable -> fail.getAnswerFail(throwable));

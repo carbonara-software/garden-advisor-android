@@ -12,7 +12,7 @@ public class BaseFragment extends Fragment {
   DialogFragment dialog;
 
   public void displayErrorDialog(String message) {
-    if (dialog != null) {
+    if (dialog != null && getContext() != null) {
       dialog.dismiss();
     }
     dialog = new ErrorDialog(message);
@@ -20,7 +20,7 @@ public class BaseFragment extends Fragment {
   }
 
   public void displaySuccessDialog(String message) {
-    if (dialog != null) {
+    if (dialog != null && getContext() != null) {
       dialog.dismiss();
     }
     dialog = new SuccessDialog(message);
@@ -28,7 +28,7 @@ public class BaseFragment extends Fragment {
   }
 
   public void displayLoadingDialog() {
-    if (dialog != null) {
+    if (dialog != null && getContext() != null) {
       dialog.dismiss();
     }
     dialog = new LoadingDialog();
@@ -36,7 +36,7 @@ public class BaseFragment extends Fragment {
   }
 
   public void closeDialog() {
-    if (dialog != null) {
+    if (dialog != null && getContext() != null) {
       dialog.dismiss();
     }
   }

@@ -108,25 +108,28 @@ public class GardenFragment extends BaseFragment {
   }
 
   private void successWeather(GeminiWeather s) {
-    WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
-    LinearLayoutManager llm =
-        new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-    binding.listWeather.setAdapter(adp);
-    binding.listWeather.setLayoutManager(llm);
-    binding.city.setText(args.getGarden().getGarden().getLocation().getLocationName());
-    binding.iconWeather.setImageResource(getIcon(s.getWeather().getTodayForecast().getIcon()));
-    binding.cityTempMaxValue.setText(
-        String.format(
-            Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMaxTemp()));
-    binding.cityTempMinValue.setText(
-        String.format(
-            Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMinTemp()));
-    binding.cityTemp.setText(
-        String.format(
-            Locale.getDefault(),
-            "%.1f° | %s",
-            s.getWeather().getTodayForecast().getCurrentTemp(),
-            s.getWeather().getTodayForecast().getConditions()));
+    if(getContext() != null ) {
+      WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
+
+      LinearLayoutManager llm =
+          new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+      binding.listWeather.setAdapter(adp);
+      binding.listWeather.setLayoutManager(llm);
+      binding.city.setText(args.getGarden().getGarden().getLocation().getLocationName());
+      binding.iconWeather.setImageResource(getIcon(s.getWeather().getTodayForecast().getIcon()));
+      binding.cityTempMaxValue.setText(
+          String.format(
+              Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMaxTemp()));
+      binding.cityTempMinValue.setText(
+          String.format(
+              Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMinTemp()));
+      binding.cityTemp.setText(
+          String.format(
+              Locale.getDefault(),
+              "%.1f° | %s",
+              s.getWeather().getTodayForecast().getCurrentTemp(),
+              s.getWeather().getTodayForecast().getConditions()));
+    }
   }
 
   private void failGarden(Throwable throwable) {
