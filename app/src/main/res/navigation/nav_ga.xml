@@ -59,7 +59,7 @@
       android:id="@+id/action_addPlantsFragment_to_gardenFragment"
       app:destination="@id/gardenFragment"
       app:popUpTo="@id/gardenFragment"
-      app:popUpToInclusive="false"/>
+      app:popUpToInclusive="true"/>
   </fragment>
 
   <!--    <dialog-->

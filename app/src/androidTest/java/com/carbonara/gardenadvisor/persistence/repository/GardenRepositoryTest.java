@@ -91,13 +91,9 @@ public class GardenRepositoryTest {
   }
 
   private List<Plant> getPlants() {
-    Plant tomato = new Plant();
-    tomato.setPlantName("Tomato");
-    tomato.setType(PlantType.FRUIT);
+    Plant tomato = Plant.builder().plantName("Tomato").type(PlantType.FRUIT).build();
 
-    Plant sunflower = new Plant();
-    sunflower.setPlantName("Sunflower");
-    sunflower.setType(PlantType.FLOWER);
+    Plant sunflower = Plant.builder().plantName("Sunflower").type(PlantType.FLOWER).build();
 
     return Arrays.asList(tomato, sunflower);
   }

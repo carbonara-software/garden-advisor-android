@@ -34,9 +34,7 @@ public class PlantDaoTest {
 
   @Test
   public void crud() {
-    Plant testPlant = new Plant();
-    testPlant.setPlantName("Tomato");
-    testPlant.setType(PlantType.VEGETABLE);
+    Plant testPlant = Plant.builder().plantName("Tomato").type(PlantType.VEGETABLE).build();
 
     dao.insertPlant(testPlant).blockingAwait();
 
