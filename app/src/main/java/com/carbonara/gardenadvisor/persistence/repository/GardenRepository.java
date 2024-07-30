@@ -24,6 +24,10 @@ public class GardenRepository {
     return gardenDao.getGardensWithPlants();
   }
 
+  public Flowable<GardenWithPlants> getGardenWithPlants(long id) {
+    return gardenDao.getGardenWithPlants(id);
+  }
+
   public Completable insertGarden(Garden garden) {
     return gardenDao.insertGarden(garden);
   }
@@ -35,6 +39,10 @@ public class GardenRepository {
 
   public Completable deletePlant(Plant plant) {
     return plantDao.deletePlant(plant);
+  }
+
+  public Completable deletePlantsFromGarden(Garden garden) {
+    return gardenDao.deletePlantsFromGarden(garden.getId());
   }
 
   public Completable deleteGarden(Garden garden) {

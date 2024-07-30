@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.carbonara.gardenadvisor.databinding.FragmentAddPlantsBinding;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.carbonara.gardenadvisor.databinding.FragmentAddPlantsBinding;
 import com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants;
 import com.carbonara.gardenadvisor.ui.addplants.adapter.AddPlantAdapter;
 import com.carbonara.gardenadvisor.ui.addplants.adapter.swipe.SwipeToDeleteCallback;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +25,8 @@ public class AddPlantsFragment extends Fragment {
   GardenWithPlants gardenWithPlants;
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+  public View onCreateView(
+      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentAddPlantsBinding.inflate(inflater, container, false);
     return binding.getRoot();
   }
@@ -36,7 +35,7 @@ public class AddPlantsFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    if(getArguments() != null) {
+    if (getArguments() != null) {
       AddPlantsFragmentArgs args = AddPlantsFragmentArgs.fromBundle(getArguments());
       gardenWithPlants = args.getGarden();
       List<String> plants = new ArrayList<>();
@@ -60,10 +59,9 @@ public class AddPlantsFragment extends Fragment {
     if (adapter != null) {
       plants = adapter.getPlants();
       Navigation.findNavController(view)
-          .navigate(AddPlantsFragmentDirections
-              .actionAddPlantsFragmentToGardenFragment(gardenWithPlants)
-              .setPlants(plants.toArray(new String[plants.size()])));
+          .navigate(
+              AddPlantsFragmentDirections.actionAddPlantsFragmentToGardenFragment(gardenWithPlants)
+                  .setPlants(plants.toArray(new String[plants.size()])));
     }
   }
-
 }

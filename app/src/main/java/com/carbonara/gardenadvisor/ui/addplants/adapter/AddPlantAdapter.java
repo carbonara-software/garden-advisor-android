@@ -7,17 +7,14 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 import com.carbonara.gardenadvisor.R;
 import com.carbonara.gardenadvisor.ui.addplants.adapter.callbacks.DeletePlantCallback;
 import com.carbonara.gardenadvisor.ui.addplants.adapter.viewholder.AddPlantViewHolder;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
 public class AddPlantAdapter extends Adapter<AddPlantViewHolder> {
 
-  @Getter
-  private final List<String> plants;
-  @Setter
-  private DeletePlantCallback delCallback;
+  @Getter private final List<String> plants;
+  @Setter private DeletePlantCallback delCallback;
 
   public AddPlantAdapter(List<String> plants) {
     this.plants = plants;
@@ -28,7 +25,8 @@ public class AddPlantAdapter extends Adapter<AddPlantViewHolder> {
   public AddPlantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     return new AddPlantViewHolder(
         LayoutInflater.from(parent.getContext()).inflate(R.layout.row_add_plant, parent, false),
-        this::itemTextChange, this::removeItem);
+        this::itemTextChange,
+        this::removeItem);
   }
 
   @Override
@@ -48,13 +46,12 @@ public class AddPlantAdapter extends Adapter<AddPlantViewHolder> {
 
   public void removeItem(int position) {
     plants.remove(position);
-    if(delCallback != null)
-      delCallback.onDeleteClicked(position);
+    if (delCallback != null) delCallback.onDeleteClicked(position);
     notifyItemRemoved(position);
   }
 
   public void itemTextChange(int position, String s) {
     plants.set(position, s);
-    //notifyItemChanged(position);
+    // notifyItemChanged(position);
   }
 }

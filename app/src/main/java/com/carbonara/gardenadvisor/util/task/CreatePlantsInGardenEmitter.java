@@ -10,16 +10,19 @@ import com.carbonara.gardenadvisor.persistence.repository.GardenRepository;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CreatePlantsInGardenEmitter implements ObservableOnSubscribe<Boolean> {
 
   private final Context c;
   private final Garden garden;
   private final List<Plant> plants;
+  private Disposable d;
+  private GardenRepository repo;
+  private ObservableEmitter<Boolean> emitter;
 
   public CreatePlantsInGardenEmitter(Context c, Garden garden, Set<Plant> plants) {
     this.c = c;
@@ -42,12 +45,26 @@ public class CreatePlantsInGardenEmitter implements ObservableOnSubscribe<Boolea
 
   @Override
   public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Throwable {
+    this.emitter = emitter;
     GardenDao gDao = AppDatabase.getDatabase(c).gardenDao();
     PlantDao pDao = AppDatabase.getDatabase(c).plantDao();
-    GardenRepository repo = new GardenRepository(gDao, pDao);
-    repo.addPlantsToGarden(garden.getId(), plants)
-        .doOnError(emitter::tryOnError)
-        .doOnComplete(emitter::onComplete)
-        .subscribe();
+    repo = new GardenRepository(gDao, pDao);
+    d = repo.deletePlantsFromGarden(garden).subscribe(this::onCompleteDelete, this::onErrorDelete);
+  }
+
+  private void onErrorDelete(Throwable throwable) {
+    if (emitter != null && !emitter.isDisposed()) {
+      // Not shure but this could lead in a crash because it might opens
+      // a dialog and it is running in the background thread... Vincenzo will fix this <3
+      emitter.tryOnError(throwable);
+    }
+  }
+
+  private void onCompleteDelete() {
+    if (emitter != null && !emitter.isDisposed())
+      repo.addPlantsToGarden(garden.getId(), plants)
+          .doOnError(emitter::tryOnError)
+          .doOnComplete(emitter::onComplete)
+          .subscribe();
   }
 }

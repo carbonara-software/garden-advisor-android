@@ -5,7 +5,10 @@ import com.carbonara.gardenadvisor.persistence.entity.PlantType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,6 +16,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Builder
 public class GardeningItem {
 
   @JsonInclude(Include.NON_NULL)
@@ -54,6 +58,20 @@ public class GardeningItem {
         .recommended(gardeningItem.recommended)
         .recommendedScore(gardeningItem.recommendedScore)
         .maintenanceScore(gardeningItem.maintenanceScore)
+        .build();
+  }
+
+  public static GardeningItem toDO(Plant plant) {
+    return GardeningItem.builder()
+        .id(plant.getId())
+        .gardenId(plant.getGardenId())
+        .name(plant.getPlantName())
+        .type(GardeningItemType.valueOf(plant.getType().toString()))
+        .cautions(Arrays.stream(plant.getCautions().split(",")).collect(Collectors.toList()))
+        .positives(Arrays.stream(plant.getPositives().split(",")).collect(Collectors.toList()))
+        .recommended(plant.getRecommended())
+        .recommendedScore(plant.getRecommendedScore())
+        .maintenanceScore(plant.getMaintenanceScore())
         .build();
   }
 }

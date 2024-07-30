@@ -38,10 +38,14 @@
       app:nullable="true"
       android:defaultValue="@null"/>
   </fragment>
-  <action android:id="@+id/action_global_home" app:destination="@id/home"/>
+  <action
+    android:id="@+id/action_global_home"
+    app:destination="@id/home"
+    app:popUpToInclusive="true"/>
   <action
     android:id="@+id/action_global_gardensFragment"
     app:destination="@id/gardensFragment"
+    app:popUpTo="@id/home"
     app:popUpToInclusive="true"/>
   <fragment
     android:id="@+id/addPlantsFragment"

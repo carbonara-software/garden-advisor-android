@@ -14,7 +14,7 @@ import lombok.SneakyThrows;
 public class GardenGeminiWrapper extends GeminiWrapper {
 
   private final Set<Plant> plants;
-  private Set<String> plantsToResolve = new TreeSet<>();
+  private final Set<String> plantsToResolve = new TreeSet<>();
 
   public GardenGeminiWrapper(GardenWithPlants garden) {
     super(
@@ -38,7 +38,7 @@ public class GardenGeminiWrapper extends GeminiWrapper {
   public String getGardeningSuggestionPrompt() {
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(Include.NON_EMPTY);
-    if(plantsToResolve.isEmpty()) {
+    if (plantsToResolve.isEmpty()) {
       return weatherString
           + "\n"
           + "Location Name: "
@@ -48,7 +48,7 @@ public class GardenGeminiWrapper extends GeminiWrapper {
           + new ObjectMapper().writeValueAsString(plants)
           + "\n"
           + GARDEN_SUGGESTION_PROMPT;
-    }else{
+    } else {
       return weatherString
           + "\n"
           + "Location Name: "
