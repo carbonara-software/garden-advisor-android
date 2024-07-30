@@ -206,10 +206,10 @@ public abstract class GeminiWrapper {
                         mapper.readValue(resultText, GeminiGardeningSugg.class);
                     successSugg.getAnswer(sugg);
                   } catch (JsonProcessingException e) {
-                    loge("Error parsing gemini response:",e);
+                    loge("Error parsing gemini response:", e);
                     fail.getAnswerFail(e);
-                  }catch (NullPointerException ex){
-                    loge("Error parsing gemini response null:",ex);
+                  } catch (NullPointerException ex) {
+                    loge("Error parsing gemini response null:", ex);
                     fail.getAnswerFail(ex);
                   }
                 },

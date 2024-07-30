@@ -108,7 +108,7 @@ public class GardenFragment extends BaseFragment {
   }
 
   private void successWeather(GeminiWeather s) {
-    if(getContext() != null ) {
+    if (getContext() != null) {
       WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
 
       LinearLayoutManager llm =

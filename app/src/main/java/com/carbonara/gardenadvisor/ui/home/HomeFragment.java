@@ -101,8 +101,7 @@ public class HomeFragment extends BaseFragment {
         displayErrorDialog(getString(R.string.error_location));
         return;
       }
-      if(getActivity() != null)
-        displayLoadingDialog();
+      if (getActivity() != null) displayLoadingDialog();
       GeminiWrapper wrapper =
           new HomeGeminiWrapper(
               (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
@@ -111,8 +110,7 @@ public class HomeFragment extends BaseFragment {
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
-      if(getContext() != null)
-        displayErrorDialog(getString(R.string.error_location));
+      if (getContext() != null) displayErrorDialog(getString(R.string.error_location));
     }
   }
 
@@ -140,16 +138,14 @@ public class HomeFragment extends BaseFragment {
   private void fail(Throwable throwable) {
     closeDialog();
     loge(throwable);
-    if(getContext() == null)
-      return;
+    if (getContext() == null) return;
     displayErrorDialog(getString(R.string.error_gemini));
   }
 
   private void successWeather(GeminiWeather s) {
     hasFinishWeather = true;
     if (hasFinishSuggestions) closeDialog();
-    if(getContext() == null)
-      return;
+    if (getContext() == null) return;
     WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
     LinearLayoutManager llm =
         new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -157,18 +153,13 @@ public class HomeFragment extends BaseFragment {
     binding.listWeather.setLayoutManager(llm);
     binding.city.setText(
         current.getLocality() != null ? current.getLocality() : current.getCountryName());
-    binding.iconWeather.setImageResource(
-        getIcon(s.getWeather().getTodayForecast().getIcon()));
+    binding.iconWeather.setImageResource(getIcon(s.getWeather().getTodayForecast().getIcon()));
     binding.cityTempMaxValue.setText(
         String.format(
-            Locale.getDefault(),
-            "%.1f°",
-            s.getWeather().getTodayForecast().getMaxTemp()));
+            Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMaxTemp()));
     binding.cityTempMinValue.setText(
         String.format(
-            Locale.getDefault(),
-            "%.1f°",
-            s.getWeather().getTodayForecast().getMinTemp()));
+            Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMinTemp()));
     binding.cityTemp.setText(
         String.format(
             Locale.getDefault(),
