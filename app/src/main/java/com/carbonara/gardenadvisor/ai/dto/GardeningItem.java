@@ -8,17 +8,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
 @Builder
+@Jacksonized
 public class GardeningItem {
 
   @JsonInclude(Include.NON_NULL)

@@ -201,7 +201,6 @@ public abstract class GeminiWrapper {
                   try {
                     loge("JSON: " + resultText);
                     ObjectMapper mapper = new ObjectMapper();
-                    resultText = resultText.replaceAll("```json", "").replaceAll("```", "");
                     GeminiGardeningSugg sugg =
                         mapper.readValue(resultText, GeminiGardeningSugg.class);
                     successSugg.getAnswer(sugg);

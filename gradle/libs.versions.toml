@@ -1,7 +1,7 @@
 [versions]
 agp = "8.3.2"
 cameraview = "2.7.2"
-generativeai = "0.6.0"
+generativeai = "0.9.0"
 guava = "31.0.1-android"
 jackson = "2.15.4"
 junit = "4.13.2"

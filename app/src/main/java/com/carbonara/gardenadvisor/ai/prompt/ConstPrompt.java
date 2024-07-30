@@ -2,6 +2,9 @@ package com.carbonara.gardenadvisor.ai.prompt;
 
 public class ConstPrompt {
 
+  public static final String PLAIN_TEXT_NOTICE =
+      "Important: Return the response exclusively in plain text, with no Markdown formatting";
+
   public static final String WEATHER_PROMPT =
       "Given the weather and location data provide the following information in JSON format:\n"
           + " - a \"location\" object, containing the location data, such as name, region and country\n"
@@ -45,8 +48,8 @@ public class ConstPrompt {
           + "    ]\n"
           + "  }\n"
           + "}\n"
-          + " Important notice: DO NOT PRINT ANY THING ELSE BUT THE JSON ASKED as a plain text without any Markdown formatting please\n"
-          + "Notice that today is:";
+          + PLAIN_TEXT_NOTICE
+          + "\nNotice that today is:";
 
   protected static final String BASE_SUGGESTION_PROMPT =
       "type: lowercase string value representing the type: fruit, vegetable, flower\n"
@@ -116,7 +119,7 @@ public class ConstPrompt {
           + "      ]\n"
           + "    },\n...]"
           + "}\n"
-          + "\n Important notice: DO NOT PRINT ANY THING ELSE BUT THE JSON ASKED as a plain text without any Markdown formatting please";
+          + PLAIN_TEXT_NOTICE;
 
   public static final String HOME_SUGGESTION_PROMPT =
       "Given this location and weather data, provide an answer in Json format with a list of recommended fruits, vegetables and flowers that can be planted at this time, with each value having:\n"
@@ -140,6 +143,5 @@ public class ConstPrompt {
           + "}\n"
           + "\n"
           + "if you can't recognize the plant or the picture does not contain a plant, return an empty string.\n"
-          + "\n"
-          + "Important: Return the response exclusively in plain text";
+          + PLAIN_TEXT_NOTICE;
 }
