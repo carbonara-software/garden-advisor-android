@@ -31,6 +31,7 @@ import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import java.util.Locale;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class HomeFragment extends BaseFragment {
   private static final String TAG = "HomeFrag";
@@ -61,6 +62,8 @@ public class HomeFragment extends BaseFragment {
               // TODO: Permission denied, handle accordingly
             }
           });
+  private Disposable gardenDisposable;
+  private Disposable weatherDisposable;
 
   @Override
   public View onCreateView(
@@ -101,16 +104,19 @@ public class HomeFragment extends BaseFragment {
         displayErrorDialog(getString(R.string.error_location));
         return;
       }
-      if (getActivity() != null) displayLoadingDialog();
+      disposeAll();
+      displayLoadingDialog();
       GeminiWrapper wrapper =
           new HomeGeminiWrapper(
               (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
       wrapper.getGeminiResultGarden(this::successSuggestions, this::fail);
       wrapper.getGeminiResultWeather(this::successWeather, this::fail);
+      gardenDisposable = wrapper.getGardSuggDisposable();
+      weatherDisposable = wrapper.getWeatherDisposable();
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
-      if (getContext() != null) displayErrorDialog(getString(R.string.error_location));
+      displayErrorDialog(getString(R.string.error_location));
     }
   }
 
@@ -136,9 +142,9 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void fail(Throwable throwable) {
+    disposeAll();
     closeDialog();
     loge(throwable);
-    if (getContext() == null) return;
     displayErrorDialog(getString(R.string.error_gemini));
   }
 
@@ -184,5 +190,16 @@ public class HomeFragment extends BaseFragment {
           });
     }
     return false;
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    disposeAll();
+  }
+
+  private void disposeAll(){
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
   }
 }

@@ -26,6 +26,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatterBuilder;
+import lombok.Getter;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -43,7 +44,9 @@ public abstract class GeminiWrapper {
   protected boolean updatedLocation;
 
   protected String weatherString;
+  @Getter
   private Disposable weatherDisposable;
+  @Getter
   private Disposable gardSuggDisposable;
 
   public GeminiWrapper(float lat, float lon, String locationName) {
@@ -97,14 +100,10 @@ public abstract class GeminiWrapper {
                   loge(response.toString());
                   fail.getAnswerFail(
                       new GeminiWeatherException(
-                          "Weather not returned...Strange and sad at the same time....")); // This
-                  // will
-                  // be
-                  // executed on the main thread
+                          "Weather not returned...Strange and sad at the same time...."));
                 } else {
                   weatherString = response.body().string();
                   getGeminiProcessedWeather();
-                  // getGeminiGardeningSuggestion();
                   updatedLocation = false;
                 }
               }
@@ -136,10 +135,7 @@ public abstract class GeminiWrapper {
                   loge(response.toString());
                   fail.getAnswerFail(
                       new GeminiWeatherException(
-                          "Weather not returned...Strange and sad at the same time....")); // This
-                  // will
-                  // be
-                  // executed on the main thread
+                          "Weather not returned...Strange and sad at the same time...."));
                 } else {
                   weatherString = response.body().string();
                   // getGeminiProcessedWeather();
@@ -176,12 +172,15 @@ public abstract class GeminiWrapper {
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.registerModule(new JavaTimeModule());
                     GeminiWeather weather = mapper.readValue(resultText, GeminiWeather.class);
-                    success.getAnswer(weather);
+                    if(weatherDisposable!= null && !weatherDisposable.isDisposed()) success.getAnswer(weather);
                   } catch (JsonProcessingException e) {
-                    fail.getAnswerFail(e);
+                    if(weatherDisposable!= null && !weatherDisposable.isDisposed()) fail.getAnswerFail(e);
                   }
                 },
-                throwable -> fail.getAnswerFail(throwable));
+                throwable -> {
+                  if(weatherDisposable!= null && !weatherDisposable.isDisposed())
+                    fail.getAnswerFail(throwable);
+                });
   }
 
   public abstract String getGardeningSuggestionPrompt();
@@ -203,15 +202,19 @@ public abstract class GeminiWrapper {
                     ObjectMapper mapper = new ObjectMapper();
                     GeminiGardeningSugg sugg =
                         mapper.readValue(resultText, GeminiGardeningSugg.class);
-                    successSugg.getAnswer(sugg);
+                    if(gardSuggDisposable!= null && !gardSuggDisposable.isDisposed()) successSugg.getAnswer(sugg);
                   } catch (JsonProcessingException e) {
                     loge("Error parsing gemini response:", e);
-                    fail.getAnswerFail(e);
+                    if(gardSuggDisposable!= null && !gardSuggDisposable.isDisposed()) fail.getAnswerFail(e);
                   } catch (NullPointerException ex) {
                     loge("Error parsing gemini response null:", ex);
-                    fail.getAnswerFail(ex);
+                    if(gardSuggDisposable!= null && !gardSuggDisposable.isDisposed()) fail.getAnswerFail(ex);
                   }
                 },
-                throwable -> fail.getAnswerFail(throwable));
+                throwable -> {
+                  if(gardSuggDisposable!= null && !gardSuggDisposable.isDisposed())
+                    fail.getAnswerFail(throwable);
+                });
   }
+
 }
