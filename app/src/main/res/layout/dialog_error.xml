@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/title"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Oooops..."
+                android:text="@string/loading_error_message"
                 android:textSize="30sp"
                 android:textAlignment="center"/>
 
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/message"
                 app:layout_constraintTop_toBottomOf="@id/title"
-                android:text="Something went terribly wrong"
+                android:text="@string/loading_error_description"
                 android:textSize="25sp"
                 android:padding="8dp"
                 android:textAlignment="center"/>

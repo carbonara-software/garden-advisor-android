@@ -3,7 +3,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="140dp"
-  android:layout_height="100dp">
+  android:layout_height="match_parent">
 
   <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="1"
+        android:text="@string/card_score_placeholder"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name"/>
@@ -47,6 +47,7 @@
         android:layout_width="18dp"
         android:layout_height="18dp"
         android:layout_marginTop="20dp"
+        android:contentDescription="@string/leaf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.129"
         app:layout_constraintStart_toEndOf="@+id/gaScore"
@@ -60,6 +61,7 @@
         android:layout_margin="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
+        android:contentDescription="@string/recommended_icon"
         android:src="@drawable/recommended"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
