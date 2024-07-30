@@ -44,10 +44,8 @@ public abstract class GeminiWrapper {
   protected boolean updatedLocation;
 
   protected String weatherString;
-  @Getter
-  private Disposable weatherDisposable;
-  @Getter
-  private Disposable gardSuggDisposable;
+  @Getter private Disposable weatherDisposable;
+  @Getter private Disposable gardSuggDisposable;
 
   public GeminiWrapper(float lat, float lon, String locationName) {
     this.lat = lat;
@@ -172,13 +170,15 @@ public abstract class GeminiWrapper {
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.registerModule(new JavaTimeModule());
                     GeminiWeather weather = mapper.readValue(resultText, GeminiWeather.class);
-                    if(weatherDisposable!= null && !weatherDisposable.isDisposed()) success.getAnswer(weather);
+                    if (weatherDisposable != null && !weatherDisposable.isDisposed())
+                      success.getAnswer(weather);
                   } catch (JsonProcessingException e) {
-                    if(weatherDisposable!= null && !weatherDisposable.isDisposed()) fail.getAnswerFail(e);
+                    if (weatherDisposable != null && !weatherDisposable.isDisposed())
+                      fail.getAnswerFail(e);
                   }
                 },
                 throwable -> {
-                  if(weatherDisposable!= null && !weatherDisposable.isDisposed())
+                  if (weatherDisposable != null && !weatherDisposable.isDisposed())
                     fail.getAnswerFail(throwable);
                 });
   }
@@ -202,19 +202,21 @@ public abstract class GeminiWrapper {
                     ObjectMapper mapper = new ObjectMapper();
                     GeminiGardeningSugg sugg =
                         mapper.readValue(resultText, GeminiGardeningSugg.class);
-                    if(gardSuggDisposable!= null && !gardSuggDisposable.isDisposed()) successSugg.getAnswer(sugg);
+                    if (gardSuggDisposable != null && !gardSuggDisposable.isDisposed())
+                      successSugg.getAnswer(sugg);
                   } catch (JsonProcessingException e) {
                     loge("Error parsing gemini response:", e);
-                    if(gardSuggDisposable!= null && !gardSuggDisposable.isDisposed()) fail.getAnswerFail(e);
+                    if (gardSuggDisposable != null && !gardSuggDisposable.isDisposed())
+                      fail.getAnswerFail(e);
                   } catch (NullPointerException ex) {
                     loge("Error parsing gemini response null:", ex);
-                    if(gardSuggDisposable!= null && !gardSuggDisposable.isDisposed()) fail.getAnswerFail(ex);
+                    if (gardSuggDisposable != null && !gardSuggDisposable.isDisposed())
+                      fail.getAnswerFail(ex);
                   }
                 },
                 throwable -> {
-                  if(gardSuggDisposable!= null && !gardSuggDisposable.isDisposed())
+                  if (gardSuggDisposable != null && !gardSuggDisposable.isDisposed())
                     fail.getAnswerFail(throwable);
                 });
   }
-
 }

@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.databinding.RowGardenPlantItemBinding;
-import com.carbonara.gardenadvisor.databinding.RowGardeningItemBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.SuggestionsBottomSheet;
 import com.carbonara.gardenadvisor.util.ui.BackgroundChooser;
 import com.carbonara.gardenadvisor.util.ui.GAScoreUtil;

@@ -30,8 +30,8 @@ import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import java.util.Locale;
 import io.reactivex.rxjava3.disposables.Disposable;
+import java.util.Locale;
 
 public class HomeFragment extends BaseFragment {
   private static final String TAG = "HomeFrag";
@@ -62,6 +62,7 @@ public class HomeFragment extends BaseFragment {
               // TODO: Permission denied, handle accordingly
             }
           });
+
   private Disposable gardenDisposable;
   private Disposable weatherDisposable;
 
@@ -198,7 +199,7 @@ public class HomeFragment extends BaseFragment {
     disposeAll();
   }
 
-  private void disposeAll(){
+  private void disposeAll() {
     if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
     if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
   }

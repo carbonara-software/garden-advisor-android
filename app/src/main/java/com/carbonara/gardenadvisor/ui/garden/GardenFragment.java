@@ -19,7 +19,6 @@ import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.databinding.FragmentGardenBinding;
 import com.carbonara.gardenadvisor.persistence.entity.Plant;
 import com.carbonara.gardenadvisor.ui.garden.adapter.GardenPlantItemAdapter;
-import com.carbonara.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
 import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
 import com.carbonara.gardenadvisor.util.task.CreatePlantsInGardenEmitter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
@@ -70,7 +69,8 @@ public class GardenFragment extends BaseFragment {
                   .filter(lowerCase -> !savedPlants.contains(lowerCase))
                   .collect(Collectors.toList());
           savedPlants.addAll(toSent);
-          if(gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
+          if (gardenDisposable != null && !gardenDisposable.isDisposed())
+            gardenDisposable.dispose();
           GardenGeminiWrapper gardenGeminiWrapper =
               new GardenGeminiWrapper(args.getGarden(), savedPlants);
           gardenGeminiWrapper.getGeminiResultGarden(this::successGarden, this::failGarden);
@@ -104,16 +104,16 @@ public class GardenFragment extends BaseFragment {
   }
 
   private void updateWeather() {
-    if(weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     GardenGeminiWrapper weatherGeminiWrapper = new GardenGeminiWrapper(args.getGarden());
     weatherGeminiWrapper.getGeminiResultWeather(this::successWeather, this::failWeather);
     weatherDisposable = weatherGeminiWrapper.getWeatherDisposable();
   }
 
-  private void disposeAll(){
-    if(gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
-    if(weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
-    if(d != null && !d.isDisposed()) d.dispose();
+  private void disposeAll() {
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
+    if (d != null && !d.isDisposed()) d.dispose();
   }
 
   private void failWeather(Throwable throwable) {

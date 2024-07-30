@@ -2,15 +2,11 @@ package com.carbonara.gardenadvisor.ui.garden.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.carbonara.gardenadvisor.R;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.ui.garden.adapter.viewholder.GardenPlantItemViewHolder;
-import com.carbonara.gardenadvisor.ui.home.adapter.viewholder.GardeningItemViewHolder;
-
 import java.util.List;
 
 public class GardenPlantItemAdapter extends RecyclerView.Adapter<GardenPlantItemViewHolder> {
