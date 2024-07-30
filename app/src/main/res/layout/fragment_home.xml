@@ -221,7 +221,7 @@
         <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/list_flowers"
           android:layout_width="match_parent"
-          android:layout_height="100dp"
+          android:layout_height="120dp"
           android:layout_margin="8dp"
           android:paddingBottom="20dp"
           app:layout_constraintBottom_toBottomOf="parent"
