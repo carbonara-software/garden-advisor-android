@@ -53,8 +53,7 @@ public class GardensFragment extends BaseFragment implements NewGardenCallback {
 
   private void populateGardenList(List<GardenWithPlants> g) {
     if (g != null && !g.isEmpty()) {
-      if(getContext()==null)
-        return;
+      if (getContext() == null) return;
       GardensAdapter adp = new GardensAdapter(g);
       GridLayoutManager llm = new GridLayoutManager(getContext(), 2);
       binding.recyclerGardens.setVisibility(View.VISIBLE);
