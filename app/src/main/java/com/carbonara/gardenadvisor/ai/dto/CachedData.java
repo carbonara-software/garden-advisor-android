@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CachedData implements Comparable<CachedData>{
+public class CachedData implements Comparable<CachedData> {
 
   private String weatherString;
   private float lat;
@@ -26,7 +26,8 @@ public class CachedData implements Comparable<CachedData>{
     }
     // Compare latitude
     int latComparison = Float.compare(this.lat, o.lat);
-    if (latComparison != 0) {return latComparison;
+    if (latComparison != 0) {
+      return latComparison;
     }
     // Compare longitude
     int lonComparison = Float.compare(this.lon, o.lon);

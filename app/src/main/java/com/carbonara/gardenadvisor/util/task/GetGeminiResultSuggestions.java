@@ -32,15 +32,14 @@ public class GetGeminiResultSuggestions implements SingleOnSubscribe<GeminiGarde
     try {
       loge("JSON: " + resultText);
       ObjectMapper mapper = new ObjectMapper();
-      GeminiGardeningSugg sugg =
-          mapper.readValue(resultText, GeminiGardeningSugg.class);
-      if(!emitter.isDisposed()) emitter.onSuccess(sugg);
+      GeminiGardeningSugg sugg = mapper.readValue(resultText, GeminiGardeningSugg.class);
+      if (!emitter.isDisposed()) emitter.onSuccess(sugg);
     } catch (JsonProcessingException e) {
       loge("Error parsing gemini response:", e);
-      if(!emitter.isDisposed()) emitter.onError(e);
+      if (!emitter.isDisposed()) emitter.onError(e);
     } catch (NullPointerException ex) {
       loge("Error parsing gemini response null:", ex);
-      if(!emitter.isDisposed()) emitter.onError(ex);
+      if (!emitter.isDisposed()) emitter.onError(ex);
     }
   }
 }

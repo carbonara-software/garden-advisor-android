@@ -8,7 +8,5 @@ import io.reactivex.rxjava3.core.SingleOnSubscribe;
 public class GeminiGardenTask implements SingleOnSubscribe<GeminiGardeningSugg> {
 
   @Override
-  public void subscribe(@NonNull SingleEmitter<GeminiGardeningSugg> emitter) throws Throwable {
-
-  }
+  public void subscribe(@NonNull SingleEmitter<GeminiGardeningSugg> emitter) throws Throwable {}
 }

@@ -31,7 +31,6 @@ import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.Locale;
 
 public class HomeFragment extends BaseFragment {
@@ -111,7 +110,8 @@ public class HomeFragment extends BaseFragment {
               (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
       wrapper.getGeminiResultGarden(this::successSuggestions, this::fail);
       wrapper.getGeminiResultWeather(this::successWeather, this::fail);
-      compositeDisposable = new CompositeDisposable(wrapper.getGardSuggDisposable(), wrapper.getWeatherDisposable());
+      compositeDisposable =
+          new CompositeDisposable(wrapper.getGardSuggDisposable(), wrapper.getWeatherDisposable());
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
@@ -198,7 +198,7 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void disposeAll() {
-    if(!compositeDisposable.isDisposed()){
+    if (!compositeDisposable.isDisposed()) {
       compositeDisposable.dispose();
     }
     compositeDisposable.clear();

@@ -13,13 +13,13 @@ import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.SingleEmitter;
+import io.reactivex.rxjava3.core.SingleOnSubscribe;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.SingleEmitter;
-import io.reactivex.rxjava3.core.SingleOnSubscribe;
 import okhttp3.OkHttpClient;
 
 public class GeminiWeatherTask implements SingleOnSubscribe<GeminiWeather> {
@@ -40,10 +40,10 @@ public class GeminiWeatherTask implements SingleOnSubscribe<GeminiWeather> {
   public void subscribe(@NonNull SingleEmitter<GeminiWeather> emitter) {
     try {
       CachedData lastCachedData = AppUtil.getCachedData(lat, lon);
-      if (lastCachedData != null &&
-          lastCachedData.getWeather() != null &&
-          lastCachedData.getLastUpdated().isAfter(LocalDateTime.now().minusHours(6))) {
-        if(!emitter.isDisposed()) emitter.onSuccess(lastCachedData.getWeather());
+      if (lastCachedData != null
+          && lastCachedData.getWeather() != null
+          && lastCachedData.getLastUpdated().isAfter(LocalDateTime.now().minusHours(6))) {
+        if (!emitter.isDisposed()) emitter.onSuccess(lastCachedData.getWeather());
         return;
       }
       OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient(new OkHttpClient());
@@ -57,19 +57,16 @@ public class GeminiWeatherTask implements SingleOnSubscribe<GeminiWeather> {
       ObjectMapper mapper = new ObjectMapper();
       mapper.registerModule(new JavaTimeModule());
       GeminiWeather weather = mapper.readValue(resultText, GeminiWeather.class);
-      if(!emitter.isDisposed()) emitter.onSuccess(weather);
-      AppUtil.addCachedData(new CachedData(weatherString,lat,lon,locationName,weather));
-    } catch (IOException e){
-      if(!emitter.isDisposed()) emitter.onError(e);
-    }catch (CancellationException e){
-      if(!emitter.isDisposed()) emitter.onError(e);
-    }catch(ExecutionException e) {
-      if(!emitter.isDisposed()) emitter.onError(e);
-    }catch (InterruptedException e){
-      if(!emitter.isDisposed()) emitter.onError(e);
+      if (!emitter.isDisposed()) emitter.onSuccess(weather);
+      AppUtil.addCachedData(new CachedData(weatherString, lat, lon, locationName, weather));
+    } catch (IOException e) {
+      if (!emitter.isDisposed()) emitter.onError(e);
+    } catch (CancellationException e) {
+      if (!emitter.isDisposed()) emitter.onError(e);
+    } catch (ExecutionException e) {
+      if (!emitter.isDisposed()) emitter.onError(e);
+    } catch (InterruptedException e) {
+      if (!emitter.isDisposed()) emitter.onError(e);
     }
-
   }
-
-
 }

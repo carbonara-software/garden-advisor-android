@@ -5,7 +5,6 @@ import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import androidx.annotation.NonNull;
-import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.ai.exceptions.GeminiWeatherException;
 import com.carbonara.gardenadvisor.ai.funct.OnGeminiWrapperFail;
@@ -174,13 +173,13 @@ public abstract class GeminiWrapper {
                     loge(weather.toString());
                     loge("isweatherDisposable = " + (weatherDisposable == null));
                     loge("isweatherDisposable dispose = " + (weatherDisposable.isDisposed()));
-                      success.getAnswer(weather);
+                    success.getAnswer(weather);
                   } catch (JsonProcessingException e) {
-                      fail.getAnswerFail(e);
+                    fail.getAnswerFail(e);
                   }
                 },
                 throwable -> {
-                    fail.getAnswerFail(throwable);
+                  fail.getAnswerFail(throwable);
                 });
   }
 
@@ -189,37 +188,36 @@ public abstract class GeminiWrapper {
   private void getGeminiGardeningSuggestion() {
     String prompt = getGardeningSuggestionPrompt();
     loge(prompt);
-//    Content content = new Content.Builder().addText(prompt).build();
+    //    Content content = new Content.Builder().addText(prompt).build();
 
-
-
-//    gardSuggDisposable =
-//        Single.fromCallable(() -> model.generateContent(content).get())
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                result -> {
-//                  String resultText = result.getText();
-//                  try {
-//                    loge("JSON: " + resultText);
-//                    ObjectMapper mapper = new ObjectMapper();
-//                    GeminiGardeningSugg sugg =
-//                        mapper.readValue(resultText, GeminiGardeningSugg.class);
-//                    loge("Suggestion");
-//                    loge(sugg.toString());
-//                    loge("isgardensuggDisposable = " + (gardSuggDisposable == null));
-//                    loge("isgardensuggDisposable dispose = " + (gardSuggDisposable.isDisposed()));
-//                      successSugg.getAnswer(sugg);
-//                  } catch (JsonProcessingException e) {
-//                    loge("Error parsing gemini response:", e);
-//                      fail.getAnswerFail(e);
-//                  } catch (NullPointerException ex) {
-//                    loge("Error parsing gemini response null:", ex);
-//                      fail.getAnswerFail(ex);
-//                  }
-//                },
-//                throwable -> {
-//                    fail.getAnswerFail(throwable);
-//                });
+    //    gardSuggDisposable =
+    //        Single.fromCallable(() -> model.generateContent(content).get())
+    //            .subscribeOn(Schedulers.io())
+    //            .observeOn(AndroidSchedulers.mainThread())
+    //            .subscribe(
+    //                result -> {
+    //                  String resultText = result.getText();
+    //                  try {
+    //                    loge("JSON: " + resultText);
+    //                    ObjectMapper mapper = new ObjectMapper();
+    //                    GeminiGardeningSugg sugg =
+    //                        mapper.readValue(resultText, GeminiGardeningSugg.class);
+    //                    loge("Suggestion");
+    //                    loge(sugg.toString());
+    //                    loge("isgardensuggDisposable = " + (gardSuggDisposable == null));
+    //                    loge("isgardensuggDisposable dispose = " +
+    // (gardSuggDisposable.isDisposed()));
+    //                      successSugg.getAnswer(sugg);
+    //                  } catch (JsonProcessingException e) {
+    //                    loge("Error parsing gemini response:", e);
+    //                      fail.getAnswerFail(e);
+    //                  } catch (NullPointerException ex) {
+    //                    loge("Error parsing gemini response null:", ex);
+    //                      fail.getAnswerFail(ex);
+    //                  }
+    //                },
+    //                throwable -> {
+    //                    fail.getAnswerFail(throwable);
+    //                });
   }
 }
