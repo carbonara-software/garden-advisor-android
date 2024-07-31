@@ -30,6 +30,7 @@ import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.Locale;
 
@@ -40,6 +41,7 @@ public class HomeFragment extends BaseFragment {
   private FusedLocationProviderClient fusedLocationClient;
   private boolean hasFinishWeather;
   private boolean hasFinishSuggestions;
+  private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private Address current;
 
   // messo solo perche android studio non e l'ide piu smart al mondo...
@@ -62,9 +64,6 @@ public class HomeFragment extends BaseFragment {
               // TODO: Permission denied, handle accordingly
             }
           });
-
-  private Disposable gardenDisposable;
-  private Disposable weatherDisposable;
 
   @Override
   public View onCreateView(
@@ -112,8 +111,7 @@ public class HomeFragment extends BaseFragment {
               (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
       wrapper.getGeminiResultGarden(this::successSuggestions, this::fail);
       wrapper.getGeminiResultWeather(this::successWeather, this::fail);
-      gardenDisposable = wrapper.getGardSuggDisposable();
-      weatherDisposable = wrapper.getWeatherDisposable();
+      compositeDisposable = new CompositeDisposable(wrapper.getGardSuggDisposable(), wrapper.getWeatherDisposable());
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
@@ -194,13 +192,15 @@ public class HomeFragment extends BaseFragment {
   }
 
   @Override
-  public void onStop() {
-    super.onStop();
+  public void onDestroy() {
+    super.onDestroy();
     disposeAll();
   }
 
   private void disposeAll() {
-    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
-    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
+    if(!compositeDisposable.isDisposed()){
+      compositeDisposable.dispose();
+    }
+    compositeDisposable.clear();
   }
 }

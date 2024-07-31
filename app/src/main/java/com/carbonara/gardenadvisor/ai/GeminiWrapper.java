@@ -170,15 +170,16 @@ public abstract class GeminiWrapper {
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.registerModule(new JavaTimeModule());
                     GeminiWeather weather = mapper.readValue(resultText, GeminiWeather.class);
-                    if (weatherDisposable != null && !weatherDisposable.isDisposed())
+                    loge("weather");
+                    loge(weather.toString());
+                    loge("isweatherDisposable = " + (weatherDisposable == null));
+                    loge("isweatherDisposable dispose = " + (weatherDisposable.isDisposed()));
                       success.getAnswer(weather);
                   } catch (JsonProcessingException e) {
-                    if (weatherDisposable != null && !weatherDisposable.isDisposed())
                       fail.getAnswerFail(e);
                   }
                 },
                 throwable -> {
-                  if (weatherDisposable != null && !weatherDisposable.isDisposed())
                     fail.getAnswerFail(throwable);
                 });
   }
@@ -188,35 +189,37 @@ public abstract class GeminiWrapper {
   private void getGeminiGardeningSuggestion() {
     String prompt = getGardeningSuggestionPrompt();
     loge(prompt);
-    Content content = new Content.Builder().addText(prompt).build();
+//    Content content = new Content.Builder().addText(prompt).build();
 
-    gardSuggDisposable =
-        Single.fromCallable(() -> model.generateContent(content).get())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                result -> {
-                  String resultText = result.getText();
-                  try {
-                    loge("JSON: " + resultText);
-                    ObjectMapper mapper = new ObjectMapper();
-                    GeminiGardeningSugg sugg =
-                        mapper.readValue(resultText, GeminiGardeningSugg.class);
-                    if (gardSuggDisposable != null && !gardSuggDisposable.isDisposed())
-                      successSugg.getAnswer(sugg);
-                  } catch (JsonProcessingException e) {
-                    loge("Error parsing gemini response:", e);
-                    if (gardSuggDisposable != null && !gardSuggDisposable.isDisposed())
-                      fail.getAnswerFail(e);
-                  } catch (NullPointerException ex) {
-                    loge("Error parsing gemini response null:", ex);
-                    if (gardSuggDisposable != null && !gardSuggDisposable.isDisposed())
-                      fail.getAnswerFail(ex);
-                  }
-                },
-                throwable -> {
-                  if (gardSuggDisposable != null && !gardSuggDisposable.isDisposed())
-                    fail.getAnswerFail(throwable);
-                });
+
+
+//    gardSuggDisposable =
+//        Single.fromCallable(() -> model.generateContent(content).get())
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                result -> {
+//                  String resultText = result.getText();
+//                  try {
+//                    loge("JSON: " + resultText);
+//                    ObjectMapper mapper = new ObjectMapper();
+//                    GeminiGardeningSugg sugg =
+//                        mapper.readValue(resultText, GeminiGardeningSugg.class);
+//                    loge("Suggestion");
+//                    loge(sugg.toString());
+//                    loge("isgardensuggDisposable = " + (gardSuggDisposable == null));
+//                    loge("isgardensuggDisposable dispose = " + (gardSuggDisposable.isDisposed()));
+//                      successSugg.getAnswer(sugg);
+//                  } catch (JsonProcessingException e) {
+//                    loge("Error parsing gemini response:", e);
+//                      fail.getAnswerFail(e);
+//                  } catch (NullPointerException ex) {
+//                    loge("Error parsing gemini response null:", ex);
+//                      fail.getAnswerFail(ex);
+//                  }
+//                },
+//                throwable -> {
+//                    fail.getAnswerFail(throwable);
+//                });
   }
 }

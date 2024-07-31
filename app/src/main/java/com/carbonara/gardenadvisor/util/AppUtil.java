@@ -7,11 +7,39 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import com.carbonara.gardenadvisor.ai.dto.CachedData;
+import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
+import com.carbonara.gardenadvisor.ai.task.GeminiWeatherTask;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
+import lombok.Getter;
+import lombok.Setter;
 
 public class AppUtil {
+
+  private static List<CachedData> cachedData = new ArrayList<>();
+
+
+  public static void addCachedData(CachedData data) {
+    cachedData.add(data);
+  }
+
+  public static void removeCachedData(CachedData data) {
+    cachedData.remove(data);
+  }
+
+  public static CachedData getCachedData(float lat, float lon) {
+    Optional<CachedData> first = cachedData.stream()
+        .filter(cd -> cd.getLat() == lat && cd.getLon() == lon).max(CachedData::compareTo);
+    return first.orElse(null);
+  }
+
 
   public static boolean isNetworkAvailable(Context context) {
     ConnectivityManager connectivityManager =
