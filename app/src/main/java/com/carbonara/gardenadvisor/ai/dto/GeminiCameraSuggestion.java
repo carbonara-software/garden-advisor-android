@@ -8,7 +8,7 @@ import lombok.extern.jackson.Jacksonized;
 @Getter
 @Builder
 @Jacksonized
-public class GeminiCameraSuggestion {
+public class GeminiCameraSuggestion implements GeminiResult {
 
   private final String name, scientificName, statusDescription, status;
   private final List<String> suggestions;

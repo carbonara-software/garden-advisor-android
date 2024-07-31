@@ -1,5 +1,6 @@
-package com.carbonara.gardenadvisor.ai.dto;
+package com.carbonara.gardenadvisor.ai.cache;
 
+import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -7,7 +7,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import com.carbonara.gardenadvisor.ai.dto.CachedData;
+import com.carbonara.gardenadvisor.ai.cache.CachedData;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

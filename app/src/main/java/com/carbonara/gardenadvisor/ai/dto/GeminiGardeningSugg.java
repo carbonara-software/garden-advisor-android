@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GeminiGardeningSugg {
+public class GeminiGardeningSugg implements GeminiResult {
 
   @JsonProperty("flowers")
   private List<GardeningItem> flowers;

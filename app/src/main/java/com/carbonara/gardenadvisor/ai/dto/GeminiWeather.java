@@ -8,7 +8,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class GeminiWeather {
+public class GeminiWeather implements GeminiResult {
 
   @JsonProperty("weather")
   private Weather weather;

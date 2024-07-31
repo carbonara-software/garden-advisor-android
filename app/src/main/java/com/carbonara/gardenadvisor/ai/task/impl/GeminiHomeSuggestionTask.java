@@ -1,9 +1,12 @@
-package com.carbonara.gardenadvisor.util.task;
+package com.carbonara.gardenadvisor.ai.task.impl;
 
+import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.HOME_SUGGESTION_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
+import com.carbonara.gardenadvisor.ai.task.GeminiSingleOnSubscriber;
+import com.carbonara.gardenadvisor.ai.task.GeminiWeatherDependentTask;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.ai.client.generativeai.GenerativeModel;
@@ -12,21 +15,20 @@ import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.SingleEmitter;
-import io.reactivex.rxjava3.core.SingleOnSubscribe;
 
-public class GetGeminiResultSuggestions implements SingleOnSubscribe<GeminiGardeningSugg> {
+public class GeminiHomeSuggestionTask extends GeminiWeatherDependentTask
+    implements GeminiSingleOnSubscriber<GeminiGardeningSugg> {
 
-  private final String prompt;
-
-  public GetGeminiResultSuggestions(String prompt) {
-    this.prompt = prompt;
+  public GeminiHomeSuggestionTask(
+      Float lat, Float lon, String locationName, String openMeteoResult) {
+    super(lat, lon, locationName, openMeteoResult);
   }
 
   @Override
   public void subscribe(@NonNull SingleEmitter<GeminiGardeningSugg> emitter) throws Throwable {
     GenerativeModel gm = new GenerativeModel("gemini-1.5-flash", getGeminiApiKey());
     GenerativeModelFutures model = GenerativeModelFutures.from(gm);
-    Content content = new Content.Builder().addText(prompt).build();
+    Content content = new Content.Builder().addText(getPrompt()).build();
     GenerateContentResponse response = model.generateContent(content).get();
     String resultText = response.getText();
     try {
@@ -41,5 +43,14 @@ public class GetGeminiResultSuggestions implements SingleOnSubscribe<GeminiGarde
       loge("Error parsing gemini response null:", ex);
       if (!emitter.isDisposed()) emitter.onError(ex);
     }
+  }
+
+  @Override
+  public String getPrompt() {
+    return getOpenMeteoResultString()
+        + "\nLocation Name: "
+        + getLocationName()
+        + "\n"
+        + HOME_SUGGESTION_PROMPT;
   }
 }
