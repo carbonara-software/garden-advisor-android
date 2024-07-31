@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.carbonara.gardenadvisor.ai.GardenGeminiWrapper;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
@@ -77,19 +76,29 @@ public class GardenFragment extends BaseFragment {
           if (gardenDisposable != null && !gardenDisposable.isDisposed())
             gardenDisposable.dispose();
           Garden g = args.getGarden().getGarden();
-          gardenDisposable = Single.create(new GeminiGardenTask(g.getLocation().getLat(),g.getLocation().getLon(), g.getLocation().getLocationName(),
-                  new HashSet<>(savedPlants)))
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(this::successGarden, this::failGarden);
+          gardenDisposable =
+              Single.create(
+                      new GeminiGardenTask(
+                          g.getLocation().getLat(),
+                          g.getLocation().getLon(),
+                          g.getLocation().getLocationName(),
+                          new HashSet<>(savedPlants)))
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(this::successGarden, this::failGarden);
           displayLoadingDialog();
         } else {
           Garden g = args.getGarden().getGarden();
-          gardenDisposable = Single.create(new GeminiGardenTask(g.getLocation().getLat(),g.getLocation().getLon(), g.getLocation().getLocationName(),
-                  Arrays.stream(args.getPlants()).collect(Collectors.toSet())))
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(this::successGarden, this::failGarden);
+          gardenDisposable =
+              Single.create(
+                      new GeminiGardenTask(
+                          g.getLocation().getLat(),
+                          g.getLocation().getLon(),
+                          g.getLocation().getLocationName(),
+                          Arrays.stream(args.getPlants()).collect(Collectors.toSet())))
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(this::successGarden, this::failGarden);
           displayLoadingDialog();
         }
       } else {
@@ -116,12 +125,16 @@ public class GardenFragment extends BaseFragment {
   private void updateWeather() {
     if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     Garden g = args.getGarden().getGarden();
-    weatherDisposable = Single.create(new GeminiWeatherTask(g.getLocation().getLat(),g.getLocation().getLon(), g.getLocation().getLocationName()))
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(this::successWeather, this::failWeather);
+    weatherDisposable =
+        Single.create(
+                new GeminiWeatherTask(
+                    g.getLocation().getLat(),
+                    g.getLocation().getLon(),
+                    g.getLocation().getLocationName()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::successWeather, this::failWeather);
   }
-
 
   private void failWeather(Throwable throwable) {
     displayErrorDialog("Error retrieving weather from Gemini");
@@ -199,10 +212,10 @@ public class GardenFragment extends BaseFragment {
   }
 
   private void addPlantPressed(View view) {
-    if(weatherDisposable != null && !weatherDisposable.isDisposed()){
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) {
       weatherDisposable.dispose();
     }
-    if(gardenDisposable != null && !gardenDisposable.isDisposed()){
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) {
       gardenDisposable.dispose();
     }
     Navigation.findNavController(view)
@@ -213,10 +226,10 @@ public class GardenFragment extends BaseFragment {
   @Override
   public void onDestroy() {
     super.onDestroy();
-    if(weatherDisposable != null && !weatherDisposable.isDisposed()){
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) {
       weatherDisposable.dispose();
     }
-    if(gardenDisposable != null && !gardenDisposable.isDisposed()){
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) {
       gardenDisposable.dispose();
     }
     if (d != null && !d.isDisposed()) {

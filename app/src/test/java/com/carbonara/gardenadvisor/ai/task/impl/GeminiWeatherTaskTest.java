@@ -10,8 +10,7 @@ public class GeminiWeatherTaskTest {
 
   @Test
   public void testPrompt() {
-    GeminiWeatherTask task =
-        new GeminiWeatherTask(1.2f, 2.3f, "Test Location");
+    GeminiWeatherTask task = new GeminiWeatherTask(1.2f, 2.3f, "Test Location");
 
     assertNotNull(task.getPrompt("open meteo result"));
     assertTrue(task.getPrompt("open meteo result").contains("open meteo result"));

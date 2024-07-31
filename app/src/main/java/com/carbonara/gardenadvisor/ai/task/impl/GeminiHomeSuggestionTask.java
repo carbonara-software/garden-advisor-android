@@ -7,7 +7,6 @@ import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.task.GeminiSingleOnSubscriber;
 import com.carbonara.gardenadvisor.ai.task.GeminiTask;
-import com.carbonara.gardenadvisor.util.AppUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.ai.client.generativeai.GenerativeModel;
@@ -20,8 +19,7 @@ import io.reactivex.rxjava3.core.SingleEmitter;
 public class GeminiHomeSuggestionTask extends GeminiTask
     implements GeminiSingleOnSubscriber<GeminiGardeningSugg> {
 
-  public GeminiHomeSuggestionTask(
-      Float lat, Float lon, String locationName) {
+  public GeminiHomeSuggestionTask(Float lat, Float lon, String locationName) {
     super(lat, lon, locationName);
   }
 
@@ -48,10 +46,6 @@ public class GeminiHomeSuggestionTask extends GeminiTask
 
   @Override
   public String getPrompt(String meteo) {
-    return meteo
-        + "\nLocation Name: "
-        + getLocationName()
-        + "\n"
-        + HOME_SUGGESTION_PROMPT;
+    return meteo + "\nLocation Name: " + getLocationName() + "\n" + HOME_SUGGESTION_PROMPT;
   }
 }

@@ -7,8 +7,6 @@ import com.carbonara.gardenadvisor.ai.cache.CachedData;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.ai.task.GeminiSingleOnSubscriber;
 import com.carbonara.gardenadvisor.ai.task.GeminiTask;
-import com.carbonara.gardenadvisor.openmeteo.OkHttpOpenMeteoClient;
-import com.carbonara.gardenadvisor.openmeteo.request.OpenMeteoRequest;
 import com.carbonara.gardenadvisor.util.AppUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -20,12 +18,10 @@ import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.SingleEmitter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import lombok.Getter;
-import okhttp3.OkHttpClient;
 
 @Getter
 public class GeminiWeatherTask extends GeminiTask
@@ -37,8 +33,8 @@ public class GeminiWeatherTask extends GeminiTask
 
   @Override
   public String getPrompt(String s) {
-    return s +
-        "\nLocation Name: "
+    return s
+        + "\nLocation Name: "
         + getLocationName()
         + "\n"
         + WEATHER_PROMPT
@@ -49,7 +45,7 @@ public class GeminiWeatherTask extends GeminiTask
   public void subscribe(@NonNull SingleEmitter<GeminiWeather> emitter) {
     try {
       GeminiWeather weatherCached = geminiWeather();
-      if(weatherCached != null){
+      if (weatherCached != null) {
         if (!emitter.isDisposed()) emitter.onSuccess(weatherCached);
         return;
       }

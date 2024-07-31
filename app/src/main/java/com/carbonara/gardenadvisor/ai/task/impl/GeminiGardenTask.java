@@ -24,8 +24,7 @@ public class GeminiGardenTask extends GeminiTask
 
   private final Set<String> plants;
 
-  public GeminiGardenTask(
-      Float lat, Float lon, String locationName, Set<String> plants) {
+  public GeminiGardenTask(Float lat, Float lon, String locationName, Set<String> plants) {
     super(lat, lon, locationName);
     this.plants = plants;
   }

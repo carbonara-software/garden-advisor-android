@@ -16,8 +16,7 @@ public class GeminiGardenTaskTest {
   public void testPrompt() throws JsonProcessingException {
     Set<String> plants = Stream.of("t1", "t2", "t3").collect(Collectors.toSet());
 
-    GeminiGardenTask task =
-        new GeminiGardenTask(1.2f, 2.3f, "Test Location", plants);
+    GeminiGardenTask task = new GeminiGardenTask(1.2f, 2.3f, "Test Location", plants);
 
     assertNotNull(task.getPrompt("Open Meteo Result"));
     assertTrue(task.getPrompt("Open Meteo Result").contains("Open Meteo Result"));

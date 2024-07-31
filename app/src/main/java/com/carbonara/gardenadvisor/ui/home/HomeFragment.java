@@ -65,6 +65,7 @@ public class HomeFragment extends BaseFragment {
               // TODO: Permission denied, handle accordingly
             }
           });
+
   private Disposable weatherDisposable;
   private Disposable gardenDisposable;
 
@@ -111,14 +112,24 @@ public class HomeFragment extends BaseFragment {
       if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
       displayLoadingDialog();
 
-      weatherDisposable = Single.create(new GeminiWeatherTask((float) current.getLatitude(), (float) current.getLongitude(), current.getLocality()))
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(this::successWeather, this::failWeather);
-      gardenDisposable = Single.create(new GeminiHomeSuggestionTask((float) current.getLatitude(), (float) current.getLongitude(), current.getLocality()))
-          .subscribeOn(Schedulers.io())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(this::successGarden, this::failGarden);
+      weatherDisposable =
+          Single.create(
+                  new GeminiWeatherTask(
+                      (float) current.getLatitude(),
+                      (float) current.getLongitude(),
+                      current.getLocality()))
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(this::successWeather, this::failWeather);
+      gardenDisposable =
+          Single.create(
+                  new GeminiHomeSuggestionTask(
+                      (float) current.getLatitude(),
+                      (float) current.getLongitude(),
+                      current.getLocality()))
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(this::successGarden, this::failGarden);
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
@@ -127,7 +138,7 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void failGarden(Throwable throwable) {
-    //Corretto
+    // Corretto
     if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
     closeDialog();
     loge(throwable);
@@ -135,7 +146,7 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void successGarden(GeminiGardeningSugg geminiGardeningSugg) {
-    //Corretto
+    // Corretto
     hasFinishSuggestions = true;
     if (hasFinishWeather) closeDialog();
     LinearLayoutManager llmFruit =
@@ -156,7 +167,7 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void failWeather(Throwable throwable) {
-    //Corretto
+    // Corretto
     if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     closeDialog();
     loge(throwable);
@@ -213,5 +224,4 @@ public class HomeFragment extends BaseFragment {
     if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
   }
-
 }

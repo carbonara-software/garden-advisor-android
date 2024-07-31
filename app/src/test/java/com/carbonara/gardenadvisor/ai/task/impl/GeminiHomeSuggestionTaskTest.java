@@ -11,8 +11,7 @@ public class GeminiHomeSuggestionTaskTest {
   @Test
   public void testPrompt() {
 
-    GeminiHomeSuggestionTask task =
-        new GeminiHomeSuggestionTask(1.2f, 2.3f, "Test Location");
+    GeminiHomeSuggestionTask task = new GeminiHomeSuggestionTask(1.2f, 2.3f, "Test Location");
 
     assertNotNull(task.getPrompt("Open Meteo Result"));
     assertTrue(task.getPrompt("Open Meteo Result").contains("Open Meteo Result"));
