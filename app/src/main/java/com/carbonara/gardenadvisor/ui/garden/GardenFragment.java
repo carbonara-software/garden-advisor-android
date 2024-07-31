@@ -1,6 +1,7 @@
 package com.carbonara.gardenadvisor.ui.garden;
 
 import static android.view.View.GONE;
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIcon;
 
 import android.os.Bundle;
@@ -60,6 +61,7 @@ public class GardenFragment extends BaseFragment {
       updateWeather();
       if (args.getPlants() != null && args.getPlants().length > 0) {
         // opens from AddPlantsFragment with a valid list of plants
+        Garden g = args.getGarden().getGarden();
         if (args.getGarden().getPlants() != null && !args.getGarden().getPlants().isEmpty()) {
           // check for possible duplicates
           List<String> savedPlants =
@@ -73,9 +75,10 @@ public class GardenFragment extends BaseFragment {
                   .filter(lowerCase -> !savedPlants.contains(lowerCase))
                   .collect(Collectors.toList());
           savedPlants.addAll(toSent);
+
           if (gardenDisposable != null && !gardenDisposable.isDisposed())
             gardenDisposable.dispose();
-          Garden g = args.getGarden().getGarden();
+
           gardenDisposable =
               Single.create(
                       new GeminiGardenTask(
@@ -88,7 +91,6 @@ public class GardenFragment extends BaseFragment {
                   .subscribe(this::successGarden, this::failGarden);
           displayLoadingDialog();
         } else {
-          Garden g = args.getGarden().getGarden();
           gardenDisposable =
               Single.create(
                       new GeminiGardenTask(
@@ -185,14 +187,20 @@ public class GardenFragment extends BaseFragment {
             .subscribe(this::handleOnNext, this::handleError, this::handleComplete);
   }
 
-  private void handleComplete() {}
+  private void handleComplete() {
+    displaySuccessDialog("AllDone");
+    loge("All Done");
+  }
 
   private void handleError(Throwable throwable) {
     displayErrorDialog("Error while saving new plants and data... try again later...");
+    loge(throwable);
   }
 
   private void handleOnNext(Boolean aBoolean) {
     displaySuccessDialog("Plants saved successfully!\n all data as been updated...");
+    loge("Plants saved successfully!\n all data as been updated...");
+    loge("eccolo: " + aBoolean);
   }
 
   private void showNoPlants() {
