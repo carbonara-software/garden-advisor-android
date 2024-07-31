@@ -31,17 +31,14 @@ import okhttp3.OkHttpClient;
 public class GeminiWeatherTask extends GeminiTask
     implements GeminiSingleOnSubscriber<GeminiWeather> {
 
-  private final String openMeteoResult;
-
-  public GeminiWeatherTask(float lat, float lon, String locationName, String openMeteoResult) {
+  public GeminiWeatherTask(float lat, float lon, String locationName) {
     super(lat, lon, locationName);
-    this.openMeteoResult = openMeteoResult;
   }
 
   @Override
-  public String getPrompt() {
-    return openMeteoResult
-        + "\nLocation Name: "
+  public String getPrompt(String s) {
+    return s +
+        "\nLocation Name: "
         + getLocationName()
         + "\n"
         + WEATHER_PROMPT
@@ -51,18 +48,13 @@ public class GeminiWeatherTask extends GeminiTask
 
   public void subscribe(@NonNull SingleEmitter<GeminiWeather> emitter) {
     try {
-      CachedData lastCachedData = AppUtil.getCachedData(getLat(), super.getLon());
-      if (lastCachedData != null
-          && lastCachedData.getWeather() != null
-          && lastCachedData.getLastUpdated().isAfter(LocalDateTime.now().minusHours(6))) {
-        if (!emitter.isDisposed()) emitter.onSuccess(lastCachedData.getWeather());
+      GeminiWeather weatherCached = geminiWeather();
+      if(weatherCached != null){
+        if (!emitter.isDisposed()) emitter.onSuccess(weatherCached);
         return;
       }
-      OkHttpOpenMeteoClient client = new OkHttpOpenMeteoClient(new OkHttpClient());
-      OpenMeteoRequest request =
-          OpenMeteoRequest.builder().lon(super.getLon()).lat(super.getLon()).build();
-      String weatherString = client.getWeatherData(request);
-      Content content = new Content.Builder().addText(weatherString + getPrompt()).build();
+      String weatherString = weatherData();
+      Content content = new Content.Builder().addText(getPrompt(weatherString)).build();
       GenerativeModel gm = new GenerativeModel("gemini-1.5-flash", getGeminiApiKey());
       GenerativeModelFutures model = GenerativeModelFutures.from(gm);
       GenerateContentResponse response = model.generateContent(content).get();

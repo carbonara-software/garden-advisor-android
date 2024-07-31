@@ -11,11 +11,11 @@ public class GeminiWeatherTaskTest {
   @Test
   public void testPrompt() {
     GeminiWeatherTask task =
-        new GeminiWeatherTask(1.2f, 2.3f, "Test Location", "open meteo result");
+        new GeminiWeatherTask(1.2f, 2.3f, "Test Location");
 
-    assertNotNull(task.getPrompt());
-    assertTrue(task.getPrompt().contains("open meteo result"));
-    assertTrue(task.getPrompt().contains("Location Name: Test Location"));
-    assertTrue(task.getPrompt().contains(WEATHER_PROMPT));
+    assertNotNull(task.getPrompt("open meteo result"));
+    assertTrue(task.getPrompt("open meteo result").contains("open meteo result"));
+    assertTrue(task.getPrompt("open meteo result").contains("Location Name: Test Location"));
+    assertTrue(task.getPrompt("open meteo result").contains(WEATHER_PROMPT));
   }
 }

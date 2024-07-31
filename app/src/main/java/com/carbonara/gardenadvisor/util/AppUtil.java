@@ -34,6 +34,14 @@ public class AppUtil {
     return first.orElse(null);
   }
 
+  public static CachedData getCachedData(String locationName) {
+    Optional<CachedData> first =
+        cachedData.stream()
+            .filter(cd -> cd.getLocationName().equalsIgnoreCase(locationName))
+            .max(CachedData::compareTo);
+    return first.orElse(null);
+  }
+
   public static boolean isNetworkAvailable(Context context) {
     ConnectivityManager connectivityManager =
         (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);

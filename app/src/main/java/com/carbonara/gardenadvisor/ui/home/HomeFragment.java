@@ -20,17 +20,20 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.carbonara.gardenadvisor.R;
-import com.carbonara.gardenadvisor.ai.GeminiWrapper;
-import com.carbonara.gardenadvisor.ai.HomeGeminiWrapper;
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
+import com.carbonara.gardenadvisor.ai.task.impl.GeminiHomeSuggestionTask;
+import com.carbonara.gardenadvisor.ai.task.impl.GeminiWeatherTask;
 import com.carbonara.gardenadvisor.databinding.FragmentHomeBinding;
 import com.carbonara.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
 import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.util.Locale;
 
 public class HomeFragment extends BaseFragment {
@@ -40,7 +43,6 @@ public class HomeFragment extends BaseFragment {
   private FusedLocationProviderClient fusedLocationClient;
   private boolean hasFinishWeather;
   private boolean hasFinishSuggestions;
-  private CompositeDisposable compositeDisposable = new CompositeDisposable();
   private Address current;
 
   // messo solo perche android studio non e l'ide piu smart al mondo...
@@ -63,6 +65,8 @@ public class HomeFragment extends BaseFragment {
               // TODO: Permission denied, handle accordingly
             }
           });
+  private Disposable weatherDisposable;
+  private Disposable gardenDisposable;
 
   @Override
   public View onCreateView(
@@ -103,15 +107,18 @@ public class HomeFragment extends BaseFragment {
         displayErrorDialog(getString(R.string.error_location));
         return;
       }
-      disposeAll();
+      if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
+      if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
       displayLoadingDialog();
-      GeminiWrapper wrapper =
-          new HomeGeminiWrapper(
-              (float) current.getLatitude(), (float) current.getLongitude(), current.getLocality());
-      wrapper.getGeminiResultGarden(this::successSuggestions, this::fail);
-      wrapper.getGeminiResultWeather(this::successWeather, this::fail);
-      compositeDisposable =
-          new CompositeDisposable(wrapper.getGardSuggDisposable(), wrapper.getWeatherDisposable());
+
+      weatherDisposable = Single.create(new GeminiWeatherTask((float) current.getLatitude(), (float) current.getLongitude(), current.getLocality()))
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(this::successWeather, this::failWeather);
+      gardenDisposable = Single.create(new GeminiHomeSuggestionTask((float) current.getLatitude(), (float) current.getLongitude(), current.getLocality()))
+          .subscribeOn(Schedulers.io())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe(this::successGarden, this::failGarden);
       hasFinishSuggestions = false;
       hasFinishWeather = false;
     } else {
@@ -119,7 +126,16 @@ public class HomeFragment extends BaseFragment {
     }
   }
 
-  private void successSuggestions(GeminiGardeningSugg s) {
+  private void failGarden(Throwable throwable) {
+    //Corretto
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
+    closeDialog();
+    loge(throwable);
+    displayErrorDialog(getString(R.string.error_gemini));
+  }
+
+  private void successGarden(GeminiGardeningSugg geminiGardeningSugg) {
+    //Corretto
     hasFinishSuggestions = true;
     if (hasFinishWeather) closeDialog();
     LinearLayoutManager llmFruit =
@@ -128,20 +144,20 @@ public class HomeFragment extends BaseFragment {
         new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
     LinearLayoutManager llmVeg =
         new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-    GardeningItemAdapter adpFruit = new GardeningItemAdapter(s.getFruits());
-    GardeningItemAdapter adpVeg = new GardeningItemAdapter(s.getVegetables());
-    GardeningItemAdapter adpFlo = new GardeningItemAdapter(s.getFlowers());
+    GardeningItemAdapter adpFruit = new GardeningItemAdapter(geminiGardeningSugg.getFruits());
+    GardeningItemAdapter adpVeg = new GardeningItemAdapter(geminiGardeningSugg.getVegetables());
+    GardeningItemAdapter adpFlo = new GardeningItemAdapter(geminiGardeningSugg.getFlowers());
     binding.listFruit.setAdapter(adpFruit);
     binding.listFruit.setLayoutManager(llmFruit);
     binding.listVegetables.setAdapter(adpVeg);
     binding.listVegetables.setLayoutManager(llmVeg);
     binding.listFlowers.setAdapter(adpFlo);
     binding.listFlowers.setLayoutManager(llmFlo);
-    loge("Eccolo: " + s);
   }
 
-  private void fail(Throwable throwable) {
-    disposeAll();
+  private void failWeather(Throwable throwable) {
+    //Corretto
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     closeDialog();
     loge(throwable);
     displayErrorDialog(getString(R.string.error_gemini));
@@ -194,13 +210,8 @@ public class HomeFragment extends BaseFragment {
   @Override
   public void onDestroy() {
     super.onDestroy();
-    disposeAll();
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
   }
 
-  private void disposeAll() {
-    if (!compositeDisposable.isDisposed()) {
-      compositeDisposable.dispose();
-    }
-    compositeDisposable.clear();
-  }
 }

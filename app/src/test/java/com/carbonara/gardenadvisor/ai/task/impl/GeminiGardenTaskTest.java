@@ -17,12 +17,12 @@ public class GeminiGardenTaskTest {
     Set<String> plants = Stream.of("t1", "t2", "t3").collect(Collectors.toSet());
 
     GeminiGardenTask task =
-        new GeminiGardenTask(1.2f, 2.3f, "Test Location", "Open Meteo Result", plants);
+        new GeminiGardenTask(1.2f, 2.3f, "Test Location", plants);
 
-    assertNotNull(task.getPrompt());
-    assertTrue(task.getPrompt().contains("Open Meteo Result"));
-    assertTrue(task.getPrompt().contains("Location Name: Test Location"));
-    assertTrue(task.getPrompt().contains("My plants: [\"t1\",\"t2\",\"t3\"]"));
-    assertTrue(task.getPrompt().contains(GARDEN_SUGGESTION_PROMPT));
+    assertNotNull(task.getPrompt("Open Meteo Result"));
+    assertTrue(task.getPrompt("Open Meteo Result").contains("Open Meteo Result"));
+    assertTrue(task.getPrompt("Open Meteo Result").contains("Location Name: Test Location"));
+    assertTrue(task.getPrompt("Open Meteo Result").contains("My plants: [\"t1\",\"t2\",\"t3\"]"));
+    assertTrue(task.getPrompt("Open Meteo Result").contains(GARDEN_SUGGESTION_PROMPT));
   }
 }

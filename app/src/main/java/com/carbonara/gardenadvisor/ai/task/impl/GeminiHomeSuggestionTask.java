@@ -6,7 +6,8 @@ import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.task.GeminiSingleOnSubscriber;
-import com.carbonara.gardenadvisor.ai.task.GeminiWeatherDependentTask;
+import com.carbonara.gardenadvisor.ai.task.GeminiTask;
+import com.carbonara.gardenadvisor.util.AppUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.ai.client.generativeai.GenerativeModel;
@@ -16,19 +17,19 @@ import com.google.ai.client.generativeai.type.GenerateContentResponse;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.SingleEmitter;
 
-public class GeminiHomeSuggestionTask extends GeminiWeatherDependentTask
+public class GeminiHomeSuggestionTask extends GeminiTask
     implements GeminiSingleOnSubscriber<GeminiGardeningSugg> {
 
   public GeminiHomeSuggestionTask(
-      Float lat, Float lon, String locationName, String openMeteoResult) {
-    super(lat, lon, locationName, openMeteoResult);
+      Float lat, Float lon, String locationName) {
+    super(lat, lon, locationName);
   }
 
   @Override
   public void subscribe(@NonNull SingleEmitter<GeminiGardeningSugg> emitter) throws Throwable {
     GenerativeModel gm = new GenerativeModel("gemini-1.5-flash", getGeminiApiKey());
     GenerativeModelFutures model = GenerativeModelFutures.from(gm);
-    Content content = new Content.Builder().addText(getPrompt()).build();
+    Content content = new Content.Builder().addText(getPrompt(weatherData())).build();
     GenerateContentResponse response = model.generateContent(content).get();
     String resultText = response.getText();
     try {
@@ -46,8 +47,8 @@ public class GeminiHomeSuggestionTask extends GeminiWeatherDependentTask
   }
 
   @Override
-  public String getPrompt() {
-    return getOpenMeteoResultString()
+  public String getPrompt(String meteo) {
+    return meteo
         + "\nLocation Name: "
         + getLocationName()
         + "\n"

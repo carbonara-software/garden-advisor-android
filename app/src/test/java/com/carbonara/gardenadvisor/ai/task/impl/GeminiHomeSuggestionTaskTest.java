@@ -12,11 +12,11 @@ public class GeminiHomeSuggestionTaskTest {
   public void testPrompt() {
 
     GeminiHomeSuggestionTask task =
-        new GeminiHomeSuggestionTask(1.2f, 2.3f, "Test Location", "Open Meteo Result");
+        new GeminiHomeSuggestionTask(1.2f, 2.3f, "Test Location");
 
-    assertNotNull(task.getPrompt());
-    assertTrue(task.getPrompt().contains("Open Meteo Result"));
-    assertTrue(task.getPrompt().contains("Location Name: Test Location"));
-    assertTrue(task.getPrompt().contains(HOME_SUGGESTION_PROMPT));
+    assertNotNull(task.getPrompt("Open Meteo Result"));
+    assertTrue(task.getPrompt("Open Meteo Result").contains("Open Meteo Result"));
+    assertTrue(task.getPrompt("Open Meteo Result").contains("Location Name: Test Location"));
+    assertTrue(task.getPrompt("Open Meteo Result").contains(HOME_SUGGESTION_PROMPT));
   }
 }
