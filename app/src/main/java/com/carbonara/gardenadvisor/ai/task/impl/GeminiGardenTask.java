@@ -30,8 +30,8 @@ public class GeminiGardenTask extends GeminiTask
   }
 
   @Override
-  public String getPrompt(String meteo) throws JsonProcessingException {
-    return meteo
+  public String getPrompt(String weather) throws JsonProcessingException {
+    return weather
         + "\n"
         + "Location Name: "
         + getLocationName()

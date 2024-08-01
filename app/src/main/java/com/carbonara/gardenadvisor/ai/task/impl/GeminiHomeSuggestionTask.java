@@ -45,7 +45,7 @@ public class GeminiHomeSuggestionTask extends GeminiTask
   }
 
   @Override
-  public String getPrompt(String meteo) {
-    return meteo + "\nLocation Name: " + getLocationName() + "\n" + HOME_SUGGESTION_PROMPT;
+  public String getPrompt(String weather) {
+    return weather + "\nLocation Name: " + getLocationName() + "\n" + HOME_SUGGESTION_PROMPT;
   }
 }

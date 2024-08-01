@@ -32,8 +32,8 @@ public class GeminiWeatherTask extends GeminiTask
   }
 
   @Override
-  public String getPrompt(String s) {
-    return s
+  public String getPrompt(String weather) {
+    return weather
         + "\nLocation Name: "
         + getLocationName()
         + "\n"
