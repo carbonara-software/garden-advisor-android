@@ -12,18 +12,18 @@ import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 
 public class CreateGardenEmitter implements ObservableOnSubscribe<Boolean> {
 
-  private final Context c;
+  private final Context context;
   private final Garden garden;
 
-  public CreateGardenEmitter(Context c, Garden garden) {
-    this.c = c;
+  public CreateGardenEmitter(Context context, Garden garden) {
+    this.context = context;
     this.garden = garden;
   }
 
   @Override
   public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Throwable {
-    GardenDao gDao = AppDatabase.getDatabase(c).gardenDao();
-    PlantDao pDao = AppDatabase.getDatabase(c).plantDao();
+    GardenDao gDao = AppDatabase.getDatabase(context).gardenDao();
+    PlantDao pDao = AppDatabase.getDatabase(context).plantDao();
     GardenRepository repo = new GardenRepository(gDao, pDao);
     repo.insertGarden(garden)
         .doOnError(emitter::tryOnError)

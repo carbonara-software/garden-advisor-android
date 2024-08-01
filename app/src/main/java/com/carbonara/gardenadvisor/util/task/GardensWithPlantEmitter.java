@@ -14,19 +14,19 @@ import java.util.List;
 
 public class GardensWithPlantEmitter implements ObservableOnSubscribe<List<GardenWithPlants>> {
 
-  private final Context c;
-  private Disposable d;
+  private final Context context;
+  private Disposable disposable;
 
   public GardensWithPlantEmitter(Context c) {
-    this.c = c;
+    this.context = c;
   }
 
   @Override
   public void subscribe(@NonNull ObservableEmitter<List<GardenWithPlants>> emitter)
       throws Throwable {
-    GardenDao gDao = AppDatabase.getDatabase(c).gardenDao();
-    PlantDao pDao = AppDatabase.getDatabase(c).plantDao();
+    GardenDao gDao = AppDatabase.getDatabase(context).gardenDao();
+    PlantDao pDao = AppDatabase.getDatabase(context).plantDao();
     GardenRepository repo = new GardenRepository(gDao, pDao);
-    d = repo.getGardensWithPlants().subscribe(emitter::onNext, emitter::tryOnError);
+    disposable = repo.getGardensWithPlants().subscribe(emitter::onNext, emitter::tryOnError);
   }
 }

@@ -53,10 +53,15 @@ public class GeminiGardenTask extends GeminiTask
       String resultText = response.getText();
       ObjectMapper mapper = new ObjectMapper();
       mapper.registerModule(new JavaTimeModule());
+
       GeminiGardeningSugg sugg = mapper.readValue(resultText, GeminiGardeningSugg.class);
-      if (!emitter.isDisposed()) emitter.onSuccess(sugg);
+      if (!emitter.isDisposed()) {
+        emitter.onSuccess(sugg);
+      }
     } catch (IOException | ExecutionException | InterruptedException e) {
-      if (!emitter.isDisposed()) emitter.onError(e);
+      if (!emitter.isDisposed()) {
+        emitter.onError(e);
+      }
     }
   }
 }

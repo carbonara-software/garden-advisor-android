@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.ai.task.impl;
 
 import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.HOME_SUGGESTION_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
+import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
@@ -32,7 +33,7 @@ public class GeminiHomeSuggestionTask extends GeminiTask
       GenerateContentResponse response = model.generateContent(content).get();
       String resultText = response.getText();
 
-      loge("JSON: " + resultText);
+      logd("JSON: " + resultText);
       ObjectMapper mapper = new ObjectMapper();
       GeminiGardeningSugg sugg = mapper.readValue(resultText, GeminiGardeningSugg.class);
       if (!emitter.isDisposed()) emitter.onSuccess(sugg);

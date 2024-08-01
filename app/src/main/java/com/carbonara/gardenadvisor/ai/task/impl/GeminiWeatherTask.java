@@ -57,17 +57,15 @@ public class GeminiWeatherTask extends GeminiTask
       String resultText = response.getText();
       ObjectMapper mapper = new ObjectMapper();
       mapper.registerModule(new JavaTimeModule());
+
       GeminiWeather weather = mapper.readValue(resultText, GeminiWeather.class);
-      if (!emitter.isDisposed()) emitter.onSuccess(weather);
+      if (!emitter.isDisposed()) {
+        emitter.onSuccess(weather);
+      }
+
       AppUtil.addCachedData(
           new CachedData(weatherString, getLat(), getLon(), getLocationName(), weather));
-    } catch (IOException e) {
-      if (!emitter.isDisposed()) emitter.onError(e);
-    } catch (CancellationException e) {
-      if (!emitter.isDisposed()) emitter.onError(e);
-    } catch (ExecutionException e) {
-      if (!emitter.isDisposed()) emitter.onError(e);
-    } catch (InterruptedException e) {
+    } catch (IOException | CancellationException | ExecutionException | InterruptedException e) {
       if (!emitter.isDisposed()) emitter.onError(e);
     }
   }

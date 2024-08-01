@@ -1,7 +1,5 @@
 package com.carbonara.gardenadvisor;
 
-import static com.carbonara.gardenadvisor.util.LogUtil.loge;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +12,7 @@ import com.carbonara.gardenadvisor.databinding.ActivityMainBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.CameraBottomSheet;
 import com.carbonara.gardenadvisor.ui.home.HomeFragmentDirections;
 import com.carbonara.gardenadvisor.util.GAMenuItems;
+import com.carbonara.gardenadvisor.util.LogUtil;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,14 +42,14 @@ public class MainActivity extends AppCompatActivity {
     NavController navController = Navigation.findNavController(binding.navHostFragment);
     if (menuItem.getItemId() == R.id.navigation_home && selected != GAMenuItems.HOME) {
       selected = GAMenuItems.HOME;
-      loge("Home page Pressed");
+      LogUtil.logd("Home page Pressed");
       navController.navigate(HomeFragmentDirections.actionGlobalHome());
     } else if (menuItem.getItemId() == R.id.navigation_gardens && selected != GAMenuItems.GARDENS) {
       selected = GAMenuItems.GARDENS;
       navController.navigate(HomeFragmentDirections.actionGlobalGardensFragment());
     } else if (menuItem.getItemId() == R.id.navigation_settings
         && selected != GAMenuItems.SETTINGS) {
-      loge("Settings page not implemented yet");
+      LogUtil.logd("Settings page not implemented yet");
       return false;
     } else {
       return false;

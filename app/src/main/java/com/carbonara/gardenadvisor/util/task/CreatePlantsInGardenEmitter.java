@@ -17,27 +17,27 @@ import java.util.Set;
 
 public class CreatePlantsInGardenEmitter implements ObservableOnSubscribe<Boolean> {
 
-  private final Context c;
+  private final Context context;
   private final Garden garden;
   private final List<Plant> plants;
-  private Disposable d;
+  private Disposable disposable;
   private GardenRepository repo;
   private ObservableEmitter<Boolean> emitter;
 
-  public CreatePlantsInGardenEmitter(Context c, Garden garden, Set<Plant> plants) {
-    this.c = c;
+  public CreatePlantsInGardenEmitter(Context context, Garden garden, Set<Plant> plants) {
+    this.context = context;
     this.garden = garden;
     this.plants = new ArrayList<>(plants);
   }
 
-  public CreatePlantsInGardenEmitter(Context c, Garden garden, List<Plant> plants) {
-    this.c = c;
+  public CreatePlantsInGardenEmitter(Context context, Garden garden, List<Plant> plants) {
+    this.context = context;
     this.garden = garden;
     this.plants = plants;
   }
 
-  public CreatePlantsInGardenEmitter(Context c, Garden garden, Plant plant) {
-    this.c = c;
+  public CreatePlantsInGardenEmitter(Context context, Garden garden, Plant plant) {
+    this.context = context;
     this.garden = garden;
     this.plants = new ArrayList<>();
     plants.add(plant);
@@ -46,16 +46,15 @@ public class CreatePlantsInGardenEmitter implements ObservableOnSubscribe<Boolea
   @Override
   public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Throwable {
     this.emitter = emitter;
-    GardenDao gDao = AppDatabase.getDatabase(c).gardenDao();
-    PlantDao pDao = AppDatabase.getDatabase(c).plantDao();
+    GardenDao gDao = AppDatabase.getDatabase(context).gardenDao();
+    PlantDao pDao = AppDatabase.getDatabase(context).plantDao();
     repo = new GardenRepository(gDao, pDao);
-    d = repo.deletePlantsFromGarden(garden).subscribe(this::onCompleteDelete, this::onErrorDelete);
+    disposable =
+        repo.deletePlantsFromGarden(garden).subscribe(this::onCompleteDelete, this::onErrorDelete);
   }
 
   private void onErrorDelete(Throwable throwable) {
     if (emitter != null && !emitter.isDisposed()) {
-      // Not shure but this could lead in a crash because it might opens
-      // a dialog and it is running in the background thread... Vincenzo will fix this <3
       emitter.tryOnError(throwable);
     }
   }

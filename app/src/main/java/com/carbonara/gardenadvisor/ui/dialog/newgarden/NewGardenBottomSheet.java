@@ -30,7 +30,7 @@ public class NewGardenBottomSheet extends BottomSheetDialogFragment {
 
   BottomsheetNewGardenBinding binding;
   Location location;
-  private Disposable d;
+  private Disposable disposable;
   private final NewGardenCallback callback;
 
   public NewGardenBottomSheet(NewGardenCallback callback) {
@@ -148,7 +148,7 @@ public class NewGardenBottomSheet extends BottomSheetDialogFragment {
     Garden garden = new Garden();
     garden.setDescription(binding.tfGardenName.getEditText().getText().toString());
     garden.setLocation(location);
-    d =
+    disposable =
         Observable.create(new CreateGardenEmitter(requireContext(), garden))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -172,8 +172,8 @@ public class NewGardenBottomSheet extends BottomSheetDialogFragment {
   @Override
   public void onDismiss(@NonNull DialogInterface dialog) {
     super.onDismiss(dialog);
-    if (d != null && !d.isDisposed()) {
-      d.dispose();
+    if (disposable != null && !disposable.isDisposed()) {
+      disposable.dispose();
     }
   }
 }

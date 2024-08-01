@@ -1,6 +1,6 @@
 package com.carbonara.gardenadvisor.ui.addplants.adapter.swipe;
 
-import static com.carbonara.gardenadvisor.util.LogUtil.loge;
+import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 
 import android.graphics.Canvas;
 import androidx.annotation.NonNull;
@@ -28,13 +28,12 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
       @NonNull RecyclerView recyclerView,
       @NonNull RecyclerView.ViewHolder viewHolder,
       @NonNull RecyclerView.ViewHolder target) {
-    loge("Move");
+    logd("Move");
     return false;
   }
 
   @Override
   public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-    int position = viewHolder.getAdapterPosition();
     if (viewHolder instanceof AddPlantViewHolder) {
       Integer res = openItems.putIfAbsent(viewHolder.getAdapterPosition(), direction);
       if (res == null || res != direction) {
