@@ -1,5 +1,9 @@
 package com.carbonara.gardenadvisor.ui.addplants.adapter.viewholder;
 
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
@@ -25,36 +29,35 @@ public class AddPlantViewHolder extends ViewHolder {
   public void setS(String s) {
     this.s = s;
     if (binding.tfPlantName.getEditText() != null) {
-      binding.tfPlantName.getEditText().setOnFocusChangeListener(this::onFocusChange);
-      //          .addTextChangedListener(
-      //              new TextWatcher() {
-      //                @Override
-      //                public void beforeTextChanged(CharSequence s, int start, int count, int
-      // after) {}
-      //
-      //                @Override
-      //                public void onTextChanged(CharSequence s, int start, int before, int count)
-      // {
-      //
-      //                }
-      //
-      //                @Override
-      //                public void afterTextChanged(Editable s) {
-      //                  callbackAdd.onPlantTextAdded(getAdapterPosition(), s.toString());
-      //                }
-      //              });
+      binding
+          .tfPlantName
+          .getEditText()
+          .addTextChangedListener(
+              new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                  //                  loge("beforeTextChanged: " + s.toString());
+                  //                  loge("beforeTextChanged start: " + start);
+                  //                  loge("beforeTextChanged after: " + after);
+                  //                  loge("beforeTextChanged count: " + count);
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                  //                  loge("onTextChanged: " + s.toString());
+                  //                  loge("onTextChanged start: " + start);
+                  //                  loge("onTextChanged before: " + before);
+                  //                  loge("onTextChanged count: " + count);
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                  loge("afterTextChanged: " + s.toString());
+                  callbackAdd.onPlantTextAdded(getAdapterPosition(), s.toString());
+                }
+              });
       binding.imgDelete.setOnClickListener(v -> callbackDel.onDeleteClicked(getAdapterPosition()));
       binding.txtClose.setOnClickListener(v -> showDelete());
-    }
-  }
-
-  private void onFocusChange(View view, boolean b) {
-    if (!b
-        && binding.tfPlantName.getEditText() != null
-        && binding.tfPlantName.getEditText().getText() != null
-        && !binding.tfPlantName.getEditText().getText().toString().isEmpty()) {
-      callbackAdd.onPlantTextAdded(
-          getAdapterPosition(), binding.tfPlantName.getEditText().getText().toString());
     }
   }
 

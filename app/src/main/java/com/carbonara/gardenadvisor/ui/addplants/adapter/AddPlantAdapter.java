@@ -1,5 +1,7 @@
 package com.carbonara.gardenadvisor.ui.addplants.adapter;
 
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
+
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -52,6 +54,8 @@ public class AddPlantAdapter extends Adapter<AddPlantViewHolder> {
 
   public void itemTextChange(int position, String s) {
     plants.set(position, s);
+    loge("itemTextChange: " + s);
+    loge(plants.toString());
     // notifyItemChanged(position);
   }
 }

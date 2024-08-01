@@ -25,12 +25,13 @@ public class GeminiHomeSuggestionTask extends GeminiTask
 
   @Override
   public void subscribe(@NonNull SingleEmitter<GeminiGardeningSugg> emitter) throws Throwable {
-    GenerativeModel gm = new GenerativeModel("gemini-1.5-flash", getGeminiApiKey());
-    GenerativeModelFutures model = GenerativeModelFutures.from(gm);
-    Content content = new Content.Builder().addText(getPrompt(weatherData())).build();
-    GenerateContentResponse response = model.generateContent(content).get();
-    String resultText = response.getText();
     try {
+      GenerativeModel gm = new GenerativeModel("gemini-1.5-flash", getGeminiApiKey());
+      GenerativeModelFutures model = GenerativeModelFutures.from(gm);
+      Content content = new Content.Builder().addText(getPrompt(weatherData())).build();
+      GenerateContentResponse response = model.generateContent(content).get();
+      String resultText = response.getText();
+
       loge("JSON: " + resultText);
       ObjectMapper mapper = new ObjectMapper();
       GeminiGardeningSugg sugg = mapper.readValue(resultText, GeminiGardeningSugg.class);
@@ -41,6 +42,9 @@ public class GeminiHomeSuggestionTask extends GeminiTask
     } catch (NullPointerException ex) {
       loge("Error parsing gemini response null:", ex);
       if (!emitter.isDisposed()) emitter.onError(ex);
+    } catch (InterruptedException ex) {
+      loge("Error parsing gemini response undeliverable:", ex);
+      // if (!emitter.isDisposed()) emitter.onError(ex);
     }
   }
 
