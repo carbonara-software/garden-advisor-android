@@ -22,6 +22,9 @@ public interface GardenDao {
   @Query("SELECT * FROM garden where id = :id")
   Flowable<Garden> getGarden(Long id);
 
+  @Query("SELECT * FROM garden where id = :id")
+  Flowable<GardenWithPlants> getGardenWithPlants(Long id);
+
   @Query("SELECT * FROM garden")
   Flowable<List<Garden>> getGardens();
 
@@ -34,4 +37,8 @@ public interface GardenDao {
   @Transaction
   @Query("SELECT * FROM garden")
   Flowable<List<GardenWithPlants>> getGardensWithPlants();
+
+  @Transaction
+  @Query("DELETE FROM plant WHERE gardenId = :idGarden")
+  Completable deletePlantsFromGarden(long idGarden);
 }

@@ -4,6 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class Plant {
+public class Plant implements Serializable {
 
   @PrimaryKey private Long id;
 

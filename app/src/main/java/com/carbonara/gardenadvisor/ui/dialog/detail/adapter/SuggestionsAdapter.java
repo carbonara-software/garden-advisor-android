@@ -30,6 +30,6 @@ public class SuggestionsAdapter extends Adapter<SuggestionViewHolder> {
 
   @Override
   public int getItemCount() {
-    return suggestions.size();
+    return suggestions != null ? suggestions.size() : 0;
   }
 }

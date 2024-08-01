@@ -1,15 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_ga"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/nav_ga"
     app:startDestination="@id/home">
 
     <fragment android:id="@+id/home"
         android:name="com.carbonara.gardenadvisor.ui.home.HomeFragment"
-        android:label="Home">
-    </fragment>
+        android:label="Home"/>
+  <fragment
+    android:id="@+id/gardensFragment"
+    android:name="com.carbonara.gardenadvisor.ui.gardens.GardensFragment"
+    android:label="fragment_gardens"
+    tools:layout="@layout/fragment_gardens">
+    <action
+      android:id="@+id/action_gardensFragment_to_gardenFragment"
+      app:destination="@id/gardenFragment"
+      app:popUpTo="@id/gardensFragment"
+      app:popUpToInclusive="false"/>
+  </fragment>
+  <fragment
+    android:id="@+id/gardenFragment"
+    android:name="com.carbonara.gardenadvisor.ui.garden.GardenFragment"
+    android:label="fragment_garden"
+    tools:layout="@layout/fragment_garden">
+    <argument
+      android:name="garden"
+      app:argType="com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants"/>
+    <action
+      android:id="@+id/action_gardenFragment_to_addPlantsFragment"
+      app:destination="@id/addPlantsFragment"
+      app:popUpTo="@id/gardenFragment"
+      app:popUpToInclusive="false"/>
+    <argument
+      android:name="plants"
+      app:argType="string[]"
+      app:nullable="true"
+      android:defaultValue="@null"/>
+  </fragment>
+  <action
+    android:id="@+id/action_global_home"
+    app:destination="@id/home"
+    app:popUpToInclusive="true"/>
+  <action
+    android:id="@+id/action_global_gardensFragment"
+    app:destination="@id/gardensFragment"
+    app:popUpTo="@id/home"
+    app:popUpToInclusive="true"/>
+  <fragment
+    android:id="@+id/addPlantsFragment"
+    android:name="com.carbonara.gardenadvisor.ui.addplants.AddPlantsFragment"
+    android:label="fragment_add_plants"
+    tools:layout="@layout/fragment_add_plants">
+    <argument
+      android:name="garden"
+      app:argType="com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants"/>
+    <action
+      android:id="@+id/action_addPlantsFragment_to_gardenFragment"
+      app:destination="@id/gardenFragment"
+      app:popUpTo="@id/gardensFragment"
+      app:popUpToInclusive="false"/>
+  </fragment>
 
-<!--    <dialog-->
+  <!--    <dialog-->
 <!--        android:id="@+id/loading_dialog"-->
 <!--        android:name="com.carbonara.gardenadvisor.ui.dialog.loading.LoadingDialog">-->
 <!--    </dialog>-->

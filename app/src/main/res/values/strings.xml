@@ -1,19 +1,19 @@
 <resources>
-    <string name="app_name">Garden Advisor</string>
-    <string name="error_meteo">Errore nel reperire il meteo online… riprovi più tardi.</string>
-    <string name="error_location">Cannot retrieve location at the moment, please try later…</string>
-    <string name="error_gemini">Cannot retrieve data from ai at the moment, please try later…</string>
-    <string name="error_rationale">We need gps data to better display weather and suggestion based on your location…</string>
-    <string name="vegetables"> 🥦Vegetables</string>
-    <string name="fruit"> 🍎Fruits</string>
-    <string name="flowers"> 🌸Flowers</string>
-    <string name="max_temp">Max Temp.</string>
-    <string name="min_temp">Min Temp.</string>
-    <string name="fun_facts">Fun Facts</string>
-    <string name="ga_camera">AI Camera</string>
+  <string name="app_name">Garden Advisor</string>
+  <string name="error_meteo">Errore nel reperire il meteo online… riprovi più tardi.</string>
+  <string name="error_location">Cannot retrieve location at the moment, please try later…</string>
+  <string name="error_gemini">Cannot retrieve data from ai at the moment, please try later…</string>
+  <string name="error_rationale">We need gps data to better display weather and suggestion based on your location…</string>
+  <string name="vegetables"> 🥦Vegetables</string>
+  <string name="fruit"> 🍎Fruits</string>
+  <string name="flowers"> 🌸Flowers</string>
+  <string name="max_temp">Max Temp.</string>
+  <string name="min_temp">Min Temp.</string>
+  <string name="fun_facts">Fun Facts</string>
+  <string name="ga_camera">AI Camera</string>
   <string name="take_a_picture_of_a_plant">Take a picture of a plant</string>
   <string name="take_a_picture">Take a Picture</string>
-  <string name="loading_picture_taken">Crunching data...</string>
+  <string name="loading_picture_taken">Crunching data…</string>
   <string name="take_another_picture">Take another picture</string>
   <string name="plant_name">Plant Name</string>
   <string name="scientific_name">Scientific Name</string>
@@ -29,7 +29,7 @@
   <string name="cautions">Cautions</string>
   <string name="leaf">Leaf</string>
   <string name="positives">Positives</string>
-  <string name="loading_error_message">Oooops...</string>
+  <string name="loading_error_message">Oooops…</string>
   <string name="loading_error_description">Something went terribly wrong</string>
   <string name="success">Success!</string>
   <string name="well_done">Well Done!</string>
@@ -39,5 +39,14 @@
   <string name="recommended_icon">Recommended Icon</string>
   <string name="app_logo">App Logo</string>
   <string name="camera_button">Camera Button</string>
-
+  <string name="plants"> 🌱Plants</string>
+  <string name="gardens"> 👩‍🌾 Gardens</string>
+  <string name="no_gardens"> 🧐 No Gardens found… \n Add a new one!</string>
+  <string name="no_plants"> 🧐 No Plants found for this garden… \n Add a new one!</string>
+  <string name="add_garden">Add a new Garden! 🍎🍓🥬🍅</string>
+  <string name="add_plant">Add a new Plant to this garden!</string>
+  <string name="title_home">Home</string>
+  <string name="title_gardens">Garden</string>
+  <string name="title_settings">Settings</string>
+  <string name="save_plants">Add list to Garden</string>
 </resources>
