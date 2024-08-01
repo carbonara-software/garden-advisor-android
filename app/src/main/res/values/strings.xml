@@ -34,6 +34,7 @@
   <string name="success">Success!</string>
   <string name="well_done">Well Done!</string>
   <string name="loading_location">Loading Location</string>
+  <string name="loading_weather">Loading Weather…</string>
   <string name="weather_icon">Weather Icon</string>
   <string name="card_score_placeholder">1</string>
   <string name="recommended_icon">Recommended Icon</string>

@@ -1,8 +1,9 @@
 package com.carbonara.gardenadvisor.ui.home;
 
+import static com.airbnb.lottie.LottieDrawable.INFINITE;
 import static com.carbonara.gardenadvisor.util.AppUtil.getCurrentLocationName;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
-import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIcon;
+import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIconAnim;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -121,6 +122,7 @@ public class HomeFragment extends BaseFragment {
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(this::successWeather, this::failWeather);
+      showWeatherLoading();
       gardenDisposable =
           Single.create(
                   new GeminiHomeSuggestionTask(
@@ -168,6 +170,7 @@ public class HomeFragment extends BaseFragment {
 
   private void failWeather(Throwable throwable) {
     // Corretto
+    hideWeatherLoading();
     if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     closeDialog();
     loge(throwable);
@@ -175,6 +178,7 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void successWeather(GeminiWeather s) {
+    hideWeatherLoading();
     hasFinishWeather = true;
     if (hasFinishSuggestions) closeDialog();
     if (getContext() == null) return;
@@ -185,7 +189,9 @@ public class HomeFragment extends BaseFragment {
     binding.listWeather.setLayoutManager(llm);
     binding.city.setText(
         current.getLocality() != null ? current.getLocality() : current.getCountryName());
-    binding.iconWeather.setImageResource(getIcon(s.getWeather().getTodayForecast().getIcon()));
+    binding.iconWeather.setAnimation(getIconAnim(s.getWeather().getTodayForecast().getIcon()));
+    binding.iconWeather.setRepeatCount(INFINITE);
+    binding.iconWeather.playAnimation();
     binding.cityTempMaxValue.setText(
         String.format(
             Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMaxTemp()));
@@ -216,6 +222,16 @@ public class HomeFragment extends BaseFragment {
           });
     }
     return false;
+  }
+
+  private void showWeatherLoading() {
+    binding.clLoad.setVisibility(View.VISIBLE);
+    binding.clData.setVisibility(View.GONE);
+  }
+
+  private void hideWeatherLoading() {
+    binding.clLoad.setVisibility(View.GONE);
+    binding.clData.setVisibility(View.VISIBLE);
   }
 
   @Override

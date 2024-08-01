@@ -29,4 +29,30 @@ public class IconChooser {
     }
     return R.drawable.cloud;
   }
+
+  public static int getIconAnim(int icon) {
+    switch (icon) {
+      case 1:
+        return R.raw.cloud;
+      case 2:
+        return R.raw.cloud;
+      case 3:
+        return R.raw.cloud_thunder;
+      case 4:
+        return R.raw.fog;
+      case 5:
+        return R.raw.rain;
+      case 6:
+        return R.raw.snow;
+      case 7:
+        return R.raw.sun;
+      case 8:
+        return R.raw.sun_cloud;
+      case 9:
+        return R.raw.sun_cloud_rain;
+      case 10:
+        return R.raw.thunder;
+    }
+    return R.raw.cloud;
+  }
 }
