@@ -1,7 +1,5 @@
 package com.carbonara.gardenadvisor.ui.dialog.detail;
 
-import static com.carbonara.gardenadvisor.util.LogUtil.loge;
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +9,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import com.carbonara.gardenadvisor.ai.GeminiCameraSuggestionWrapper;
 import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
+import com.carbonara.gardenadvisor.ai.task.impl.GeminiCameraTask;
 import com.carbonara.gardenadvisor.databinding.BottomsheetCameraBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.adapter.SuggestionsAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -21,16 +19,18 @@ import com.otaliastudios.cameraview.CameraView;
 import com.otaliastudios.cameraview.PictureResult;
 import com.otaliastudios.cameraview.controls.Audio;
 import com.otaliastudios.cameraview.controls.Mode;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.util.Arrays;
 import java.util.List;
 
 public class CameraBottomSheet extends BottomSheetDialogFragment {
 
   private BottomsheetCameraBinding binding;
-
-  private GeminiCameraSuggestionWrapper cameraSuggestionWrapper;
-
   private List<View> layouts;
+  private Disposable cameraDisposable;
 
   @Nullable
   @Override
@@ -39,7 +39,6 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
       @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     binding = BottomsheetCameraBinding.inflate(inflater, container, false);
-    cameraSuggestionWrapper = new GeminiCameraSuggestionWrapper();
 
     layouts =
         Arrays.asList(
@@ -75,20 +74,18 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
   private void pictureTaken(Bitmap bitmap) {
     binding.pictureView.setImageBitmap(bitmap);
 
-    cameraSuggestionWrapper.getGeminiResult(
-        bitmap, this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
+    cameraDisposable =
+        Single.create(new GeminiCameraTask(bitmap))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
 
     hideAllLayouts();
     binding.loadingLayout.setVisibility(View.VISIBLE);
   }
 
   public void cameraSuggestionSuccess(GeminiCameraSuggestion cameraSuggestion) {
-    requireActivity()
-        .runOnUiThread(
-            () -> {
-              loge(cameraSuggestion.toString());
-              updatePlantResult(cameraSuggestion);
-            });
+    updatePlantResult(cameraSuggestion);
   }
 
   private void updatePlantResult(GeminiCameraSuggestion cameraSuggestion) {
@@ -124,18 +121,21 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
 
     binding.successRetryButton.setOnClickListener(v -> startOver());
 
+    if (canBeDisposed()) {
+      cameraDisposable.dispose();
+    }
+
     hideAllLayouts();
     binding.resultLayout.setVisibility(View.VISIBLE);
   }
 
   public void cameraSuggestionFailure(Throwable t) {
-    requireActivity()
-        .runOnUiThread(
-            () -> {
-              loge(t);
-              hideAllLayouts();
-              binding.errorLayout.setVisibility(View.VISIBLE);
-            });
+    if (canBeDisposed()) {
+      cameraDisposable.dispose();
+    }
+
+    hideAllLayouts();
+    binding.errorLayout.setVisibility(View.VISIBLE);
   }
 
   private void startOver() {
@@ -145,5 +145,9 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
 
   private void hideAllLayouts() {
     layouts.forEach(f -> f.setVisibility(View.GONE));
+  }
+
+  private boolean canBeDisposed() {
+    return cameraDisposable != null && !cameraDisposable.isDisposed();
   }
 }
