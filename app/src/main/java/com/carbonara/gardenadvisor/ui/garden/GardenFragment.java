@@ -1,9 +1,10 @@
 package com.carbonara.gardenadvisor.ui.garden;
 
 import static android.view.View.GONE;
+import static com.airbnb.lottie.LottieDrawable.INFINITE;
 import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
-import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIcon;
+import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIconAnim;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -137,6 +138,17 @@ public class GardenFragment extends BaseFragment {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::successWeather, this::failWeather);
+    showWeatherLoading();
+  }
+
+  private void showWeatherLoading() {
+    binding.clLoad.setVisibility(View.VISIBLE);
+    binding.clData.setVisibility(View.GONE);
+  }
+
+  private void hideWeatherLoading() {
+    binding.clLoad.setVisibility(View.GONE);
+    binding.clData.setVisibility(View.VISIBLE);
   }
 
   private void failWeather(Throwable throwable) {
@@ -145,6 +157,7 @@ public class GardenFragment extends BaseFragment {
 
   private void successWeather(GeminiWeather s) {
     if (getContext() != null) {
+      hideWeatherLoading();
       WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
 
       LinearLayoutManager llm =
@@ -152,7 +165,9 @@ public class GardenFragment extends BaseFragment {
       binding.listWeather.setAdapter(adp);
       binding.listWeather.setLayoutManager(llm);
       binding.city.setText(args.getGarden().getGarden().getLocation().getLocationName());
-      binding.iconWeather.setImageResource(getIcon(s.getWeather().getTodayForecast().getIcon()));
+      binding.iconWeather.setAnimation(getIconAnim(s.getWeather().getTodayForecast().getIcon()));
+      binding.iconWeather.setRepeatCount(INFINITE);
+      binding.iconWeather.playAnimation();
       binding.cityTempMaxValue.setText(
           String.format(
               Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMaxTemp()));
