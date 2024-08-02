@@ -1,6 +1,7 @@
 package com.carbonara.gardenadvisor.ui.home;
 
 import static com.carbonara.gardenadvisor.util.AppUtil.getCurrentLocationName;
+import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIcon;
 
@@ -45,8 +46,6 @@ public class HomeFragment extends BaseFragment {
   private boolean hasFinishSuggestions;
   private Address current;
 
-  // messo solo perche android studio non e l'ide piu smart al mondo...
-  // l'if verifica appunto se sono stati acconsentiti i permessi
   @SuppressLint("MissingPermission")
   private final ActivityResultLauncher<String[]> requestPermissionLauncher =
       registerForActivityResult(
@@ -81,22 +80,13 @@ public class HomeFragment extends BaseFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    // MOSTRO BOTTOMBART
     showBottomBar();
-    // Controllo se ha i permessi
+
     if (checkAndRequestLocationPermission()) {
-      // Tutt appo possiamo procedere
       fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
       fusedLocationClient.getLastLocation().addOnSuccessListener(this::locationRetrieved);
-
     } else {
-      // qui potremmo trovarci in due situazioni:
-      //  - non avevamo i permessi ma essendo la prima volta e comparsa la dialog e l'utente puo o
-      // non puo accettare i permessi ma lo gestiamo sopra
-      //  - L'utente ha rifiutato i permessi richiesti...
-      // quindi
-      // TODO: Fix this situation...
-      loge("No permission found");
+      logd("No permission found");
     }
   }
 
@@ -138,7 +128,6 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void failGarden(Throwable throwable) {
-    // Corretto
     if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
     closeDialog();
     loge(throwable);
@@ -146,7 +135,6 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void successGarden(GeminiGardeningSugg geminiGardeningSugg) {
-    // Corretto
     hasFinishSuggestions = true;
     if (hasFinishWeather) closeDialog();
     LinearLayoutManager llmFruit =
@@ -167,7 +155,6 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void failWeather(Throwable throwable) {
-    // Corretto
     if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     closeDialog();
     loge(throwable);

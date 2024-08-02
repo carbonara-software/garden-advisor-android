@@ -23,7 +23,7 @@ import java.util.List;
 public class GardensFragment extends BaseFragment implements NewGardenCallback {
   FragmentGardensBinding binding;
 
-  Disposable d;
+  Disposable disposable;
 
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class GardensFragment extends BaseFragment implements NewGardenCallback {
   }
 
   private void initDB() {
-    d =
+    disposable =
         Observable.create(new GardensWithPlantEmitter(requireContext()))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -51,10 +51,10 @@ public class GardensFragment extends BaseFragment implements NewGardenCallback {
     displayErrorDialog("Error retrieving gardens list");
   }
 
-  private void populateGardenList(List<GardenWithPlants> g) {
-    if (g != null && !g.isEmpty()) {
+  private void populateGardenList(List<GardenWithPlants> gardenWithPlantsList) {
+    if (gardenWithPlantsList != null && !gardenWithPlantsList.isEmpty()) {
       if (getContext() == null) return;
-      GardensAdapter adp = new GardensAdapter(g);
+      GardensAdapter adp = new GardensAdapter(gardenWithPlantsList);
       GridLayoutManager llm = new GridLayoutManager(getContext(), 2);
       binding.recyclerGardens.setVisibility(View.VISIBLE);
       binding.emptyListGardens.setVisibility(View.GONE);

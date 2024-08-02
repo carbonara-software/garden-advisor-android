@@ -1,5 +1,6 @@
 package com.carbonara.gardenadvisor.util;
 
+import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import android.content.Context;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 public class AppUtil {
 
-  private static List<CachedData> cachedData = new ArrayList<>();
+  private static final List<CachedData> cachedData = new ArrayList<>();
 
   public static void addCachedData(CachedData data) {
     cachedData.add(data);
@@ -57,7 +58,7 @@ public class AppUtil {
         return addresses.get(0);
       }
     } catch (IOException e) {
-      loge("Geocoder failed: " + e.getMessage());
+      loge("getCurrentLocationName Geocoder failed: ", e);
     }
     return null;
   }
@@ -69,10 +70,10 @@ public class AppUtil {
       if (addresses != null && !addresses.isEmpty()) {
         return addresses.get(0);
       } else {
-        loge("No location found for the provided city name.");
+        logd("No location found for the provided city name.");
       }
     } catch (IOException e) {
-      loge("Geocoder failed: " + e.getMessage());
+      loge("getCurrentLocationLatLon Geocoder failed: ", e);
     }
     return null;
   }

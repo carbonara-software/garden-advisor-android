@@ -4,7 +4,6 @@ import com.carbonara.gardenadvisor.openmeteo.request.OpenMeteoRequest;
 import com.carbonara.gardenadvisor.openmeteo.response.OpenMeteoResponseException;
 import java.io.IOException;
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -32,25 +31,6 @@ public class OkHttpOpenMeteoClient implements OpenMeteoClient {
     }
 
     return response.body().string();
-  }
-
-  @Override
-  public void getWeatherDataAsync(OpenMeteoRequest openMeteoRequest, Callback callback)
-      throws IOException {
-    Call call = buildCall(openMeteoRequest);
-    call.enqueue(callback);
-  }
-
-  @Override
-  public String getWeatherData(float lat, float lon) throws IOException {
-    OpenMeteoRequest request = OpenMeteoRequest.builder().lat(lat).lon(lon).build();
-    return getWeatherData(request);
-  }
-
-  @Override
-  public void getWeatherDataAsync(float lat, float lon, Callback callback) throws IOException {
-    OpenMeteoRequest request = OpenMeteoRequest.builder().lat(lat).lon(lon).build();
-    getWeatherDataAsync(request, callback);
   }
 
   protected Call buildCall(OpenMeteoRequest openMeteoRequest) {
