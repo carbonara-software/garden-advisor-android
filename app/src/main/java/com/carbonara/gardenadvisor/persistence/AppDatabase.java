@@ -1,7 +1,8 @@
 package com.carbonara.gardenadvisor.persistence;
 
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
+
 import android.content.Context;
-import android.util.Log;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -40,7 +41,7 @@ public abstract class AppDatabase extends RoomDatabase {
         try {
           appDatabase.populate(context);
         } catch (IOException e) {
-          Log.e("AppDatabase", "could not pre-populate db. {}", e);
+          loge("Could not pre-populate db. {}", e);
         }
       }
     }

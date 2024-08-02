@@ -57,7 +57,7 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
     camera.addCameraListener(
         new CameraListener() {
           @Override
-          public void onPictureTaken(PictureResult result) {
+          public void onPictureTaken(@NonNull PictureResult result) {
             result.toBitmap(1500, 1500, bitmap -> pictureTaken(bitmap));
           }
         });

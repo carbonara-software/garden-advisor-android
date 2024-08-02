@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.ui.garden;
 
 import static android.view.View.GONE;
 import static com.airbnb.lottie.LottieDrawable.INFINITE;
+import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIconAnim;
 
@@ -41,7 +42,7 @@ public class GardenFragment extends BaseFragment {
 
   FragmentGardenBinding binding;
   GardenFragmentArgs args;
-  private Disposable d;
+  private Disposable fragmentDisposable;
   private Disposable gardenDisposable;
   private Disposable weatherDisposable;
 
@@ -191,7 +192,7 @@ public class GardenFragment extends BaseFragment {
     plants.addAll(geminiGardeningSugg.getVegetables());
     plants.addAll(geminiGardeningSugg.getFruits());
     showPlants(plants);
-    d =
+    fragmentDisposable =
         Observable.create(
                 new CreatePlantsInGardenEmitter(
                     requireContext(),
@@ -203,19 +204,19 @@ public class GardenFragment extends BaseFragment {
   }
 
   private void handleComplete() {
-    displaySuccessDialog("AllDone");
-    loge("All Done");
+    displaySuccessDialog("All Done");
+    logd("All Done");
   }
 
   private void handleError(Throwable throwable) {
     displayErrorDialog("Error while saving new plants and data... try again later...");
-    loge(throwable);
+    loge("handleError", throwable);
   }
 
   private void handleOnNext(Boolean aBoolean) {
     displaySuccessDialog("Plants saved successfully!\n all data as been updated...");
-    loge("Plants saved successfully!\n all data as been updated...");
-    loge("eccolo: " + aBoolean);
+    logd("Plants saved successfully!\n all data as been updated...");
+    logd("handleOnNext: " + aBoolean);
   }
 
   private void showNoPlants() {
@@ -255,8 +256,8 @@ public class GardenFragment extends BaseFragment {
     if (gardenDisposable != null && !gardenDisposable.isDisposed()) {
       gardenDisposable.dispose();
     }
-    if (d != null && !d.isDisposed()) {
-      d.dispose();
+    if (fragmentDisposable != null && !fragmentDisposable.isDisposed()) {
+      fragmentDisposable.dispose();
     }
   }
 }
