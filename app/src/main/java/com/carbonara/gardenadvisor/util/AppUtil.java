@@ -7,39 +7,106 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import com.carbonara.gardenadvisor.ai.cache.CachedData;
+import com.carbonara.gardenadvisor.ai.cache.HomeCache;
+import com.carbonara.gardenadvisor.ai.cache.WeatherCache;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.common.collect.Lists;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
 public class AppUtil {
 
-  private static List<CachedData> cachedData = new ArrayList<>();
+  private static List<WeatherCache> cachedData = new ArrayList<>();
+  private static HomeCache cacheHome = null;
 
-  public static void addCachedData(CachedData data) {
+  public static void addCachedData(WeatherCache data) {
     cachedData.add(data);
   }
 
-  public static void removeCachedData(CachedData data) {
+  public static void removeCachedData(WeatherCache data) {
     cachedData.remove(data);
   }
 
-  public static CachedData getCachedData(float lat, float lon) {
-    Optional<CachedData> first =
+  public static WeatherCache getCachedData(float lat, float lon) {
+    Optional<WeatherCache> first =
         cachedData.stream()
             .filter(cd -> cd.getLat() == lat && cd.getLon() == lon)
-            .max(CachedData::compareTo);
+            .max(WeatherCache::compareTo);
     return first.orElse(null);
   }
 
-  public static CachedData getCachedData(String locationName) {
-    Optional<CachedData> first =
+  public static WeatherCache getCachedData(String locationName) {
+    Optional<WeatherCache> first =
         cachedData.stream()
             .filter(cd -> cd.getLocationName().equalsIgnoreCase(locationName))
-            .max(CachedData::compareTo);
+            .max(WeatherCache::compareTo);
     return first.orElse(null);
+  }
+
+  public static void persistWeather(Context context) throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
+    String json = mapper.writeValueAsString(cachedData);
+    saveJsonToFile(context,json,"WeatherData.json");
+  }
+
+  public static void addHomeCache(HomeCache cache) {
+    cacheHome = cache;
+  }
+
+  public static HomeCache getHomeCache() {
+    return cacheHome;
+  }
+
+  public static void persistHome(Context context) throws IOException {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
+    String json = mapper.writeValueAsString(cacheHome);
+    saveJsonToFile(context,json,"HomeData.json");
+  }
+
+  private static void saveJsonToFile(Context context, String json, String s)
+      throws IOException {
+    try (FileOutputStream fos = context.openFileOutput(s, Context.MODE_PRIVATE)) {
+      fos.write(json.getBytes());
+      fos.flush();
+    }
+  }
+
+  public static void restoreHome(Context context) throws IOException {
+    FileInputStream fis = context.openFileInput("HomeData.json");
+    InputStreamReader isr = new InputStreamReader(fis);
+    BufferedReader bufferedReader = new BufferedReader(isr);
+    StringBuilder stringBuilder = new StringBuilder();
+    String line;
+    while ((line = bufferedReader.readLine()) != null) {
+      stringBuilder.append(line);
+    }
+    String jsonString = stringBuilder.toString();
+    cacheHome = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(jsonString, HomeCache.class);
+  }
+
+  public static void restoreWeather(Context context) throws IOException {
+    FileInputStream fis = context.openFileInput("HomeData.json");
+    InputStreamReader isr = new InputStreamReader(fis);
+    BufferedReader bufferedReader = new BufferedReader(isr);
+    StringBuilder stringBuilder = new StringBuilder();
+    String line;
+    while ((line = bufferedReader.readLine()) != null) {
+      stringBuilder.append(line);
+    }
+    String jsonString = stringBuilder.toString();
+    cachedData = Lists.newArrayList(new ObjectMapper().registerModule(new JavaTimeModule()).readValue(jsonString, WeatherCache[].class));
   }
 
   public static boolean isNetworkAvailable(Context context) {

@@ -1,5 +1,9 @@
 package com.carbonara.gardenadvisor;
 
+import static com.carbonara.gardenadvisor.util.AppUtil.persistHome;
+import static com.carbonara.gardenadvisor.util.AppUtil.persistWeather;
+import static com.carbonara.gardenadvisor.util.AppUtil.restoreHome;
+import static com.carbonara.gardenadvisor.util.AppUtil.restoreWeather;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import android.os.Bundle;
@@ -14,6 +18,7 @@ import com.carbonara.gardenadvisor.databinding.ActivityMainBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.CameraBottomSheet;
 import com.carbonara.gardenadvisor.ui.home.HomeFragmentDirections;
 import com.carbonara.gardenadvisor.util.GAMenuItems;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,5 +69,37 @@ public class MainActivity extends AppCompatActivity {
 
   public void hideBottomBar() {
     binding.bottomBar.bottomNavigationView.setVisibility(View.GONE);
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    try {
+      persistWeather(getApplicationContext());
+    } catch (IOException e) {
+      // TODO How to handle this?
+    }
+    try {
+      persistHome(getApplicationContext());
+    } catch (IOException e) {
+      // TODO How to handle this?
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    try {
+      restoreHome(getApplicationContext());
+    } catch (IOException e) {
+      // TODO How to handle this?
+    }
+    try {
+      restoreWeather(getApplicationContext());
+    } catch (IOException e) {
+      // TODO How to handle this?
+    }
+
+
   }
 }
