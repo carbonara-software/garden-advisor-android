@@ -21,12 +21,11 @@ public class AddPlantsFragment extends Fragment {
 
   FragmentAddPlantsBinding binding;
   private AddPlantAdapter adapter;
-  private List<String> plants;
   GardenWithPlants gardenWithPlants;
 
   @Override
   public View onCreateView(
-      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+      @NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentAddPlantsBinding.inflate(inflater, container, false);
     return binding.getRoot();
   }
@@ -35,18 +34,20 @@ public class AddPlantsFragment extends Fragment {
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
 
-    if (getArguments() != null) {
-      AddPlantsFragmentArgs args = AddPlantsFragmentArgs.fromBundle(getArguments());
-      gardenWithPlants = args.getGarden();
-      List<String> plants = new ArrayList<>();
-      adapter = new AddPlantAdapter(plants);
-      binding.listaItems.setLayoutManager(new LinearLayoutManager(getContext()));
-      binding.listaItems.setAdapter(adapter);
-      ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
-      itemTouchHelper.attachToRecyclerView(binding.listaItems);
-      binding.savePlants.setOnClickListener(this::savePlants);
-      binding.addPlant.setOnClickListener(this::addPlant);
+    if (getArguments() == null) {
+      return;
     }
+
+    AddPlantsFragmentArgs args = AddPlantsFragmentArgs.fromBundle(getArguments());
+    gardenWithPlants = args.getGarden();
+    List<String> plants = new ArrayList<>();
+    adapter = new AddPlantAdapter(plants);
+    binding.listaItems.setLayoutManager(new LinearLayoutManager(getContext()));
+    binding.listaItems.setAdapter(adapter);
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter));
+    itemTouchHelper.attachToRecyclerView(binding.listaItems);
+    binding.savePlants.setOnClickListener(this::savePlants);
+    binding.addPlant.setOnClickListener(this::addPlant);
   }
 
   private void addPlant(View view) {
@@ -56,12 +57,13 @@ public class AddPlantsFragment extends Fragment {
   }
 
   private void savePlants(View view) {
-    if (adapter != null) {
-      plants = adapter.getPlants();
-      Navigation.findNavController(view)
-          .navigate(
-              AddPlantsFragmentDirections.actionAddPlantsFragmentToGardenFragment(gardenWithPlants)
-                  .setPlants(plants.toArray(new String[plants.size()])));
+    if (adapter == null) {
+      return;
     }
+    List<String> plants = adapter.getPlants();
+    Navigation.findNavController(view)
+        .navigate(
+            AddPlantsFragmentDirections.actionAddPlantsFragmentToGardenFragment(gardenWithPlants)
+                .setPlants(plants.toArray(new String[0])));
   }
 }

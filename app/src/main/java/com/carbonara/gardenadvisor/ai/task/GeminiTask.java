@@ -37,10 +37,6 @@ public abstract class GeminiTask {
 
   public GeminiWeather geminiWeather() throws IOException {
     WeatherCache data = AppUtil.getCachedData(locationName);
-    if (data != null) {
-      return data.getWeather();
-    } else {
-      return null;
-    }
+    return (data != null) ? data.getWeather() : null;
   }
 }

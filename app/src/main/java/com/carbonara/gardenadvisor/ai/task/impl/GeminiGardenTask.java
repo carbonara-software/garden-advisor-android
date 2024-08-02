@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.ai.task.impl;
 
 import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.GARDEN_SUGGESTION_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
 import com.carbonara.gardenadvisor.ai.task.GeminiSingleOnSubscriber;
@@ -53,10 +54,17 @@ public class GeminiGardenTask extends GeminiTask
       String resultText = response.getText();
       ObjectMapper mapper = new ObjectMapper();
       mapper.registerModule(new JavaTimeModule());
+
       GeminiGardeningSugg sugg = mapper.readValue(resultText, GeminiGardeningSugg.class);
-      if (!emitter.isDisposed()) emitter.onSuccess(sugg);
-    } catch (IOException | ExecutionException | InterruptedException e) {
-      if (!emitter.isDisposed()) emitter.onError(e);
+      if (!emitter.isDisposed()) {
+        emitter.onSuccess(sugg);
+      }
+    } catch (IOException | ExecutionException e) {
+      if (!emitter.isDisposed()) {
+        emitter.onError(e);
+      }
+    } catch (InterruptedException interruptedException) {
+      loge("GeminiGardenTask interrupted", interruptedException);
     }
   }
 }

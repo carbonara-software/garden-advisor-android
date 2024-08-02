@@ -1,8 +1,10 @@
 package com.carbonara.gardenadvisor.ui.home;
 
+import static com.airbnb.lottie.LottieDrawable.INFINITE;
 import static com.carbonara.gardenadvisor.util.AppUtil.getCurrentLocationName;
+import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
-import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIcon;
+import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIconAnim;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -45,8 +47,6 @@ public class HomeFragment extends BaseFragment {
   private boolean hasFinishSuggestions;
   private Address current;
 
-  // messo solo perche android studio non e l'ide piu smart al mondo...
-  // l'if verifica appunto se sono stati acconsentiti i permessi
   @SuppressLint("MissingPermission")
   private final ActivityResultLauncher<String[]> requestPermissionLauncher =
       registerForActivityResult(
@@ -81,22 +81,13 @@ public class HomeFragment extends BaseFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    // MOSTRO BOTTOMBART
     showBottomBar();
-    // Controllo se ha i permessi
+
     if (checkAndRequestLocationPermission()) {
-      // Tutt appo possiamo procedere
       fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
       fusedLocationClient.getLastLocation().addOnSuccessListener(this::locationRetrieved);
-
     } else {
-      // qui potremmo trovarci in due situazioni:
-      //  - non avevamo i permessi ma essendo la prima volta e comparsa la dialog e l'utente puo o
-      // non puo accettare i permessi ma lo gestiamo sopra
-      //  - L'utente ha rifiutato i permessi richiesti...
-      // quindi
-      // TODO: Fix this situation...
-      loge("No permission found");
+      logd("No permission found");
     }
   }
 
@@ -121,6 +112,7 @@ public class HomeFragment extends BaseFragment {
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(this::successWeather, this::failWeather);
+      showWeatherLoading();
       gardenDisposable =
           Single.create(
                   new GeminiHomeSuggestionTask(
@@ -138,7 +130,6 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void failGarden(Throwable throwable) {
-    // Corretto
     if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
     closeDialog();
     loge(throwable);
@@ -146,7 +137,6 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void successGarden(GeminiGardeningSugg geminiGardeningSugg) {
-    // Corretto
     hasFinishSuggestions = true;
     if (hasFinishWeather) closeDialog();
     LinearLayoutManager llmFruit =
@@ -167,7 +157,7 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void failWeather(Throwable throwable) {
-    // Corretto
+    hideWeatherLoading();
     if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     closeDialog();
     loge(throwable);
@@ -175,6 +165,7 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void successWeather(GeminiWeather s) {
+    hideWeatherLoading();
     hasFinishWeather = true;
     if (hasFinishSuggestions) closeDialog();
     if (getContext() == null) return;
@@ -185,7 +176,9 @@ public class HomeFragment extends BaseFragment {
     binding.listWeather.setLayoutManager(llm);
     binding.city.setText(
         current.getLocality() != null ? current.getLocality() : current.getCountryName());
-    binding.iconWeather.setImageResource(getIcon(s.getWeather().getTodayForecast().getIcon()));
+    binding.iconWeather.setAnimation(getIconAnim(s.getWeather().getTodayForecast().getIcon()));
+    binding.iconWeather.setRepeatCount(INFINITE);
+    binding.iconWeather.playAnimation();
     binding.cityTempMaxValue.setText(
         String.format(
             Locale.getDefault(), "%.1f°", s.getWeather().getTodayForecast().getMaxTemp()));
@@ -216,6 +209,16 @@ public class HomeFragment extends BaseFragment {
           });
     }
     return false;
+  }
+
+  private void showWeatherLoading() {
+    binding.clLoad.setVisibility(View.VISIBLE);
+    binding.clData.setVisibility(View.GONE);
+  }
+
+  private void hideWeatherLoading() {
+    binding.clLoad.setVisibility(View.GONE);
+    binding.clData.setVisibility(View.VISIBLE);
   }
 
   @Override

@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.ai.task.impl;
 
 import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.WEATHER_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import com.carbonara.gardenadvisor.ai.cache.WeatherCache;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
@@ -57,18 +58,18 @@ public class GeminiWeatherTask extends GeminiTask
       String resultText = response.getText();
       ObjectMapper mapper = new ObjectMapper();
       mapper.registerModule(new JavaTimeModule());
+
       GeminiWeather weather = mapper.readValue(resultText, GeminiWeather.class);
-      if (!emitter.isDisposed()) emitter.onSuccess(weather);
+      if (!emitter.isDisposed()) {
+        emitter.onSuccess(weather);
+      }
+
       AppUtil.addCachedData(
           new WeatherCache(weatherString, getLat(), getLon(), getLocationName(), weather));
-    } catch (IOException e) {
+    } catch (IOException | CancellationException | ExecutionException e) {
       if (!emitter.isDisposed()) emitter.onError(e);
-    } catch (CancellationException e) {
-      if (!emitter.isDisposed()) emitter.onError(e);
-    } catch (ExecutionException e) {
-      if (!emitter.isDisposed()) emitter.onError(e);
-    } catch (InterruptedException e) {
-      if (!emitter.isDisposed()) emitter.onError(e);
+    } catch (InterruptedException interruptedException) {
+      loge("GeminiWeatherTask interrupted", interruptedException);
     }
   }
 }

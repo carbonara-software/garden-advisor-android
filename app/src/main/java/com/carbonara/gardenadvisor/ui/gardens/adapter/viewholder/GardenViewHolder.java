@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.carbonara.gardenadvisor.databinding.RowGardensItemBinding;
 import com.carbonara.gardenadvisor.persistence.entity.GardenWithPlants;
 import com.carbonara.gardenadvisor.ui.gardens.GardensFragmentDirections;
+import java.util.Locale;
 
 public class GardenViewHolder extends ViewHolder {
 
   private GardenWithPlants garden;
-  private RowGardensItemBinding binding;
+  RowGardensItemBinding binding;
 
   public GardenViewHolder(@NonNull View itemView) {
     super(itemView);
@@ -20,7 +21,7 @@ public class GardenViewHolder extends ViewHolder {
 
   public void setGarden(GardenWithPlants garden) {
     this.garden = garden;
-    binding.gaScore.setText("" + garden.getPlants().size());
+    binding.gaScore.setText(String.format(Locale.getDefault(), "%d", garden.getPlants().size()));
     binding.name.setText(garden.getGarden().getLocation().getLocationName());
     binding.getRoot().setOnClickListener(this::onGardenClicked);
   }

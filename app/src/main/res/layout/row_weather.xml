@@ -30,12 +30,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-      <ImageView
+      <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/icon_weather"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="16dp"
-        android:src="@drawable/cloud_tunder"
+        app:lottie_rawRes="@raw/cloud_thunder"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
         app:layout_constraintBottom_toTopOf="@id/temp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
