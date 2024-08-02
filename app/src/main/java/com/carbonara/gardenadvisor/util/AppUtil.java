@@ -21,13 +21,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class AppUtil {
 
-  private static List<WeatherCache> cachedData = new ArrayList<>();
+  private static Set<WeatherCache> cachedData = new TreeSet<>();
   private static HomeCache cacheHome = null;
 
   public static void addCachedData(WeatherCache data) {
@@ -42,7 +45,7 @@ public class AppUtil {
     Optional<WeatherCache> first =
         cachedData.stream()
             .filter(cd -> cd.getLat() == lat && cd.getLon() == lon)
-            .max(WeatherCache::compareTo);
+            .findAny();
     return first.orElse(null);
   }
 
@@ -50,15 +53,17 @@ public class AppUtil {
     Optional<WeatherCache> first =
         cachedData.stream()
             .filter(cd -> cd.getLocationName().equalsIgnoreCase(locationName))
-            .max(WeatherCache::compareTo);
+            .findAny();
     return first.orElse(null);
   }
 
   public static void persistWeather(Context context) throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new JavaTimeModule());
-    String json = mapper.writeValueAsString(cachedData);
-    saveJsonToFile(context,json,"WeatherData.json");
+    if(cachedData != null && !cachedData.isEmpty()) {
+      ObjectMapper mapper = new ObjectMapper();
+      mapper.registerModule(new JavaTimeModule());
+      String json = mapper.writeValueAsString(cachedData);
+      saveJsonToFile(context, json, "WeatherGA.json");
+    }
   }
 
   public static void addHomeCache(HomeCache cache) {
@@ -70,10 +75,10 @@ public class AppUtil {
   }
 
   public static void persistHome(Context context) throws IOException {
+    if(cacheHome == null) return;
     ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new JavaTimeModule());
     String json = mapper.writeValueAsString(cacheHome);
-    saveJsonToFile(context,json,"HomeData.json");
+    saveJsonToFile(context,json,"HomeGA.json");
   }
 
   private static void saveJsonToFile(Context context, String json, String s)
@@ -81,33 +86,46 @@ public class AppUtil {
     try (FileOutputStream fos = context.openFileOutput(s, Context.MODE_PRIVATE)) {
       fos.write(json.getBytes());
       fos.flush();
+      loge("File written successfully: " + s);
+      loge("File written successfully JSON: " + json);
+    }catch (Exception ex){
+      loge("Error writing file: ",ex);
     }
   }
 
   public static void restoreHome(Context context) throws IOException {
-    FileInputStream fis = context.openFileInput("HomeData.json");
-    InputStreamReader isr = new InputStreamReader(fis);
-    BufferedReader bufferedReader = new BufferedReader(isr);
     StringBuilder stringBuilder = new StringBuilder();
-    String line;
-    while ((line = bufferedReader.readLine()) != null) {
-      stringBuilder.append(line);
+    try(FileInputStream fis = context.openFileInput("HomeGA.json")) {
+      InputStreamReader isr = new InputStreamReader(fis);
+      BufferedReader bufferedReader = new BufferedReader(isr);
+      String line;
+      while ((line = bufferedReader.readLine()) != null) {
+        stringBuilder.append(line);
+      }
+    }catch (IOException ex){
+      throw ex;
     }
     String jsonString = stringBuilder.toString();
-    cacheHome = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(jsonString, HomeCache.class);
+    loge("JSON Home: " + jsonString);
+    cacheHome = new ObjectMapper().registerModule(new JavaTimeModule())
+        .readValue(jsonString, HomeCache.class);
+
   }
 
   public static void restoreWeather(Context context) throws IOException {
-    FileInputStream fis = context.openFileInput("HomeData.json");
-    InputStreamReader isr = new InputStreamReader(fis);
-    BufferedReader bufferedReader = new BufferedReader(isr);
     StringBuilder stringBuilder = new StringBuilder();
-    String line;
-    while ((line = bufferedReader.readLine()) != null) {
-      stringBuilder.append(line);
+    try(FileInputStream fis = context.openFileInput("WeatherGA.json")) {
+      InputStreamReader isr = new InputStreamReader(fis);
+      BufferedReader bufferedReader = new BufferedReader(isr);
+      String line;
+      while ((line = bufferedReader.readLine()) != null) {
+        stringBuilder.append(line);
+      }
     }
     String jsonString = stringBuilder.toString();
-    cachedData = Lists.newArrayList(new ObjectMapper().registerModule(new JavaTimeModule()).readValue(jsonString, WeatherCache[].class));
+    loge("JSON Weather: " + jsonString);
+    WeatherCache[] cachedDataTemp = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(jsonString, WeatherCache[].class);
+    cachedData = new TreeSet<>(Arrays.asList(cachedDataTemp));
   }
 
   public static boolean isNetworkAvailable(Context context) {

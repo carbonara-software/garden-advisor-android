@@ -65,7 +65,7 @@ public class GeminiWeatherTask extends GeminiTask
       }
 
       AppUtil.addCachedData(
-          new WeatherCache(weatherString, getLat(), getLon(), getLocationName(), weather));
+           WeatherCache.builder().lat(getLat()).lon(getLon()).locationName(getLocationName()).weather(weather).weatherString(weatherString).build());
     } catch (IOException | CancellationException | ExecutionException e) {
       if (!emitter.isDisposed()) emitter.onError(e);
     } catch (InterruptedException interruptedException) {

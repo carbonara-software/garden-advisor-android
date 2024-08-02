@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
-
     binding.topBar.cameraButton.setOnClickListener(
         new OnClickListener() {
           @Override
@@ -78,27 +77,29 @@ public class MainActivity extends AppCompatActivity {
     try {
       persistWeather(getApplicationContext());
     } catch (IOException e) {
-      // TODO How to handle this?
+      loge("error persistingWeather: " , e);
     }
     try {
       persistHome(getApplicationContext());
     } catch (IOException e) {
-      // TODO How to handle this?
+      loge("error persistingHome: " , e);
     }
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    try {
-      restoreHome(getApplicationContext());
-    } catch (IOException e) {
-      // TODO How to handle this?
-    }
-    try {
-      restoreWeather(getApplicationContext());
-    } catch (IOException e) {
-      // TODO How to handle this?
+    synchronized (){
+      try {
+        restoreHome(getApplicationContext());
+      } catch (Exception e) {
+        loge("error restoringHome: " , e);
+      }
+      try {
+        restoreWeather(getApplicationContext());
+      } catch (Exception e) {
+        loge("error restoringWeather: " , e);
+      }
     }
 
 

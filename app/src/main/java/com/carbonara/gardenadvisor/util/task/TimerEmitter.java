@@ -8,6 +8,7 @@ import com.carbonara.gardenadvisor.persistence.entity.FunFact;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.exceptions.UndeliverableException;
 
 public class TimerEmitter implements ObservableOnSubscribe<FunFact> {
 
@@ -19,18 +20,20 @@ public class TimerEmitter implements ObservableOnSubscribe<FunFact> {
 
   @Override
   public void subscribe(@NonNull ObservableEmitter<FunFact> emitter) throws Throwable {
-    while (!emitter.isDisposed()) {
-      FunFact fact =
-          AppDatabase.getDatabase(context).funFactDao().getRandomFunFact().blockingFirst();
-      emitter.onNext(fact);
-      try {
+    try {
+      while (!emitter.isDisposed()) {
+        FunFact fact = AppDatabase.getDatabase(context)
+            .funFactDao()
+            .getRandomFunFact()
+            .blockingFirst();
+        emitter.onNext(fact);
         Thread.sleep(5000);
-      } catch (InterruptedException ex) {
-        loge("TimerEmitter Interrupted", ex);
       }
-    }
-    if (!emitter.isDisposed()) {
-      emitter.isDisposed();
+      if (!emitter.isDisposed()) {
+        emitter.onComplete();
+      }
+    } catch (UndeliverableException | InterruptedException ex) {
+      //loge("TimerEmitter Interrupted", ex);
     }
   }
 }

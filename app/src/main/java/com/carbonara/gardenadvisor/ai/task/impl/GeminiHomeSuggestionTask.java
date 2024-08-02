@@ -47,7 +47,7 @@ public class GeminiHomeSuggestionTask extends GeminiTask
       ObjectMapper mapper = new ObjectMapper();
       GeminiGardeningSugg sugg = mapper.readValue(resultText, GeminiGardeningSugg.class);
       if (!emitter.isDisposed()) emitter.onSuccess(sugg);
-      AppUtil.addHomeCache(new HomeCache(getLat(), getLon(), getLocationName(), sugg));
+      AppUtil.addHomeCache(HomeCache.builder().lat(getLat()).lon(getLon()).locationName(getLocationName()).garden(sugg).build());
     } catch (JsonProcessingException e) {
       loge("Error parsing gemini response:", e);
       if (!emitter.isDisposed()) emitter.onError(e);
