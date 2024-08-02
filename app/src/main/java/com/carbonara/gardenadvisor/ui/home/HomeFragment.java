@@ -29,6 +29,7 @@ import com.carbonara.gardenadvisor.ai.task.impl.GeminiWeatherTask;
 import com.carbonara.gardenadvisor.databinding.FragmentHomeBinding;
 import com.carbonara.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
 import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
+import com.carbonara.gardenadvisor.util.AppCache;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -92,41 +93,51 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void locationRetrieved(Location location) {
-    if (location != null) {
-      current =
-          getCurrentLocationName(requireContext(), location.getLatitude(), location.getLongitude());
-      if (current == null) {
-        displayErrorDialog(getString(R.string.error_location));
-        return;
-      }
-      if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
-      if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
-      displayLoadingDialog();
-
-      weatherDisposable =
-          Single.create(
-                  new GeminiWeatherTask(
-                      (float) current.getLatitude(),
-                      (float) current.getLongitude(),
-                      current.getLocality()))
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(this::successWeather, this::failWeather);
-      showWeatherLoading();
-      gardenDisposable =
-          Single.create(
-                  new GeminiHomeSuggestionTask(
-                      (float) current.getLatitude(),
-                      (float) current.getLongitude(),
-                      current.getLocality()))
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(this::successGarden, this::failGarden);
-      hasFinishSuggestions = false;
-      hasFinishWeather = false;
-    } else {
+    if (location == null) {
       displayErrorDialog(getString(R.string.error_location));
+      return;
     }
+
+    current =
+        getCurrentLocationName(requireContext(), location.getLatitude(), location.getLongitude());
+    if (current == null) {
+      displayErrorDialog(getString(R.string.error_location));
+      return;
+    }
+
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
+
+    weatherDisposable =
+        Single.create(
+                new GeminiWeatherTask(
+                    (float) current.getLatitude(),
+                    (float) current.getLongitude(),
+                    current.getLocality()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::successWeather, this::failWeather);
+    gardenDisposable =
+        Single.create(
+                new GeminiHomeSuggestionTask(
+                    (float) current.getLatitude(),
+                    (float) current.getLongitude(),
+                    current.getLocality()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::successGarden, this::failGarden);
+
+    if (AppCache.getInstance().isPresent()) {
+      hasFinishSuggestions = true;
+      hasFinishWeather = true;
+      return;
+    }
+
+    displayLoadingDialog();
+    showWeatherLoading();
+
+    hasFinishSuggestions = false;
+    hasFinishWeather = false;
   }
 
   private void failGarden(Throwable throwable) {

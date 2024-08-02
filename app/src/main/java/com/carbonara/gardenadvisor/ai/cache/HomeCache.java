@@ -1,7 +1,6 @@
 package com.carbonara.gardenadvisor.ai.cache;
 
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,13 +12,11 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor
 @Jacksonized
 @Builder
-public class HomeCache{
+public class HomeCache {
 
   private float lat;
   private float lon;
   private String locationName;
   private GeminiGardeningSugg garden;
-  @Builder.Default
-  private final long lastUpdated = System.currentTimeMillis();
-
+  @Builder.Default private final long lastUpdated = System.currentTimeMillis();
 }

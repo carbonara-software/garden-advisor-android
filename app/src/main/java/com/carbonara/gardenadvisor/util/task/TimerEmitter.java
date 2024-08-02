@@ -1,7 +1,5 @@
 package com.carbonara.gardenadvisor.util.task;
 
-import static com.carbonara.gardenadvisor.util.LogUtil.loge;
-
 import android.content.Context;
 import com.carbonara.gardenadvisor.persistence.AppDatabase;
 import com.carbonara.gardenadvisor.persistence.entity.FunFact;
@@ -22,10 +20,8 @@ public class TimerEmitter implements ObservableOnSubscribe<FunFact> {
   public void subscribe(@NonNull ObservableEmitter<FunFact> emitter) throws Throwable {
     try {
       while (!emitter.isDisposed()) {
-        FunFact fact = AppDatabase.getDatabase(context)
-            .funFactDao()
-            .getRandomFunFact()
-            .blockingFirst();
+        FunFact fact =
+            AppDatabase.getDatabase(context).funFactDao().getRandomFunFact().blockingFirst();
         emitter.onNext(fact);
         Thread.sleep(5000);
       }
@@ -33,7 +29,7 @@ public class TimerEmitter implements ObservableOnSubscribe<FunFact> {
         emitter.onComplete();
       }
     } catch (UndeliverableException | InterruptedException ex) {
-      //loge("TimerEmitter Interrupted", ex);
+      // loge("TimerEmitter Interrupted", ex);
     }
   }
 }

@@ -1,11 +1,7 @@
 package com.carbonara.gardenadvisor;
 
-import static com.carbonara.gardenadvisor.util.AppUtil.persistHome;
-import static com.carbonara.gardenadvisor.util.AppUtil.persistWeather;
-import static com.carbonara.gardenadvisor.util.AppUtil.restoreHome;
-import static com.carbonara.gardenadvisor.util.AppUtil.restoreWeather;
-import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import static com.carbonara.gardenadvisor.util.LogUtil.logd;
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,6 +14,7 @@ import androidx.navigation.Navigation;
 import com.carbonara.gardenadvisor.databinding.ActivityMainBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.CameraBottomSheet;
 import com.carbonara.gardenadvisor.ui.home.HomeFragmentDirections;
+import com.carbonara.gardenadvisor.util.AppCache;
 import com.carbonara.gardenadvisor.util.GAMenuItems;
 import java.io.IOException;
 
@@ -75,33 +72,29 @@ public class MainActivity extends AppCompatActivity {
   protected void onPause() {
     super.onPause();
     try {
-      persistWeather(getApplicationContext());
+      AppCache.getInstance().persistWeather(getApplicationContext());
     } catch (IOException e) {
-      loge("error persistingWeather: " , e);
+      loge("error persistingWeather: ", e);
     }
     try {
-      persistHome(getApplicationContext());
+      AppCache.getInstance().persistHome(getApplicationContext());
     } catch (IOException e) {
-      loge("error persistingHome: " , e);
+      loge("error persistingHome: ", e);
     }
   }
 
   @Override
   protected void onResume() {
     super.onResume();
-    synchronized (){
-      try {
-        restoreHome(getApplicationContext());
-      } catch (Exception e) {
-        loge("error restoringHome: " , e);
-      }
-      try {
-        restoreWeather(getApplicationContext());
-      } catch (Exception e) {
-        loge("error restoringWeather: " , e);
-      }
+    try {
+      AppCache.getInstance().restoreHome(getApplicationContext());
+    } catch (Exception e) {
+      loge("error restoringHome: ", e);
     }
-
-
+    try {
+      AppCache.getInstance().restoreWeather(getApplicationContext());
+    } catch (Exception e) {
+      loge("error restoringWeather: ", e);
+    }
   }
 }
