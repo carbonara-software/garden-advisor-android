@@ -27,8 +27,12 @@ public class AppCache {
 
   private AppCache() {}
 
-  public synchronized boolean isPresent() {
-    return !cachedWeather.isEmpty() && cachedHome != null;
+  public synchronized boolean isWeatherPresent() {
+    return !cachedWeather.isEmpty();
+  }
+
+  public synchronized boolean isHomePresent() {
+    return cachedHome != null;
   }
 
   public synchronized void addCachedData(WeatherCache data) {

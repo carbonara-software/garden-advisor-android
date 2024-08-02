@@ -44,8 +44,6 @@ public class HomeFragment extends BaseFragment {
   FragmentHomeBinding binding;
 
   private FusedLocationProviderClient fusedLocationClient;
-  private boolean hasFinishWeather;
-  private boolean hasFinishSuggestions;
   private Address current;
 
   @SuppressLint("MissingPermission")
@@ -127,29 +125,28 @@ public class HomeFragment extends BaseFragment {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::successGarden, this::failGarden);
 
-    if (AppCache.getInstance().isPresent()) {
-      hasFinishSuggestions = true;
-      hasFinishWeather = true;
-      return;
+    if (!AppCache.getInstance().isWeatherPresent()) {
+      showWeatherLoading();
     }
 
-    displayLoadingDialog();
-    showWeatherLoading();
-
-    hasFinishSuggestions = false;
-    hasFinishWeather = false;
+    if (!AppCache.getInstance().isHomePresent()) {
+      displayLoadingDialog();
+    }
   }
 
   private void failGarden(Throwable throwable) {
-    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
     closeDialog();
+
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) {
+      gardenDisposable.dispose();
+    }
     loge(throwable);
     displayErrorDialog(getString(R.string.error_gemini));
   }
 
   private void successGarden(GeminiGardeningSugg geminiGardeningSugg) {
-    hasFinishSuggestions = true;
-    if (hasFinishWeather) closeDialog();
+    closeDialog();
+
     LinearLayoutManager llmFruit =
         new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
     LinearLayoutManager llmFlo =
@@ -169,17 +166,20 @@ public class HomeFragment extends BaseFragment {
 
   private void failWeather(Throwable throwable) {
     hideWeatherLoading();
-    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
-    closeDialog();
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) {
+      weatherDisposable.dispose();
+    }
     loge(throwable);
     displayErrorDialog(getString(R.string.error_gemini));
   }
 
   private void successWeather(GeminiWeather s) {
     hideWeatherLoading();
-    hasFinishWeather = true;
-    if (hasFinishSuggestions) closeDialog();
-    if (getContext() == null) return;
+
+    if (getContext() == null) {
+      return;
+    }
+
     WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
     LinearLayoutManager llm =
         new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
