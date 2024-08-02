@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.ai.task.impl;
 
 import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.WEATHER_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import com.carbonara.gardenadvisor.ai.cache.CachedData;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
@@ -65,8 +66,10 @@ public class GeminiWeatherTask extends GeminiTask
 
       AppUtil.addCachedData(
           new CachedData(weatherString, getLat(), getLon(), getLocationName(), weather));
-    } catch (IOException | CancellationException | ExecutionException | InterruptedException e) {
+    } catch (IOException | CancellationException | ExecutionException e) {
       if (!emitter.isDisposed()) emitter.onError(e);
+    } catch (InterruptedException interruptedException) {
+      loge("GeminiWeatherTask interrupted", interruptedException);
     }
   }
 }

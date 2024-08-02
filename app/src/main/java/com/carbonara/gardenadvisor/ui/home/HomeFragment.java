@@ -46,8 +46,6 @@ public class HomeFragment extends BaseFragment {
   private boolean hasFinishSuggestions;
   private Address current;
 
-  // messo solo perche android studio non e l'ide piu smart al mondo...
-  // l'if verifica appunto se sono stati acconsentiti i permessi
   @SuppressLint("MissingPermission")
   private final ActivityResultLauncher<String[]> requestPermissionLauncher =
       registerForActivityResult(
@@ -130,7 +128,6 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void failGarden(Throwable throwable) {
-    // Corretto
     if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
     closeDialog();
     loge(throwable);
@@ -138,7 +135,6 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void successGarden(GeminiGardeningSugg geminiGardeningSugg) {
-    // Corretto
     hasFinishSuggestions = true;
     if (hasFinishWeather) closeDialog();
     LinearLayoutManager llmFruit =
@@ -159,7 +155,6 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void failWeather(Throwable throwable) {
-    // Corretto
     if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
     closeDialog();
     loge(throwable);

@@ -10,7 +10,6 @@ import com.carbonara.gardenadvisor.persistence.repository.GardenRepository;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
-import io.reactivex.rxjava3.disposables.Disposable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -20,7 +19,6 @@ public class CreatePlantsInGardenEmitter implements ObservableOnSubscribe<Boolea
   private final Context context;
   private final Garden garden;
   private final List<Plant> plants;
-  private Disposable disposable;
   private GardenRepository repo;
   private ObservableEmitter<Boolean> emitter;
 
@@ -30,27 +28,16 @@ public class CreatePlantsInGardenEmitter implements ObservableOnSubscribe<Boolea
     this.plants = new ArrayList<>(plants);
   }
 
-  public CreatePlantsInGardenEmitter(Context context, Garden garden, List<Plant> plants) {
-    this.context = context;
-    this.garden = garden;
-    this.plants = plants;
-  }
-
-  public CreatePlantsInGardenEmitter(Context context, Garden garden, Plant plant) {
-    this.context = context;
-    this.garden = garden;
-    this.plants = new ArrayList<>();
-    plants.add(plant);
-  }
-
   @Override
   public void subscribe(@NonNull ObservableEmitter<Boolean> emitter) throws Throwable {
     this.emitter = emitter;
     GardenDao gDao = AppDatabase.getDatabase(context).gardenDao();
     PlantDao pDao = AppDatabase.getDatabase(context).plantDao();
     repo = new GardenRepository(gDao, pDao);
-    disposable =
-        repo.deletePlantsFromGarden(garden).subscribe(this::onCompleteDelete, this::onErrorDelete);
+    repo.deletePlantsFromGarden(garden)
+        .doOnComplete(this::onCompleteDelete)
+        .doOnError(this::onErrorDelete)
+        .subscribe();
   }
 
   private void onErrorDelete(Throwable throwable) {
