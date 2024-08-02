@@ -29,6 +29,7 @@ import com.carbonara.gardenadvisor.ai.task.impl.GeminiWeatherTask;
 import com.carbonara.gardenadvisor.databinding.FragmentHomeBinding;
 import com.carbonara.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
 import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
+import com.carbonara.gardenadvisor.util.AppCache;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -43,8 +44,6 @@ public class HomeFragment extends BaseFragment {
   FragmentHomeBinding binding;
 
   private FusedLocationProviderClient fusedLocationClient;
-  private boolean hasFinishWeather;
-  private boolean hasFinishSuggestions;
   private Address current;
 
   @SuppressLint("MissingPermission")
@@ -92,53 +91,62 @@ public class HomeFragment extends BaseFragment {
   }
 
   private void locationRetrieved(Location location) {
-    if (location != null) {
-      current =
-          getCurrentLocationName(requireContext(), location.getLatitude(), location.getLongitude());
-      if (current == null) {
-        displayErrorDialog(getString(R.string.error_location));
-        return;
-      }
-      if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
-      if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
-      displayLoadingDialog();
-
-      weatherDisposable =
-          Single.create(
-                  new GeminiWeatherTask(
-                      (float) current.getLatitude(),
-                      (float) current.getLongitude(),
-                      current.getLocality()))
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(this::successWeather, this::failWeather);
-      showWeatherLoading();
-      gardenDisposable =
-          Single.create(
-                  new GeminiHomeSuggestionTask(
-                      (float) current.getLatitude(),
-                      (float) current.getLongitude(),
-                      current.getLocality()))
-              .subscribeOn(Schedulers.io())
-              .observeOn(AndroidSchedulers.mainThread())
-              .subscribe(this::successGarden, this::failGarden);
-      hasFinishSuggestions = false;
-      hasFinishWeather = false;
-    } else {
+    if (location == null) {
       displayErrorDialog(getString(R.string.error_location));
+      return;
+    }
+
+    current =
+        getCurrentLocationName(requireContext(), location.getLatitude(), location.getLongitude());
+    if (current == null) {
+      displayErrorDialog(getString(R.string.error_location));
+      return;
+    }
+
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
+
+    weatherDisposable =
+        Single.create(
+                new GeminiWeatherTask(
+                    (float) current.getLatitude(),
+                    (float) current.getLongitude(),
+                    current.getLocality()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::successWeather, this::failWeather);
+    gardenDisposable =
+        Single.create(
+                new GeminiHomeSuggestionTask(
+                    (float) current.getLatitude(),
+                    (float) current.getLongitude(),
+                    current.getLocality()))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::successGarden, this::failGarden);
+
+    if (!AppCache.getInstance().isWeatherPresent()) {
+      showWeatherLoading();
+    }
+
+    if (!AppCache.getInstance().isHomePresent()) {
+      displayLoadingDialog();
     }
   }
 
   private void failGarden(Throwable throwable) {
-    if (gardenDisposable != null && !gardenDisposable.isDisposed()) gardenDisposable.dispose();
     closeDialog();
+
+    if (gardenDisposable != null && !gardenDisposable.isDisposed()) {
+      gardenDisposable.dispose();
+    }
     loge(throwable);
     displayErrorDialog(getString(R.string.error_gemini));
   }
 
   private void successGarden(GeminiGardeningSugg geminiGardeningSugg) {
-    hasFinishSuggestions = true;
-    if (hasFinishWeather) closeDialog();
+    closeDialog();
+
     LinearLayoutManager llmFruit =
         new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
     LinearLayoutManager llmFlo =
@@ -158,17 +166,20 @@ public class HomeFragment extends BaseFragment {
 
   private void failWeather(Throwable throwable) {
     hideWeatherLoading();
-    if (weatherDisposable != null && !weatherDisposable.isDisposed()) weatherDisposable.dispose();
-    closeDialog();
+    if (weatherDisposable != null && !weatherDisposable.isDisposed()) {
+      weatherDisposable.dispose();
+    }
     loge(throwable);
     displayErrorDialog(getString(R.string.error_gemini));
   }
 
   private void successWeather(GeminiWeather s) {
     hideWeatherLoading();
-    hasFinishWeather = true;
-    if (hasFinishSuggestions) closeDialog();
-    if (getContext() == null) return;
+
+    if (getContext() == null) {
+      return;
+    }
+
     WeatherAdapter adp = new WeatherAdapter(s.getWeather().getForecast());
     LinearLayoutManager llm =
         new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);

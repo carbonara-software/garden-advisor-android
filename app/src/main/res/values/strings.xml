@@ -33,7 +33,7 @@
   <string name="loading_error_description">Something went terribly wrong</string>
   <string name="success">Success!</string>
   <string name="well_done">Well Done!</string>
-  <string name="loading_location">Loading Location</string>
+  <string name="loading_location"> </string>
   <string name="loading_weather">Loading Weather…</string>
   <string name="weather_icon">Weather Icon</string>
   <string name="card_score_placeholder">1</string>

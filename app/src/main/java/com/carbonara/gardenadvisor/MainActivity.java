@@ -1,6 +1,7 @@
 package com.carbonara.gardenadvisor;
 
 import static com.carbonara.gardenadvisor.util.LogUtil.logd;
+import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,7 +14,9 @@ import androidx.navigation.Navigation;
 import com.carbonara.gardenadvisor.databinding.ActivityMainBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.CameraBottomSheet;
 import com.carbonara.gardenadvisor.ui.home.HomeFragmentDirections;
+import com.carbonara.gardenadvisor.util.AppCache;
 import com.carbonara.gardenadvisor.util.GAMenuItems;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
-
     binding.topBar.cameraButton.setOnClickListener(
         new OnClickListener() {
           @Override
@@ -64,5 +66,35 @@ public class MainActivity extends AppCompatActivity {
 
   public void hideBottomBar() {
     binding.bottomBar.bottomNavigationView.setVisibility(View.GONE);
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    try {
+      AppCache.getInstance().persistWeather(getApplicationContext());
+    } catch (IOException e) {
+      loge("error persistingWeather: ", e);
+    }
+    try {
+      AppCache.getInstance().persistHome(getApplicationContext());
+    } catch (IOException e) {
+      loge("error persistingHome: ", e);
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    try {
+      AppCache.getInstance().restoreHome(getApplicationContext());
+    } catch (Exception e) {
+      loge("error restoringHome: ", e);
+    }
+    try {
+      AppCache.getInstance().restoreWeather(getApplicationContext());
+    } catch (Exception e) {
+      loge("error restoringWeather: ", e);
+    }
   }
 }

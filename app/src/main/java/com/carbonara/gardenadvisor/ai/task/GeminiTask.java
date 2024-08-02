@@ -1,10 +1,10 @@
 package com.carbonara.gardenadvisor.ai.task;
 
-import com.carbonara.gardenadvisor.ai.cache.CachedData;
+import com.carbonara.gardenadvisor.ai.cache.WeatherCache;
 import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.openmeteo.OkHttpOpenMeteoClient;
 import com.carbonara.gardenadvisor.openmeteo.request.OpenMeteoRequest;
-import com.carbonara.gardenadvisor.util.AppUtil;
+import com.carbonara.gardenadvisor.util.AppCache;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public abstract class GeminiTask {
   public abstract String getPrompt(String weather) throws JsonProcessingException;
 
   public String weatherData() throws IOException {
-    CachedData data = AppUtil.getCachedData(locationName);
+    WeatherCache data = AppCache.getInstance().getCachedWeather(locationName);
     if (data != null) {
       return data.getWeatherString();
     } else {
@@ -36,7 +36,7 @@ public abstract class GeminiTask {
   }
 
   public GeminiWeather geminiWeather() throws IOException {
-    CachedData data = AppUtil.getCachedData(locationName);
+    WeatherCache data = AppCache.getInstance().getCachedWeather(locationName);
     return (data != null) ? data.getWeather() : null;
   }
 }
