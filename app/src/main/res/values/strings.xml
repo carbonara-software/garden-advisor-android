@@ -50,4 +50,7 @@
   <string name="title_gardens">Garden</string>
   <string name="title_settings">Settings</string>
   <string name="save_plants">Add list to Garden</string>
+  <string name="new_garden_name">Garden Name</string>
+  <string name="add_button_text">ADD</string>
+  <string name="new_garden_location">Insert Location</string>
 </resources>

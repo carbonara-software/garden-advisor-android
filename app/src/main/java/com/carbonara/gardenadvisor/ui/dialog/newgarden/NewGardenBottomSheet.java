@@ -91,8 +91,7 @@ public class NewGardenBottomSheet extends BottomSheetDialogFragment {
                                           .setText(address.getLocality()); // Set resolved location
                                       binding.tfGardenLocation.setError(null);
                                       binding.tfGardenLocation.setHintEnabled(true);
-                                      binding.tfGardenLocation.setHint(
-                                          "location risolta con successo");
+                                      binding.tfGardenLocation.setHint("Location found");
                                       binding.tfGardenLocation.setBoxStrokeColor(
                                           ContextCompat.getColor(getContext(), R.color.green));
                                     } else {

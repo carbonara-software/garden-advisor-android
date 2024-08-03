@@ -40,18 +40,47 @@ public class SuggestionsBottomSheet extends BottomSheetDialogFragment {
     binding.name.setText(item.getName());
     binding.sheetGascore.setText(String.valueOf(GAScoreUtil.getGaScore(item)));
     binding.bottomsheetLayout.setBackgroundResource(BackgroundChooser.getBackgroundForItem(item));
-    SuggestionsAdapter adapterSuggestions = new SuggestionsAdapter(item.getSuggestions());
-    SuggestionsAdapter adapterCautions = new SuggestionsAdapter(item.getCautions());
-    SuggestionsAdapter adapterPositives = new SuggestionsAdapter(item.getPositives());
+
+    showSuggestions();
+    showCautions();
+    showPositives();
+
+    binding.close.setOnClickListener(v -> dismiss());
+  }
+
+  private void showSuggestions() {
     LinearLayoutManager llmSugg = new LinearLayoutManager(requireContext());
-    LinearLayoutManager llmCaut = new LinearLayoutManager(requireContext());
-    LinearLayoutManager llmPosit = new LinearLayoutManager(requireContext());
+    SuggestionsAdapter adapterSuggestions = new SuggestionsAdapter(item.getSuggestions());
+
+    if (adapterSuggestions.getItemCount() == 0) {
+      binding.labelCautions.setVisibility(View.GONE);
+    }
+
     binding.rvSuggestions.setAdapter(adapterSuggestions);
     binding.rvSuggestions.setLayoutManager(llmSugg);
-    binding.rvCautions.setAdapter(adapterCautions);
-    binding.rvCautions.setLayoutManager(llmCaut);
+  }
+
+  private void showPositives() {
+    SuggestionsAdapter adapterPositives = new SuggestionsAdapter(item.getPositives());
+
+    if (adapterPositives.getItemCount() == 0) {
+      binding.labelCautions.setVisibility(View.GONE);
+    }
+
+    LinearLayoutManager llmPosit = new LinearLayoutManager(requireContext());
     binding.rvPositives.setAdapter(adapterPositives);
     binding.rvPositives.setLayoutManager(llmPosit);
-    binding.close.setOnClickListener(v -> dismiss());
+  }
+
+  private void showCautions() {
+    SuggestionsAdapter adapterCautions = new SuggestionsAdapter(item.getCautions());
+
+    if (adapterCautions.getItemCount() == 0) {
+      binding.labelCautions.setVisibility(View.GONE);
+    }
+
+    LinearLayoutManager llmCaut = new LinearLayoutManager(requireContext());
+    binding.rvCautions.setAdapter(adapterCautions);
+    binding.rvCautions.setLayoutManager(llmCaut);
   }
 }

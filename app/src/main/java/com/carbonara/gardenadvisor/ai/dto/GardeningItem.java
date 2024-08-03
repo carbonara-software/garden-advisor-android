@@ -1,13 +1,13 @@
 package com.carbonara.gardenadvisor.ai.dto;
 
+import static com.carbonara.gardenadvisor.util.AppUtil.extractStringList;
+
 import com.carbonara.gardenadvisor.persistence.entity.Plant;
 import com.carbonara.gardenadvisor.persistence.entity.PlantType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,22 +55,24 @@ public class GardeningItem {
     return Plant.builder()
         .plantName(gardeningItem.name)
         .type(PlantType.valueOf(gardeningItem.type.toString()))
-        .cautions(gardeningItem.cautions.toString())
-        .positives(gardeningItem.positives.toString())
+        .cautions(extractStringList(gardeningItem.cautions))
+        .positives(extractStringList(gardeningItem.positives))
+        .suggestions(extractStringList(gardeningItem.suggestions))
         .recommended(gardeningItem.recommended)
         .recommendedScore(gardeningItem.recommendedScore)
         .maintenanceScore(gardeningItem.maintenanceScore)
         .build();
   }
 
-  public static GardeningItem toDO(Plant plant) {
+  public static GardeningItem toDTO(Plant plant) {
     return GardeningItem.builder()
         .id(plant.getId())
         .gardenId(plant.getGardenId())
         .name(plant.getPlantName())
         .type(GardeningItemType.valueOf(plant.getType().toString()))
-        .cautions(Arrays.stream(plant.getCautions().split(",")).collect(Collectors.toList()))
-        .positives(Arrays.stream(plant.getPositives().split(",")).collect(Collectors.toList()))
+        .suggestions(extractStringList(plant.getSuggestions()))
+        .cautions(extractStringList(plant.getCautions()))
+        .positives(extractStringList(plant.getPositives()))
         .recommended(plant.getRecommended())
         .recommendedScore(plant.getRecommendedScore())
         .maintenanceScore(plant.getMaintenanceScore())
