@@ -24,6 +24,7 @@
     android:layout_width="40dp"
     android:layout_height="40dp"
     android:layout_marginEnd="20dp"
+    android:contentDescription="@string/ga_score"
     app:layout_constraintEnd_toEndOf="@id/label_plants"
     app:layout_constraintTop_toTopOf="@id/label_plants"
     android:padding="8dp"

@@ -1,6 +1,5 @@
 <resources>
   <string name="app_name">Garden Advisor</string>
-  <string name="error_meteo">Errore nel reperire il meteo online… riprovi più tardi.</string>
   <string name="error_location">Cannot retrieve location at the moment, please try later…</string>
   <string name="error_gemini">Cannot retrieve data from ai at the moment, please try later…</string>
   <string name="error_rationale">We need gps data to better display weather and suggestion based on your location…</string>
@@ -45,7 +44,6 @@
   <string name="no_gardens"> 🧐 No Gardens found… \n Add a new one!</string>
   <string name="no_plants"> 🧐 No Plants found for this garden… \n Add a new one!</string>
   <string name="add_garden">Add a new Garden! 🍎🍓🥬🍅</string>
-  <string name="add_plant">Add a new Plant to this garden!</string>
   <string name="title_home">Home</string>
   <string name="title_gardens">Garden</string>
   <string name="title_settings">Settings</string>
@@ -53,4 +51,9 @@
   <string name="new_garden_name">Garden Name</string>
   <string name="add_button_text">ADD</string>
   <string name="new_garden_location">Insert Location</string>
+  <string name="ga_score">GA Score</string>
+  <string name="add_garden_text">Add Garden</string>
+  <string name="insert_plant_name">Insert Plant name</string>
+  <string name="delete">Delete</string>
+  <string name="suggestion_placeholder">Suggestion placeholder</string>
 </resources>

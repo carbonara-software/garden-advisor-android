@@ -25,7 +25,7 @@
         app:boxCornerRadiusTopStart="30dp"
         app:boxCornerRadiusTopEnd="30dp"
         android:layout_height="wrap_content"
-        android:hint="Insert Plant name">
+        android:hint="@string/insert_plant_name">
 
         <com.google.android.material.textfield.TextInputEditText
           android:layout_width="match_parent"
@@ -41,6 +41,7 @@
     android:layout_width="30dp"
     android:layout_height="30dp"
     android:layout_marginEnd="16dp"
+    android:contentDescription="@string/delete"
     android:src="@drawable/ic_delete"
     app:tint="@color/red"
     android:visibility="gone"
@@ -52,7 +53,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="16dp"
-    android:text="CLOSE"
+    android:text="@string/close"
     android:textSize="16sp"
     app:tint="@color/black"
     android:visibility="gone"

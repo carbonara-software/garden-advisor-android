@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:layout_marginTop="20dp"
-        android:text="56"
+        android:text="@string/ga_score_placeholder"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@id/name"
         app:layout_constraintEnd_toStartOf="@id/imageView"
