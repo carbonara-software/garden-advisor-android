@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  >
+  android:layout_height="match_parent">
 
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/bottomsheet_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp">
 
     <ImageView
       android:id="@+id/closet"
@@ -39,27 +38,26 @@
       android:id="@+id/name"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginStart="12dp"
       android:text="@string/plant_name"
+      android:textAllCaps="true"
       android:textColor="@color/white"
       android:textSize="24sp"
       android:textStyle="bold"
       app:layout_constraintBottom_toBottomOf="@id/close"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.056"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/closet"/>
+      app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
       android:id="@+id/sheet_gascore"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="16dp"
+      android:layout_marginStart="12dp"
       android:layout_weight="1"
       android:text="@string/ga_score_placeholder"
       android:textAlignment="center"
       android:textColor="@color/white"
       android:textSize="24sp"
-      app:layout_constraintStart_toEndOf="@+id/name"
+      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/name"/>
 
     <ImageView
@@ -76,7 +74,7 @@
       android:id="@+id/label_suggestions"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="16dp"
+      android:layout_marginTop="8dp"
       android:text="@string/suggestions"
       android:textColor="@color/white"
       app:layout_constraintEnd_toEndOf="parent"
@@ -127,6 +125,7 @@
       android:layout_height="wrap_content"
       android:layout_marginStart="16dp"
       android:layout_marginEnd="16dp"
+      android:layout_marginBottom="16dp"
       app:layout_constraintTop_toBottomOf="@id/label_positives"/>
 
 

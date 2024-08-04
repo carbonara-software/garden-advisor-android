@@ -110,7 +110,7 @@ public class GardenFragment extends BaseFragment {
         if (args.getGarden().getPlants() != null && !args.getGarden().getPlants().isEmpty()) {
           showPlants(
               args.getGarden().getPlants().stream()
-                  .map(GardeningItem::toDO)
+                  .map(GardeningItem::toDTO)
                   .collect(Collectors.toList()));
         } else {
           showNoPlants();

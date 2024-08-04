@@ -8,7 +8,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import lombok.Getter;
@@ -50,5 +53,21 @@ public class AppUtil {
       loge("getCurrentLocationLatLon Geocoder failed: ", e);
     }
     return null;
+  }
+
+  public static String extractStringList(List<String> stringList) {
+    try {
+      return new ObjectMapper().writeValueAsString(stringList);
+    } catch (Exception e) {
+      return "[]";
+    }
+  }
+
+  public static List<String> extractStringList(String string) {
+    try {
+      return new ObjectMapper().readValue(string, new TypeReference<List<String>>() {});
+    } catch (Exception e) {
+      return Collections.emptyList();
+    }
   }
 }
