@@ -7,11 +7,20 @@
   android:layout_height="match_parent"
   tools:context=".ui.home.HomeFragment">
 
-  <ScrollView
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
+  <include
+    android:id="@+id/top_bar"
+    layout="@layout/top_bar"
     android:layout_width="match_parent"
-    android:layout_height="0dp">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintTop_toBottomOf="@+id/top_bar">
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
@@ -21,13 +30,13 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent=".4"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="18dp"
+        android:layout_marginEnd="8dp"
         app:cardCornerRadius="20dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent=".4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -36,10 +45,11 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           android:background="@drawable/weather_background">
+
           <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_data"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/cl_data">
+            android:layout_height="match_parent">
 
             <TextView
               android:id="@+id/city"
@@ -71,11 +81,11 @@
               android:layout_marginTop="8dp"
               android:layout_marginEnd="26dp"
               android:contentDescription="@string/weather_icon"
-              app:lottie_rawRes="@raw/cloud"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/city_temp"
               app:lottie_autoPlay="true"
               app:lottie_loop="true"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintTop_toBottomOf="@id/city_temp"/>
+              app:lottie_rawRes="@raw/cloud"/>
 
             <TextView
               android:id="@+id/city_temp_max"
@@ -136,10 +146,11 @@
               app:layout_constraintTop_toBottomOf="@+id/city_temp_max_value"/>
 
           </androidx.constraintlayout.widget.ConstraintLayout>
+
           <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_load"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/cl_load">
+            android:layout_height="match_parent">
 
             <TextView
               android:id="@+id/weather_loading_txt"
@@ -147,20 +158,20 @@
               android:layout_height="wrap_content"
               android:layout_margin="20dp"
               android:text="@string/loading_weather"
+              android:textAlignment="center"
               android:textColor="@color/white"
               android:textSize="24sp"
-              android:textAlignment="center"
               app:layout_constraintTop_toTopOf="parent"/>
 
             <com.airbnb.lottie.LottieAnimationView
+              android:id="@+id/lottie_load_anim"
               android:layout_width="match_parent"
               android:layout_height="0dp"
-              app:lottie_rawRes="@raw/weather_load"
-              app:lottie_loop="true"
-              app:lottie_autoPlay="true"
-              app:layout_constraintTop_toBottomOf="@id/weather_loading_txt"
               app:layout_constraintBottom_toBottomOf="parent"
-              android:id="@+id/lottie_load_anim"/>
+              app:layout_constraintTop_toBottomOf="@id/weather_loading_txt"
+              app:lottie_autoPlay="true"
+              app:lottie_loop="true"
+              app:lottie_rawRes="@raw/weather_load"/>
 
 
           </androidx.constraintlayout.widget.ConstraintLayout>
