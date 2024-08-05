@@ -5,6 +5,7 @@ import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import android.content.Context;
 import com.carbonara.gardenadvisor.ai.cache.HomeCache;
 import com.carbonara.gardenadvisor.ai.cache.WeatherCache;
+import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.BufferedReader;
@@ -12,7 +13,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
@@ -22,6 +25,8 @@ public class AppCache {
 
   private final Set<WeatherCache> cachedWeather = new TreeSet<>();
   private HomeCache cachedHome = null;
+
+  @Getter private final List<GeminiCameraSuggestion> cachedCameraSuggestions = new ArrayList<>();
 
   @Getter private static final AppCache instance = new AppCache();
 
@@ -33,6 +38,14 @@ public class AppCache {
 
   public synchronized boolean isHomePresent() {
     return cachedHome != null;
+  }
+
+  public synchronized boolean isCameraSuggestionPresent() {
+    return !cachedCameraSuggestions.isEmpty();
+  }
+
+  public synchronized void addCameraSuggestion(GeminiCameraSuggestion cameraSuggestion) {
+    cachedCameraSuggestions.add(cameraSuggestion);
   }
 
   public synchronized void addCachedData(WeatherCache data) {

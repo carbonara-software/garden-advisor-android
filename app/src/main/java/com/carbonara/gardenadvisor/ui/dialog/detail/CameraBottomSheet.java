@@ -13,6 +13,7 @@ import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
 import com.carbonara.gardenadvisor.ai.task.impl.GeminiCameraTask;
 import com.carbonara.gardenadvisor.databinding.BottomsheetCameraBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.adapter.SuggestionsAdapter;
+import com.carbonara.gardenadvisor.util.AppCache;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.CameraView;
@@ -86,27 +87,15 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
 
   public void cameraSuggestionSuccess(GeminiCameraSuggestion cameraSuggestion) {
     updatePlantResult(cameraSuggestion);
+    saveSuggestionIntoCache(cameraSuggestion);
   }
 
   private void updatePlantResult(GeminiCameraSuggestion cameraSuggestion) {
     binding.plantName.setText(cameraSuggestion.getName());
     binding.plantScientificName.setText(cameraSuggestion.getScientificName());
 
-    String statusEmoji = "\uD83E\uDD14";
-    String statusDescription = "None";
-
-    switch (cameraSuggestion.getStatus()) {
-      case "healthy":
-        statusEmoji = "\uD83E\uDD29";
-        statusDescription = "Looking good!";
-        break;
-      case "needs_care":
-        statusEmoji = "\uD83E\uDD12";
-        statusDescription = "Might need a little care.\nTake a look at these suggestions:";
-    }
-
-    binding.statusEmoji.setText(statusEmoji);
-    binding.statusText.setText(statusDescription);
+    binding.statusEmoji.setText(cameraSuggestion.getStatusEmoji());
+    binding.statusText.setText(cameraSuggestion.getPrintableStatus());
 
     if (cameraSuggestion.getSuggestions() != null && !cameraSuggestion.getSuggestions().isEmpty()) {
       binding.rvSuggestions.setVisibility(View.VISIBLE);
@@ -136,6 +125,10 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
 
     hideAllLayouts();
     binding.errorLayout.setVisibility(View.VISIBLE);
+  }
+
+  private void saveSuggestionIntoCache(GeminiCameraSuggestion suggestion) {
+    AppCache.getInstance().addCameraSuggestion(suggestion);
   }
 
   private void startOver() {
