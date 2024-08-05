@@ -22,6 +22,6 @@ public class AppCacheTest {
         AppCache.getInstance().getCachedCameraSuggestions();
 
     assertEquals(1, cached.size());
-    assertTrue(cached.containsKey("ai-cam" + hashCode));
+    assertTrue(cached.containsKey("ai-cam-" + hashCode));
   }
 }

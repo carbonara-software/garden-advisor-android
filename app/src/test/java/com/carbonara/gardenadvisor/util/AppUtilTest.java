@@ -19,7 +19,7 @@ public class AppUtilTest {
 
     FileOutputStream fileOutputStream = mock(FileOutputStream.class);
 
-    when(context.openFileOutput(eq("test-path"), Context.MODE_PRIVATE))
+    when(context.openFileOutput(eq("test-path"), eq(Context.MODE_PRIVATE)))
         .thenReturn(fileOutputStream);
 
     AppUtil.writeToFile(context, content, "test-path");
