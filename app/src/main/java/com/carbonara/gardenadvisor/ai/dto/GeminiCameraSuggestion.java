@@ -1,18 +1,22 @@
 package com.carbonara.gardenadvisor.ai.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.extern.jackson.Jacksonized;
 
 @Getter
 @Builder
 @Jacksonized
+@EqualsAndHashCode
 public class GeminiCameraSuggestion implements GeminiResult {
 
   private final String name, scientificName, statusDescription, status;
   private final List<String> suggestions;
 
+  @JsonIgnore
   public String getPrintableStatus() {
     String printableStatus = "None";
 
@@ -27,6 +31,7 @@ public class GeminiCameraSuggestion implements GeminiResult {
     return printableStatus;
   }
 
+  @JsonIgnore
   public String getStatusEmoji() {
     String statusEmoji = "\uD83E\uDD14";
     switch (status) {

@@ -82,5 +82,10 @@ public class MainActivity extends AppCompatActivity {
     } catch (Exception e) {
       loge("error restoringWeather: ", e);
     }
+    try {
+      AppCache.getInstance().restoreCameraCache(getApplicationContext());
+    } catch (Exception e) {
+      loge("error restoring camera cache: ", e);
+    }
   }
 }

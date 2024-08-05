@@ -76,7 +76,7 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
     binding.pictureView.setImageBitmap(bitmap);
 
     cameraDisposable =
-        Single.create(new GeminiCameraTask(bitmap))
+        Single.create(new GeminiCameraTask(bitmap, requireActivity().getApplicationContext()))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
@@ -87,6 +87,7 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
 
   public void cameraSuggestionSuccess(GeminiCameraSuggestion cameraSuggestion) {
     updatePlantResult(cameraSuggestion);
+
     saveSuggestionIntoCache(cameraSuggestion);
   }
 
