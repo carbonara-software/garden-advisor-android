@@ -94,6 +94,9 @@ public class NewGardenBottomSheet extends BottomSheetDialogFragment {
                                       binding.tfGardenLocation.setHint("Location found");
                                       binding.tfGardenLocation.setBoxStrokeColor(
                                           ContextCompat.getColor(getContext(), R.color.green));
+
+                                      // when the location is found, cancel the timer
+                                      if (timer != null) timer.cancel();
                                     } else {
                                       binding.tfGardenLocation.setError("No location found");
                                     }
