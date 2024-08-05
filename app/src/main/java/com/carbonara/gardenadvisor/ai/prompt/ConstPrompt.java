@@ -144,4 +144,21 @@ public class ConstPrompt {
           + "\n"
           + "if you can't recognize the plant or the picture does not contain a plant, return an empty string.\n"
           + PLAIN_TEXT_NOTICE;
+
+  public static final String CAMERA_GARDEN_PROMPT =
+      "Given this location and weather data\n"
+          + "if you can recognize the plant in the picture, provide the result in the following json format:\n"
+          + "    {\n"
+          + "      \"name\" : string containing the common name of the plant\n"
+          + "      \"type\": string containing the values flower, fruit or vegetable depending on the type of plant,\n"
+          + "      \"recommended\": true if is recommended to plant in this location else false,\n"
+          + "      \"recommendedScore\": integer value from 1 to 5 of how recommended it is to plant,\n"
+          + "      \"maintenanceScore\": integer value from 1 to 5 of how easy it is to maintain,\n"
+          + "      \"positives\": a list of the positive factors of the weather data\n"
+          + "      \"cautions\": a list of what i need to be careful when planting\n"
+          + "      \"suggestions\": a list of possible improvements to get a better result given some suggestions\n"
+          + "}"
+          + "\n"
+          + "if you can't recognize the plant or the picture does not contain a plant, return an empty string.\n"
+          + PLAIN_TEXT_NOTICE;
 }
