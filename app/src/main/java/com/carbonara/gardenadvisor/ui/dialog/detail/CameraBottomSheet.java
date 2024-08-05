@@ -13,6 +13,7 @@ import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
 import com.carbonara.gardenadvisor.ai.task.impl.GeminiCameraTask;
 import com.carbonara.gardenadvisor.databinding.BottomsheetCameraBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.adapter.SuggestionsAdapter;
+import com.carbonara.gardenadvisor.util.GAMenuItems;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.otaliastudios.cameraview.CameraListener;
 import com.otaliastudios.cameraview.CameraView;
@@ -31,6 +32,12 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
   private BottomsheetCameraBinding binding;
   private List<View> layouts;
   private Disposable cameraDisposable;
+
+  private final boolean isGarden;
+
+  public CameraBottomSheet(boolean isGarden) {
+    this.isGarden = isGarden;
+  }
 
   @Nullable
   @Override
