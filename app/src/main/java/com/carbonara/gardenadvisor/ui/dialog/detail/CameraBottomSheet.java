@@ -55,16 +55,19 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
     camera.setAudio(Audio.OFF);
     camera.setLifecycleOwner(getViewLifecycleOwner());
 
+    camera.setSnapshotMaxHeight(600);
+    camera.setSnapshotMaxWidth(600);
+
     camera.addCameraListener(
         new CameraListener() {
           @Override
           public void onPictureTaken(@NonNull PictureResult result) {
-            result.toBitmap(1500, 1500, bitmap -> pictureTaken(bitmap));
+            result.toBitmap(bitmap -> pictureTaken(bitmap));
           }
         });
 
     ImageView takePictureButton = binding.takePictureButton;
-    takePictureButton.setOnClickListener(v -> camera.takePicture());
+    takePictureButton.setOnClickListener(v -> camera.takePictureSnapshot());
 
     binding.close.setOnClickListener(v -> dismiss());
     binding.errorRetryButton.setOnClickListener(v -> startOver());
