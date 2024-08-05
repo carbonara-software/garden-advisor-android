@@ -80,7 +80,7 @@ public class AppUtil {
     try (FileOutputStream fos = context.openFileOutput(path, Context.MODE_PRIVATE)) {
       fos.write(content);
       fos.flush();
-      loge(
+      logd(
           String.format(
               "File %s written successfully contents: %s", path, Arrays.toString(content)));
     }
