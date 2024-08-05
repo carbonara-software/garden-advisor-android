@@ -19,7 +19,7 @@ import lombok.extern.jackson.Jacksonized;
 @ToString
 @Builder
 @Jacksonized
-public class GardeningItem {
+public class GardeningItem implements GeminiResult {
 
   @JsonInclude(Include.NON_NULL)
   private Long id;
