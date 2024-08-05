@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.carbonara.gardenadvisor.R;
 import com.carbonara.gardenadvisor.ai.dto.GeminiGardeningSugg;
@@ -27,6 +28,7 @@ import com.carbonara.gardenadvisor.ai.dto.GeminiWeather;
 import com.carbonara.gardenadvisor.ai.task.impl.GeminiHomeSuggestionTask;
 import com.carbonara.gardenadvisor.ai.task.impl.GeminiWeatherTask;
 import com.carbonara.gardenadvisor.databinding.FragmentHomeBinding;
+import com.carbonara.gardenadvisor.ui.dialog.detail.CameraBottomSheet;
 import com.carbonara.gardenadvisor.ui.home.adapter.GardeningItemAdapter;
 import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
 import com.carbonara.gardenadvisor.util.AppCache;
@@ -80,6 +82,9 @@ public class HomeFragment extends BaseFragment {
   @Override
   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
+    setupTopBar();
+
     showBottomBar();
 
     if (checkAndRequestLocationPermission()) {
@@ -230,6 +235,16 @@ public class HomeFragment extends BaseFragment {
   private void hideWeatherLoading() {
     binding.clLoad.setVisibility(View.GONE);
     binding.clData.setVisibility(View.VISIBLE);
+  }
+
+  private void setupTopBar() {
+    binding.topBar.cameraButton.setOnClickListener(
+        v -> {
+          CameraBottomSheet bottomSheet = new CameraBottomSheet();
+          bottomSheet.show(
+              ((FragmentActivity) binding.getRoot().getContext()).getSupportFragmentManager(),
+              "CameraBottomSheet");
+        });
   }
 
   @Override
