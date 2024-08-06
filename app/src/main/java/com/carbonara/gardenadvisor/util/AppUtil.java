@@ -4,13 +4,18 @@ import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -69,5 +74,26 @@ public class AppUtil {
     } catch (Exception e) {
       return Collections.emptyList();
     }
+  }
+
+  public static void writeToFile(Context context, byte[] content, String path) throws IOException {
+    try (FileOutputStream fos = context.openFileOutput(path, Context.MODE_PRIVATE)) {
+      fos.write(content);
+      fos.flush();
+      logd(
+          String.format(
+              "File %s written successfully contents: %s", path, Arrays.toString(content)));
+    }
+  }
+
+  public static byte[] bitmapToByteArray(Bitmap bitmap) {
+    int size = bitmap.getRowBytes() * bitmap.getHeight();
+    ByteBuffer byteBuffer = ByteBuffer.allocate(size);
+    bitmap.copyPixelsToBuffer(byteBuffer);
+    return byteBuffer.array();
+  }
+
+  public static Bitmap byteArrayToBitmap(byte[] bitmapArray) {
+    return BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
   }
 }

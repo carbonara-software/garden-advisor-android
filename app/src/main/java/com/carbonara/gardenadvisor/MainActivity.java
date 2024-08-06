@@ -38,10 +38,9 @@ public class MainActivity extends AppCompatActivity {
     } else if (menuItem.getItemId() == R.id.navigation_gardens && selected != GAMenuItems.GARDENS) {
       selected = GAMenuItems.GARDENS;
       navController.navigate(HomeFragmentDirections.actionGlobalGardensFragment());
-    } else if (menuItem.getItemId() == R.id.navigation_settings
-        && selected != GAMenuItems.SETTINGS) {
-      logd("Settings page not implemented yet");
-      return false;
+    } else if (menuItem.getItemId() == R.id.navigation_history && selected != GAMenuItems.HISTORY) {
+      selected = GAMenuItems.HISTORY;
+      navController.navigate(HomeFragmentDirections.actionGlobalHistory());
     } else {
       return false;
     }
@@ -83,6 +82,11 @@ public class MainActivity extends AppCompatActivity {
       AppCache.getInstance().restoreWeather(getApplicationContext());
     } catch (Exception e) {
       loge("error restoringWeather: ", e);
+    }
+    try {
+      AppCache.getInstance().restoreCameraCache(getApplicationContext());
+    } catch (Exception e) {
+      loge("error restoring camera cache: ", e);
     }
   }
 }

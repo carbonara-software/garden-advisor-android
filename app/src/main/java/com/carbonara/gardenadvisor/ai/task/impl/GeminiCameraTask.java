@@ -2,12 +2,16 @@ package com.carbonara.gardenadvisor.ai.task.impl;
 
 import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.CAMERA_SUGGESTION_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
+import static com.carbonara.gardenadvisor.util.AppUtil.bitmapToByteArray;
+import static com.carbonara.gardenadvisor.util.AppUtil.writeToFile;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
 import com.carbonara.gardenadvisor.ai.task.GeminiSingleOnSubscriber;
+import com.carbonara.gardenadvisor.util.AppCache;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.ai.client.generativeai.GenerativeModel;
@@ -21,9 +25,11 @@ import java.io.IOException;
 public class GeminiCameraTask implements GeminiSingleOnSubscriber<GeminiCameraSuggestion> {
 
   private final Bitmap pictureTaken;
+  private final Context context;
 
-  public GeminiCameraTask(Bitmap pictureTaken) {
+  public GeminiCameraTask(Bitmap pictureTaken, Context context) {
     this.pictureTaken = pictureTaken;
+    this.context = context;
   }
 
   @Override
@@ -47,6 +53,9 @@ public class GeminiCameraTask implements GeminiSingleOnSubscriber<GeminiCameraSu
 
       if (!emitter.isDisposed()) {
         emitter.onSuccess(cameraSuggestion);
+        final String path = "ai-cam-" + cameraSuggestion.hashCode();
+        writeToFile(context, bitmapToByteArray(pictureTaken), path);
+        AppCache.getInstance().persistCameraCache(context);
       }
 
     } catch (IOException e) {
