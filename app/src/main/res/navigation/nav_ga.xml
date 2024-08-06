@@ -43,6 +43,11 @@
     app:destination="@id/home"
     app:popUpToInclusive="true"/>
   <action
+    android:id="@+id/action_global_history"
+    app:destination="@id/cameraHistoryFragment"
+    app:popUpTo="@id/home"
+    app:popUpToInclusive="true"/>
+  <action
     android:id="@+id/action_global_gardensFragment"
     app:destination="@id/gardensFragment"
     app:popUpTo="@id/home"
@@ -61,6 +66,11 @@
       app:popUpTo="@id/gardensFragment"
       app:popUpToInclusive="false"/>
   </fragment>
+  <fragment
+    android:id="@+id/cameraHistoryFragment"
+    android:name="com.carbonara.gardenadvisor.ui.history.CameraHistoryFragment"
+    android:label="fragment_camera_history"
+    tools:layout="@layout/fragment_camera_history"/>
 
   <!--    <dialog-->
 <!--        android:id="@+id/loading_dialog"-->
