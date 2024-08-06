@@ -5,6 +5,7 @@ import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,9 +13,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.ByteBuffer;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +26,10 @@ import java.util.Locale;
 import lombok.Getter;
 
 public class AppUtil {
+
+  public static class Constants {
+    public static final String PICTURE_PREFIX = "ai-cam-";
+  }
 
   @Getter private static final AppCache appCache = AppCache.getInstance();
 
@@ -86,11 +94,29 @@ public class AppUtil {
     }
   }
 
-  public static byte[] bitmapToByteArray(Bitmap bitmap) {
-    int size = bitmap.getRowBytes() * bitmap.getHeight();
-    ByteBuffer byteBuffer = ByteBuffer.allocate(size);
-    bitmap.copyPixelsToBuffer(byteBuffer);
-    return byteBuffer.array();
+  public static String readFileContentAsString(Context context, String path) throws IOException {
+    StringBuilder stringBuilder = new StringBuilder();
+    try (FileInputStream fis = context.openFileInput(path)) {
+      InputStreamReader isr = new InputStreamReader(fis);
+      BufferedReader bufferedReader = new BufferedReader(isr);
+      String line;
+      while ((line = bufferedReader.readLine()) != null) {
+        stringBuilder.append(line);
+      }
+    }
+
+    return stringBuilder.toString();
+  }
+
+  public static void writeBitmapToFile(Context context, Bitmap bitmap, String path)
+      throws IOException {
+    try (FileOutputStream fos = context.openFileOutput(path, Context.MODE_PRIVATE)) {
+      bitmap.compress(CompressFormat.PNG, 90, fos);
+    }
+  }
+
+  public static byte[] readFileContent(Context context, String path) throws IOException {
+    return Files.readAllBytes(context.getFileStreamPath(path).toPath());
   }
 
   public static Bitmap byteArrayToBitmap(byte[] bitmapArray) {

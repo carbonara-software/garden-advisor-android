@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.carbonara.gardenadvisor.ai.dto.CachedCameraSuggestion;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
+import com.carbonara.gardenadvisor.ai.task.impl.GeminiCachedCameraTask;
 import com.carbonara.gardenadvisor.ai.task.impl.GeminiCameraTask;
 import com.carbonara.gardenadvisor.ai.task.impl.GeminiGardenCameraTask;
 import com.carbonara.gardenadvisor.databinding.BottomsheetCameraBinding;
@@ -38,6 +40,8 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
   private float lat, lon;
   private String locationName = null;
   private long gardenId;
+
+  private String cachedCameraSuggestionId;
   private GardenCameraResult callback;
 
   public CameraBottomSheet() {}
@@ -49,6 +53,10 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
     this.locationName = locationName;
     this.gardenId = gardenId;
     this.callback = callback;
+  }
+
+  public CameraBottomSheet(String cachedCameraSuggestionId) {
+    this.cachedCameraSuggestionId = cachedCameraSuggestionId;
   }
 
   @Nullable
@@ -68,6 +76,20 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
 
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+
+    binding.close.setOnClickListener(v -> dismiss());
+
+    if (cachedCameraSuggestionId != null) {
+      cameraDisposable =
+          Single.create(
+                  new GeminiCachedCameraTask(
+                      cachedCameraSuggestionId, getActivity().getApplicationContext()))
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(this::cachedCameraSuggestionSuccess, this::cachedCameraSuggestionFailure);
+      return;
+    }
+
     CameraView camera = binding.camera;
     camera.setMode(Mode.PICTURE);
     camera.setAudio(Audio.OFF);
@@ -87,7 +109,6 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
     ImageView takePictureButton = binding.takePictureButton;
     takePictureButton.setOnClickListener(v -> camera.takePictureSnapshot());
 
-    binding.close.setOnClickListener(v -> dismiss());
     binding.errorRetryButton.setOnClickListener(v -> startOver());
 
     startOver();
@@ -145,6 +166,7 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
     }
 
     binding.successRetryButton.setOnClickListener(v -> startOver());
+    binding.successRetryButton.setVisibility(View.VISIBLE);
 
     if (canBeDisposed()) {
       cameraDisposable.dispose();
@@ -170,6 +192,24 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
   private void startOver() {
     hideAllLayouts();
     binding.cameraLayout.setVisibility(View.VISIBLE);
+  }
+
+  private void cachedCameraSuggestionSuccess(CachedCameraSuggestion cameraSuggestion) {
+    if (canBeDisposed()) {
+      cameraDisposable.dispose();
+    }
+
+    updatePlantResult(cameraSuggestion.getCameraSuggestion());
+    binding.pictureView.setImageBitmap(cameraSuggestion.getBitmap());
+    binding.successRetryButton.setVisibility(View.GONE);
+  }
+
+  private void cachedCameraSuggestionFailure(Throwable t) {
+    if (canBeDisposed()) {
+      cameraDisposable.dispose();
+    }
+
+    dismiss();
   }
 
   private void hideAllLayouts() {
