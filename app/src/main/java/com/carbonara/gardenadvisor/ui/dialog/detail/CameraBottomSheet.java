@@ -108,13 +108,6 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(this::cameraGardeningItemSuccess, this::cameraGardeningItemFailure);
     }
-
-    //    cameraDisposable =
-    //        Single.create(new GeminiCameraTask(bitmap, requireActivity().getApplicationContext()))
-    //            .subscribeOn(Schedulers.io())
-    //            .observeOn(AndroidSchedulers.mainThread())
-    //            .subscribe(this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
-
     hideAllLayouts();
     binding.loadingLayout.setVisibility(View.VISIBLE);
   }
