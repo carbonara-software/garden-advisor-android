@@ -14,16 +14,11 @@ import com.carbonara.gardenadvisor.ui.home.HomeFragmentDirections;
 import com.carbonara.gardenadvisor.util.AppCache;
 import com.carbonara.gardenadvisor.util.GAMenuItems;
 import java.io.IOException;
-import lombok.Getter;
-import lombok.Setter;
 
 public class MainActivity extends AppCompatActivity {
 
   ActivityMainBinding binding;
   GAMenuItems selected = GAMenuItems.HOME;
-  @Getter
-  @Setter
-  private boolean isSingleGardenView = false;
 
 
   @Override
@@ -31,16 +26,6 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     binding = ActivityMainBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
-    binding.topBar.cameraButton.setOnClickListener(
-        new OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            CameraBottomSheet bottomSheet = new CameraBottomSheet(isSingleGardenView);
-            bottomSheet.show(
-                ((FragmentActivity) binding.getRoot().getContext()).getSupportFragmentManager(),
-                "CameraBottomSheet");
-          }
-        });
     binding.bottomBar.bottomNavigationView.setOnItemSelectedListener(this::onItemSelected);
   }
 

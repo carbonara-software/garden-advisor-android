@@ -9,10 +9,13 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
 import com.carbonara.gardenadvisor.ai.task.impl.GeminiCameraTask;
+import com.carbonara.gardenadvisor.ai.task.impl.GeminiGardenCameraTask;
 import com.carbonara.gardenadvisor.databinding.BottomsheetCameraBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.adapter.SuggestionsAdapter;
+import com.carbonara.gardenadvisor.ui.dialog.detail.callback.GardenCameraResult;
 import com.carbonara.gardenadvisor.util.GAMenuItems;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.otaliastudios.cameraview.CameraListener;
@@ -32,11 +35,21 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
   private BottomsheetCameraBinding binding;
   private List<View> layouts;
   private Disposable cameraDisposable;
+  private float lat, lon;
+  private String locationName = null;
+  private long gardenId;
+  private GardenCameraResult callback;
 
-  private final boolean isGarden;
+  public CameraBottomSheet() {
 
-  public CameraBottomSheet(boolean isGarden) {
-    this.isGarden = isGarden;
+  }
+
+  public CameraBottomSheet(float lat, float lon, String locationName,long gardenId, GardenCameraResult callback) {
+    this.lat = lat;
+    this.lon = lon;
+    this.locationName = locationName;
+    this.gardenId = gardenId;
+    this.callback = callback;
   }
 
   @Nullable
@@ -80,15 +93,30 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
 
   private void pictureTaken(Bitmap bitmap) {
     binding.pictureView.setImageBitmap(bitmap);
-
-    cameraDisposable =
-        Single.create(new GeminiCameraTask(bitmap))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
+    if(locationName == null) {
+      cameraDisposable =
+          Single.create(new GeminiCameraTask(bitmap))
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
+    }else{
+      cameraDisposable =
+          Single.create(new GeminiGardenCameraTask(lat,lon,locationName,gardenId,bitmap))
+              .subscribeOn(Schedulers.io())
+              .observeOn(AndroidSchedulers.mainThread())
+              .subscribe(this::cameraGardeningItemSuccess, this::cameraGardeningItemFailure);
+    }
 
     hideAllLayouts();
     binding.loadingLayout.setVisibility(View.VISIBLE);
+  }
+
+  private void cameraGardeningItemFailure(Throwable throwable) {
+    callback.onCameraResult(null);
+  }
+
+  private void cameraGardeningItemSuccess(GardeningItem gardeningItem) {
+    callback.onCameraResult(gardeningItem);
   }
 
   public void cameraSuggestionSuccess(GeminiCameraSuggestion cameraSuggestion) {
