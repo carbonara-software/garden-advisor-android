@@ -4,8 +4,6 @@ import static com.carbonara.gardenadvisor.util.AppUtil.extractStringList;
 
 import com.carbonara.gardenadvisor.persistence.entity.Plant;
 import com.carbonara.gardenadvisor.persistence.entity.PlantType;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Builder;
@@ -21,11 +19,11 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class GardeningItem implements GeminiResult {
 
-  @JsonInclude(Include.NON_NULL)
-  private Long id;
-
-  @JsonInclude(Include.NON_NULL)
-  private Long gardenId;
+  //  @JsonInclude(Include.NON_NULL)
+  //  private Long id;
+  //
+  //  @JsonInclude(Include.NON_NULL)
+  //  private Long gardenId;
 
   @JsonProperty("name")
   private String name;
@@ -66,8 +64,8 @@ public class GardeningItem implements GeminiResult {
 
   public static GardeningItem toDTO(Plant plant) {
     return GardeningItem.builder()
-        .id(plant.getId())
-        .gardenId(plant.getGardenId())
+        //        .id(plant.getId())
+        //        .gardenId(plant.getGardenId())
         .name(plant.getPlantName())
         .type(GardeningItemType.valueOf(plant.getType().toString()))
         .suggestions(extractStringList(plant.getSuggestions()))

@@ -5,5 +5,4 @@ import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 public interface GardenCameraResult {
 
   void onCameraResult(GardeningItem item);
-
 }

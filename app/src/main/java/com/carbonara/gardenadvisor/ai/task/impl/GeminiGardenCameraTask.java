@@ -8,20 +8,15 @@ import android.graphics.Bitmap;
 import com.carbonara.gardenadvisor.ai.dto.GardeningItem;
 import com.carbonara.gardenadvisor.ai.task.GeminiSingleOnSubscriber;
 import com.carbonara.gardenadvisor.ai.task.GeminiTask;
-import com.carbonara.gardenadvisor.util.task.CreatePlantsInGardenEmitter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.ai.client.generativeai.GenerativeModel;
 import com.google.ai.client.generativeai.java.GenerativeModelFutures;
 import com.google.ai.client.generativeai.type.Content;
 import com.google.ai.client.generativeai.type.GenerateContentResponse;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.SingleEmitter;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 public class GeminiGardenCameraTask extends GeminiTask
     implements GeminiSingleOnSubscriber<GardeningItem> {
@@ -29,7 +24,8 @@ public class GeminiGardenCameraTask extends GeminiTask
   private final Bitmap pictureTaken;
   private final long gardenId;
 
-  public GeminiGardenCameraTask(float lat, float lon, String locationName,long gardenId, Bitmap pictureTaken) {
+  public GeminiGardenCameraTask(
+      float lat, float lon, String locationName, long gardenId, Bitmap pictureTaken) {
     super(lat, lon, locationName);
     this.pictureTaken = pictureTaken;
     this.gardenId = gardenId;
@@ -48,7 +44,6 @@ public class GeminiGardenCameraTask extends GeminiTask
     try {
       loge("eccolo: " + response.getText());
       GardeningItem gardeningItem = mapper.readValue(response.getText(), GardeningItem.class);
-
 
       if (!emitter.isDisposed()) {
         emitter.onSuccess(gardeningItem);

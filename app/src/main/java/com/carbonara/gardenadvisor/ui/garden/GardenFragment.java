@@ -41,7 +41,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class GardenFragment extends BaseFragment {
@@ -135,42 +134,38 @@ public class GardenFragment extends BaseFragment {
   }
 
   private void addPlantByCamPressed(View view) {
-     bottomSheet = new CameraBottomSheet(
-        args.getGarden().getGarden().getLocation().getLat(),
-        args.getGarden().getGarden().getLocation().getLon(),
-        args.getGarden().getGarden().getLocation().getLocationName(),
-        args.getGarden().getGarden().getId(),
-        this::onCameraResult);
+    bottomSheet =
+        new CameraBottomSheet(
+            args.getGarden().getGarden().getLocation().getLat(),
+            args.getGarden().getGarden().getLocation().getLon(),
+            args.getGarden().getGarden().getLocation().getLocationName(),
+            args.getGarden().getGarden().getId(),
+            this::onCameraResult);
     bottomSheet.show(
         ((FragmentActivity) binding.getRoot().getContext()).getSupportFragmentManager(),
         "CameraGardenBottomSheet");
   }
 
   private void onCameraResult(GardeningItem gardeningItem) {
-    if(gardenDisposable==null){
-      displayErrorDialog("Error retrieving plant from picture, please try again");
-      return;
-    }
-    if(bottomSheet!=null){
+
+    if (bottomSheet != null) {
       bottomSheet.dismiss();
     }
     displayLoadingDialog();
-    Set<Plant> setTemp = new TreeSet<>();
+    Set<Plant> setTemp = new HashSet<>();
     setTemp.add(toDO(gardeningItem));
     fragmentDisposable =
         Single.create(
                 new AddPlantsInGardenEmitter(
-                    requireContext(),
-                    args.getGarden().getGarden().getId(),
-                    setTemp
-                    ))
+                    requireContext(), args.getGarden().getGarden().getId(), setTemp))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this::addResult, this::addError);
   }
 
   private void addResult(List<Plant> plants) {
-    List<GardeningItem> plantsDTO = plants.stream().map(GardeningItem::toDTO).collect(Collectors.toList());
+    List<GardeningItem> plantsDTO =
+        plants.stream().map(GardeningItem::toDTO).collect(Collectors.toList());
     showPlants(plantsDTO);
     closeDialog();
   }

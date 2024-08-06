@@ -4,12 +4,10 @@ import android.content.Context;
 import com.carbonara.gardenadvisor.persistence.AppDatabase;
 import com.carbonara.gardenadvisor.persistence.dao.GardenDao;
 import com.carbonara.gardenadvisor.persistence.dao.PlantDao;
-import com.carbonara.gardenadvisor.persistence.entity.Garden;
 import com.carbonara.gardenadvisor.persistence.entity.Plant;
 import com.carbonara.gardenadvisor.persistence.repository.GardenRepository;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.ObservableEmitter;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.core.SingleEmitter;
 import io.reactivex.rxjava3.core.SingleOnSubscribe;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -38,12 +36,16 @@ public class AddPlantsInGardenEmitter implements SingleOnSubscribe<List<Plant>> 
     repo = new GardenRepository(gDao, pDao);
     repo.addPlantsToGarden(gardenId, plants)
         .doOnError(emitter::tryOnError)
-        .doOnComplete(() -> {
-          Disposable b = repo.getGardenWithPlants(gardenId)
-              .subscribe(garden -> {
-                emitter.onSuccess(new ArrayList<>(garden.getPlants()));
-              }, emitter::tryOnError);
-        })
+        .doOnComplete(
+            () -> {
+              Disposable b =
+                  repo.getGardenWithPlants(gardenId)
+                      .subscribe(
+                          garden -> {
+                            emitter.onSuccess(new ArrayList<>(garden.getPlants()));
+                          },
+                          emitter::tryOnError);
+            })
         .subscribe();
   }
 }

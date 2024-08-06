@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
   ActivityMainBinding binding;
   GAMenuItems selected = GAMenuItems.HOME;
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

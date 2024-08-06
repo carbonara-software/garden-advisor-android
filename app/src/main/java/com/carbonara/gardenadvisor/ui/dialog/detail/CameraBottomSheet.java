@@ -16,7 +16,6 @@ import com.carbonara.gardenadvisor.ai.task.impl.GeminiGardenCameraTask;
 import com.carbonara.gardenadvisor.databinding.BottomsheetCameraBinding;
 import com.carbonara.gardenadvisor.ui.dialog.detail.adapter.SuggestionsAdapter;
 import com.carbonara.gardenadvisor.ui.dialog.detail.callback.GardenCameraResult;
-import com.carbonara.gardenadvisor.util.GAMenuItems;
 import com.carbonara.gardenadvisor.util.AppCache;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.otaliastudios.cameraview.CameraListener;
@@ -41,11 +40,10 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
   private long gardenId;
   private GardenCameraResult callback;
 
-  public CameraBottomSheet() {
+  public CameraBottomSheet() {}
 
-  }
-
-  public CameraBottomSheet(float lat, float lon, String locationName,long gardenId, GardenCameraResult callback) {
+  public CameraBottomSheet(
+      float lat, float lon, String locationName, long gardenId, GardenCameraResult callback) {
     this.lat = lat;
     this.lon = lon;
     this.locationName = locationName;
@@ -97,25 +95,25 @@ public class CameraBottomSheet extends BottomSheetDialogFragment {
 
   private void pictureTaken(Bitmap bitmap) {
     binding.pictureView.setImageBitmap(bitmap);
-    if(locationName == null) {
+    if (locationName == null) {
       cameraDisposable =
-          Single.create(new GeminiCameraTask(bitmap,getActivity().getApplicationContext()))
+          Single.create(new GeminiCameraTask(bitmap, getActivity().getApplicationContext()))
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
-    }else{
+    } else {
       cameraDisposable =
-          Single.create(new GeminiGardenCameraTask(lat,lon,locationName,gardenId,bitmap))
+          Single.create(new GeminiGardenCameraTask(lat, lon, locationName, gardenId, bitmap))
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(this::cameraGardeningItemSuccess, this::cameraGardeningItemFailure);
     }
 
-    cameraDisposable =
-        Single.create(new GeminiCameraTask(bitmap, requireActivity().getApplicationContext()))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
+    //    cameraDisposable =
+    //        Single.create(new GeminiCameraTask(bitmap, requireActivity().getApplicationContext()))
+    //            .subscribeOn(Schedulers.io())
+    //            .observeOn(AndroidSchedulers.mainThread())
+    //            .subscribe(this::cameraSuggestionSuccess, this::cameraSuggestionFailure);
 
     hideAllLayouts();
     binding.loadingLayout.setVisibility(View.VISIBLE);
