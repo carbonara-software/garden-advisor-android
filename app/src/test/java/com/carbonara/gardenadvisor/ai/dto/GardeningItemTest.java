@@ -46,8 +46,6 @@ public class GardeningItemTest {
     ObjectMapper mapper = new ObjectMapper();
     String gardenJson =
         "{\n"
-            + "      \"id\": 1,\n"
-            + "      \"gardenId\": 2,\n"
             + "      \"type\": \"fruit\",\n"
             + "      \"recommended\": false,\n"
             + "      \"recommendedScore\": 1,\n"
