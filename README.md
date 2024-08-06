@@ -9,7 +9,7 @@ Garden Advisor is an Android app powered by Gemini AI, designed to be your ultim
 
 ## Gemini API Key
 
-Garden Advisor requires a Gemini API key. To retrieve it, simply add a text file named `keys.properties` containing:
+Garden Advisor requires a Gemini API key. To retrieve it, simply add a text file named `keys.properties` in your project root containing:
 
 ```
 GEMINI_API_KEY={your API key}
