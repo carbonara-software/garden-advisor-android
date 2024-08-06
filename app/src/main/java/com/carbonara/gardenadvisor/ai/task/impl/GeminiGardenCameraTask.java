@@ -42,7 +42,6 @@ public class GeminiGardenCameraTask extends GeminiTask
     ObjectMapper mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     try {
-      loge("eccolo: " + response.getText());
       GardeningItem gardeningItem = mapper.readValue(response.getText(), GardeningItem.class);
 
       if (!emitter.isDisposed()) {
