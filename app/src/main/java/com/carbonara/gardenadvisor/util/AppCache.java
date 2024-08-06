@@ -1,5 +1,6 @@
 package com.carbonara.gardenadvisor.util;
 
+import static com.carbonara.gardenadvisor.util.AppUtil.readFileContentAsString;
 import static com.carbonara.gardenadvisor.util.AppUtil.writeToFile;
 import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
@@ -11,10 +12,7 @@ import com.carbonara.gardenadvisor.ai.dto.GeminiCameraSuggestion;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +46,7 @@ public class AppCache {
   }
 
   public synchronized void addCameraSuggestion(GeminiCameraSuggestion cameraSuggestion) {
-    cachedCameraSuggestions.put("ai-cam-" + cameraSuggestion.hashCode(), cameraSuggestion);
+    cachedCameraSuggestions.put(cameraSuggestion.getCachedId(), cameraSuggestion);
   }
 
   public synchronized void addCachedData(WeatherCache data) {
@@ -98,7 +96,7 @@ public class AppCache {
   }
 
   public void restoreCameraCache(Context context) throws IOException {
-    String jsonString = readJsonContent(context, "Camera.json");
+    String jsonString = readFileContentAsString(context, "Camera.json");
     logd("JSON CameraCache: " + jsonString);
 
     if (!cachedCameraSuggestions.isEmpty()) {
@@ -121,7 +119,7 @@ public class AppCache {
   }
 
   public void restoreHome(Context context) throws IOException {
-    String jsonString = readJsonContent(context, "HomeGA.json");
+    String jsonString = readFileContentAsString(context, "HomeGA.json");
     loge("JSON Home: " + jsonString);
 
     cachedHome =
@@ -131,7 +129,7 @@ public class AppCache {
   }
 
   public synchronized void restoreWeather(Context context) throws IOException {
-    String jsonString = readJsonContent(context, "WeatherGA.json");
+    String jsonString = readFileContentAsString(context, "WeatherGA.json");
     loge("JSON Weather: " + jsonString);
 
     WeatherCache[] deserialized =
@@ -139,19 +137,5 @@ public class AppCache {
             .registerModule(new JavaTimeModule())
             .readValue(jsonString, WeatherCache[].class);
     cachedWeather.addAll(Arrays.asList(deserialized));
-  }
-
-  private String readJsonContent(Context context, String path) throws IOException {
-    StringBuilder stringBuilder = new StringBuilder();
-    try (FileInputStream fis = context.openFileInput(path)) {
-      InputStreamReader isr = new InputStreamReader(fis);
-      BufferedReader bufferedReader = new BufferedReader(isr);
-      String line;
-      while ((line = bufferedReader.readLine()) != null) {
-        stringBuilder.append(line);
-      }
-    }
-
-    return stringBuilder.toString();
   }
 }

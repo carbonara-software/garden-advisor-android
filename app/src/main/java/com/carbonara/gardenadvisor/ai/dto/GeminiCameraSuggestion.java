@@ -1,5 +1,7 @@
 package com.carbonara.gardenadvisor.ai.dto;
 
+import static com.carbonara.gardenadvisor.util.AppUtil.Constants.PICTURE_PREFIX;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import lombok.Builder;
@@ -42,5 +44,10 @@ public class GeminiCameraSuggestion implements GeminiResult {
         statusEmoji = "\uD83E\uDD12";
     }
     return statusEmoji;
+  }
+
+  @JsonIgnore
+  public String getCachedId() {
+    return PICTURE_PREFIX + hashCode();
   }
 }

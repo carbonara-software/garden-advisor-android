@@ -2,8 +2,7 @@ package com.carbonara.gardenadvisor.ai.task.impl;
 
 import static com.carbonara.gardenadvisor.ai.prompt.ConstPrompt.CAMERA_SUGGESTION_PROMPT;
 import static com.carbonara.gardenadvisor.util.ApiKeyUtility.getGeminiApiKey;
-import static com.carbonara.gardenadvisor.util.AppUtil.bitmapToByteArray;
-import static com.carbonara.gardenadvisor.util.AppUtil.writeToFile;
+import static com.carbonara.gardenadvisor.util.AppUtil.writeBitmapToFile;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -53,8 +52,8 @@ public class GeminiCameraTask implements GeminiSingleOnSubscriber<GeminiCameraSu
 
       if (!emitter.isDisposed()) {
         emitter.onSuccess(cameraSuggestion);
-        final String path = "ai-cam-" + cameraSuggestion.hashCode();
-        writeToFile(context, bitmapToByteArray(pictureTaken), path);
+        final String path = cameraSuggestion.getCachedId();
+        writeBitmapToFile(context, pictureTaken, path);
         AppCache.getInstance().persistCameraCache(context);
       }
 
