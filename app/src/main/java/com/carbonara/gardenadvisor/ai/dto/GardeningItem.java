@@ -19,12 +19,6 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class GardeningItem implements GeminiResult {
 
-  //  @JsonInclude(Include.NON_NULL)
-  //  private Long id;
-  //
-  //  @JsonInclude(Include.NON_NULL)
-  //  private Long gardenId;
-
   @JsonProperty("name")
   private String name;
 
@@ -64,8 +58,6 @@ public class GardeningItem implements GeminiResult {
 
   public static GardeningItem toDTO(Plant plant) {
     return GardeningItem.builder()
-        //        .id(plant.getId())
-        //        .gardenId(plant.getGardenId())
         .name(plant.getPlantName())
         .type(GardeningItemType.valueOf(plant.getType().toString()))
         .suggestions(extractStringList(plant.getSuggestions()))

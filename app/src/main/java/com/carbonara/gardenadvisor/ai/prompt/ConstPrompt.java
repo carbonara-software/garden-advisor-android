@@ -63,8 +63,6 @@ public class ConstPrompt {
           + "{\n"
           + "  \"fruits\": [\n"
           + "    {\n"
-          + "      \"id\": \"empty if not specified above\",\n"
-          + "      \"gardenId\": \"empty if not specified above\",\n"
           + "      \"name\": \"NameOfFruit\",\n"
           + "      \"type\": \"fruit\",\n"
           + "      \"recommended\": true if is recommended else false,\n"
@@ -82,8 +80,6 @@ public class ConstPrompt {
           + "    },\n...]"
           + "  \"vegetables\": [\n"
           + "    {\n"
-          + "      \"id\": \"empty if not specified above\",\n"
-          + "      \"gardenId\": \"empty if not specified above\",\n"
           + "      \"name\": \"NameOfVegetable\",\n"
           + "      \"type\": \"vegetable\",\n"
           + "      \"recommended\": true if is recommended else false,\n"
@@ -101,8 +97,6 @@ public class ConstPrompt {
           + "    },\n...]"
           + "  \"flowers\": [\n"
           + "    {\n"
-          + "      \"id\": \"empty if not specified above\",\n"
-          + "      \"gardenId\": \"empty if not specified above\",\n"
           + "      \"name\": \"NameOfFlower\",\n"
           + "      \"type\": \"flower\",\n"
           + "      \"recommended\": true if is recommended else false,\n"
@@ -127,8 +121,6 @@ public class ConstPrompt {
 
   public static final String GARDEN_SUGGESTION_PROMPT =
       "Given this location, weather data and list of plants, evaluate each of the plants provided, with each value having:\n"
-          + "id: the id provided for each plant in the json above\n"
-          + "gardenId: the gardenId provided for each plant in the json above\n"
           + "name: the name of the plant provided in the json above\n"
           + BASE_SUGGESTION_PROMPT;
 

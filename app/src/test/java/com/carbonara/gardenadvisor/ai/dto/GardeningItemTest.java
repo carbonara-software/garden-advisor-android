@@ -35,8 +35,6 @@ public class GardeningItemTest {
     GardeningItem gardeningItem = mapper.readValue(recommendationJson, GardeningItem.class);
 
     assertNotNull(gardeningItem);
-    //    assertNull(gardeningItem.getId());
-    //    assertNull(gardeningItem.getGardenId());
 
     assertEquals(GardeningItemType.FRUIT, gardeningItem.getType());
   }
@@ -66,8 +64,6 @@ public class GardeningItemTest {
 
     assertNotNull(gardeningItem);
 
-    //    assertEquals(1L, gardeningItem.getId().longValue());
-    //    assertEquals(2L, gardeningItem.getGardenId().longValue());
     assertEquals(GardeningItemType.FRUIT, gardeningItem.getType());
 
     Plant plantDo = GardeningItem.toDO(gardeningItem);
