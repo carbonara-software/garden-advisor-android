@@ -22,10 +22,13 @@ public class GeminiGardenCameraTask extends GeminiTask
     implements GeminiSingleOnSubscriber<GardeningItem> {
 
   private final Bitmap pictureTaken;
+  private final long gardenId;
 
-  public GeminiGardenCameraTask(float lat, float lon, String locationName, Bitmap pictureTaken) {
+  public GeminiGardenCameraTask(
+      float lat, float lon, String locationName, long gardenId, Bitmap pictureTaken) {
     super(lat, lon, locationName);
     this.pictureTaken = pictureTaken;
+    this.gardenId = gardenId;
   }
 
   @Override

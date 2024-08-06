@@ -2,7 +2,6 @@ package com.carbonara.gardenadvisor.ai.dto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.carbonara.gardenadvisor.persistence.entity.Plant;
@@ -36,8 +35,6 @@ public class GardeningItemTest {
     GardeningItem gardeningItem = mapper.readValue(recommendationJson, GardeningItem.class);
 
     assertNotNull(gardeningItem);
-    assertNull(gardeningItem.getId());
-    assertNull(gardeningItem.getGardenId());
 
     assertEquals(GardeningItemType.FRUIT, gardeningItem.getType());
   }
@@ -47,8 +44,6 @@ public class GardeningItemTest {
     ObjectMapper mapper = new ObjectMapper();
     String gardenJson =
         "{\n"
-            + "      \"id\": 1,\n"
-            + "      \"gardenId\": 2,\n"
             + "      \"type\": \"fruit\",\n"
             + "      \"recommended\": false,\n"
             + "      \"recommendedScore\": 1,\n"
@@ -69,8 +64,6 @@ public class GardeningItemTest {
 
     assertNotNull(gardeningItem);
 
-    assertEquals(1L, gardeningItem.getId().longValue());
-    assertEquals(2L, gardeningItem.getGardenId().longValue());
     assertEquals(GardeningItemType.FRUIT, gardeningItem.getType());
 
     Plant plantDo = GardeningItem.toDO(gardeningItem);

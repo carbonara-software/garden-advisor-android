@@ -184,6 +184,18 @@
     android:src="@drawable/ic_add"
     app:tint="@color/black"/>
 
+  <ImageView
+    android:id="@+id/add_plant_by_cam"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:layout_marginEnd="8dp"
+    android:contentDescription="@string/add_button_text"
+    app:layout_constraintEnd_toStartOf="@id/add_plant"
+    app:layout_constraintTop_toTopOf="@id/label_plants"
+    android:padding="8dp"
+    android:src="@drawable/camera"
+    app:tint="@color/black"/>
+
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/lista_items"
     android:layout_width="match_parent"

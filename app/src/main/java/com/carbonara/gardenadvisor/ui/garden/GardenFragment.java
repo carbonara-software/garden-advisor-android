@@ -2,6 +2,7 @@ package com.carbonara.gardenadvisor.ui.garden;
 
 import static android.view.View.GONE;
 import static com.airbnb.lottie.LottieDrawable.INFINITE;
+import static com.carbonara.gardenadvisor.ai.dto.GardeningItem.toDO;
 import static com.carbonara.gardenadvisor.util.LogUtil.logd;
 import static com.carbonara.gardenadvisor.util.LogUtil.loge;
 import static com.carbonara.gardenadvisor.util.ui.IconChooser.getIconAnim;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,8 +25,10 @@ import com.carbonara.gardenadvisor.ai.task.impl.GeminiWeatherTask;
 import com.carbonara.gardenadvisor.databinding.FragmentGardenBinding;
 import com.carbonara.gardenadvisor.persistence.entity.Garden;
 import com.carbonara.gardenadvisor.persistence.entity.Plant;
+import com.carbonara.gardenadvisor.ui.dialog.detail.CameraBottomSheet;
 import com.carbonara.gardenadvisor.ui.garden.adapter.GardenPlantItemAdapter;
 import com.carbonara.gardenadvisor.ui.home.adapter.WeatherAdapter;
+import com.carbonara.gardenadvisor.util.task.AddPlantsInGardenEmitter;
 import com.carbonara.gardenadvisor.util.task.CreatePlantsInGardenEmitter;
 import com.carbonara.gardenadvisor.util.ui.BaseFragment;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -36,6 +40,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class GardenFragment extends BaseFragment {
@@ -45,6 +50,7 @@ public class GardenFragment extends BaseFragment {
   private Disposable fragmentDisposable;
   private Disposable gardenDisposable;
   private Disposable weatherDisposable;
+  private CameraBottomSheet bottomSheet = null;
 
   @Override
   public View onCreateView(
@@ -123,7 +129,49 @@ public class GardenFragment extends BaseFragment {
 
   private void init() {
     binding.addPlant.setOnClickListener(this::addPlantPressed);
+    binding.addPlantByCam.setOnClickListener(this::addPlantByCamPressed);
     binding.btnAddGarden.setOnClickListener(this::addPlantPressed);
+  }
+
+  private void addPlantByCamPressed(View view) {
+    bottomSheet =
+        new CameraBottomSheet(
+            args.getGarden().getGarden().getLocation().getLat(),
+            args.getGarden().getGarden().getLocation().getLon(),
+            args.getGarden().getGarden().getLocation().getLocationName(),
+            args.getGarden().getGarden().getId(),
+            this::onCameraResult);
+    bottomSheet.show(
+        ((FragmentActivity) binding.getRoot().getContext()).getSupportFragmentManager(),
+        "CameraGardenBottomSheet");
+  }
+
+  private void onCameraResult(GardeningItem gardeningItem) {
+
+    if (bottomSheet != null) {
+      bottomSheet.dismiss();
+    }
+    displayLoadingDialog();
+    Set<Plant> setTemp = new HashSet<>();
+    setTemp.add(toDO(gardeningItem));
+    fragmentDisposable =
+        Single.create(
+                new AddPlantsInGardenEmitter(
+                    requireContext(), args.getGarden().getGarden().getId(), setTemp))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::addResult, this::addError);
+  }
+
+  private void addResult(List<Plant> plants) {
+    List<GardeningItem> plantsDTO =
+        plants.stream().map(GardeningItem::toDTO).collect(Collectors.toList());
+    showPlants(plantsDTO);
+    closeDialog();
+  }
+
+  private void addError(Throwable throwable) {
+    displayErrorDialog("Error while saving new plants and data... try again later...");
   }
 
   private void updateWeather() {
